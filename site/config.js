@@ -1,5 +1,12 @@
 // Public runtime configuration for GitHub Pages.
-// Leave blank until a referrer-restricted Google Maps key is created.
+// Add each public Google My Maps iframe URL after making the map public.
 window.TRIP_CONFIG = {
-  googleMapsApiKey: ""
+  myMapsEmbedUrls: {
+    day0: "",
+    day1: "",
+    day2: "",
+    day3: "",
+    day4: "",
+    day5: ""
+  }
 };

@@ -1,0 +1,49 @@
+{
+  "sourceSha256": "74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662",
+  "checkedAt": "2026-08-11",
+  "status": "conditional_release",
+  "findings": [
+    {
+      "severity": "corrected",
+      "locator": "pages 2 and 13",
+      "finding": "Day 4-5 lodging is Y's Inn Naha Oroku Ekimae, not Hotel Monterey La Soeur Naha",
+      "pwaCorrection": "lodging.ysInn; day4/day5 lodgingKey=ysInn"
+    },
+    {
+      "severity": "corrected",
+      "locator": "pages 11-12",
+      "finding": "Y's Inn to iias/DMM is a taxi transfer; the PDF does not route this segment by monorail",
+      "pwaCorrection": "Day 5 schedule and L3 route leg explicitly say taxi／非單軌"
+    },
+    {
+      "severity": "corrected",
+      "locator": "pages 9-10",
+      "finding": "Day 4 checks in at Y's Inn before the representative returns to OTS; Kokusai-dori is non-driving after car return",
+      "pwaCorrection": "Day 4 route order is Chatan → Children's Kingdom → Rycom → Minatogawa → Y's Inn → OTS"
+    },
+    {
+      "severity": "corrected",
+      "locator": "pages 5-6",
+      "finding": "Day 2 aquarium order starts from 4F, includes re-entry stamp, and places the parallel Ocean Blue draw",
+      "pwaCorrection": "Day 2 timeline follows the PDF sequence and preserves the conditional show timings"
+    },
+    {
+      "severity": "corrected",
+      "locator": "pages 7-8",
+      "finding": "Day 3 has parallel A/B branches, not a sequential Neo Park-to-JUNGLIA transfer",
+      "pwaCorrection": "Route key uses explicit A1/B1/A2/B2 branch legs and hides the misleading overview navigation button"
+    },
+    {
+      "severity": "conditional",
+      "locator": "pages 4 and 13",
+      "finding": "The Day 1 Starbucks name differs between the daily schedule and appendix",
+      "pwaCorrection": "The PWA flags the shop name for pre-trip official-store recheck"
+    },
+    {
+      "severity": "conditional",
+      "locator": "pages 2, 4-5, 7-12",
+      "finding": "Flight times, restaurant reservations, opening hours, JUNGLIA schedule, seasonal lights and live traffic require the PDF's stated recheck windows",
+      "pwaCorrection": "Kept as conditional tags and the global fact-gate notice"
+    }
+  ]
+}

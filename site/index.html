@@ -76,7 +76,7 @@
           <article class="summary-card accent-blue">
             <span class="summary-label">交通模式</span>
             <strong>自駕</strong>
-            <span>Day 1 — Day 4 · Day 5 輕軌/計程車</span>
+            <span>Day 1 — Day 4 自駕 · Day 5 計程車／Yui Rail</span>
           </article>
           <article class="summary-card accent-ink">
             <span class="summary-label">即時資料</span>
@@ -134,21 +134,16 @@
         <section class="map-section section-pad" aria-labelledby="map-title">
           <div class="section-heading map-heading">
             <div>
-              <h2 id="map-title">每日自駕地圖</h2>
+              <h2 id="map-title">每日 My Maps 地圖</h2>
             </div>
             <div class="map-actions">
-              <button class="button button-primary" id="load-map-button" type="button">載入互動地圖</button>
+              <a class="button button-primary" id="open-my-map" href="#" target="_blank" rel="noopener" hidden>開啟本日 My Maps</a>
               <a class="button button-secondary" id="open-google-route" href="#" target="_blank" rel="noopener">在 Google Maps 導航</a>
             </div>
           </div>
           <div class="map-layout">
             <div class="map-frame">
-              <div id="map" class="map-canvas" role="application" aria-label="每日自駕地圖"></div>
-              <div class="map-overlay" id="map-overlay">
-                <span class="map-overlay-icon"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="2"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2"/></svg></span>
-                <strong>Google Maps 底圖尚未載入</strong>
-                <p>請在 <code>site/config.js</code> 填入受網域限制的 API key，再按「載入互動地圖」。</p>
-              </div>
+              <div id="map" class="map-canvas" role="region" aria-live="polite" aria-label="每日 My Maps 地圖"></div>
             </div>
             <aside class="route-rail">
               <div class="route-rail-header">
@@ -183,26 +178,26 @@
           <div class="sources-grid">
             <article class="source-card">
               <h3>來源行程</h3>
-              <p>使用者提供之「沖繩家族旅遊_領隊版.pdf」內容；目前工作區以同內容轉檔版保存。原始標題寫 Day1-3，但內文實際涵蓋 Day0–Day5。</p>
-              <code>SHA-256：BC2FFAD2218A6C0539414471D60913A41FB5D513600B63492C99D2FAB8888ECB</code>
+              <p>使用者最新上傳之「沖繩家族旅遊_領隊版.pdf」內容；已逐頁人工核對 13 頁，內文涵蓋 Day0–Day5。</p>
+              <code>SHA-256：74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662</code>
             </article>
             <article class="source-card">
               <h3>住宿 / 租車</h3>
-              <p>Day 0 住宿由使用者補充；其餘住宿電話與地址採官方網站。OTS Toyosaki 營業時間與機場接駁資訊也採官方頁面，出發前仍請依訂房確認信重查。</p>
+              <p>Day 0 住宿由使用者補充；Day 1–5 住宿與聯絡資料依最新 PDF 對照，電話／Email 另以住宿官方網站重查。OTS Toyosaki 營業時間與機場接駁資訊也採官方頁面，出發前仍請依訂房確認信重查。</p>
               <div class="source-links">
                 <a href="https://www.mercureokinawanaha.jp/contact/" target="_blank" rel="noopener">Mercure Okinawa Naha</a>
                 <a href="https://www.ala-mahaina.com/en/" target="_blank" rel="noopener">Ala MAHAINA</a>
                 <a href="https://lagent.jp/chatan/contact" target="_blank" rel="noopener">La'gent Chatan</a>
-                <a href="https://www.hotelmonterey.co.jp/en/lasoeur_naha/access/" target="_blank" rel="noopener">Monterey La Soeur</a>
+                <a href="https://ys-inn.jp/" target="_blank" rel="noopener">Y's Inn 那覇小祿</a>
                 <a href="https://www.otsinternational.jp/otsrentacar/en/okinawa/office/toyosaki/" target="_blank" rel="noopener">OTS Toyosaki</a>
               </div>
             </article>
             <article class="source-card">
               <h3>地圖 / 天氣</h3>
-              <p>Google Maps 以瀏覽器 API key 載入，路線按使用者當下請求計算；天氣使用 Open-Meteo，預報超過 16 天時會明確顯示尚未開放。</p>
+              <p>每日地圖使用公開 Google My Maps iframe，不在本 repository 放 Google Maps API Key；導航按鈕另開 Google Maps。天氣使用 Open-Meteo，預報超過 16 天時會明確顯示尚未開放。</p>
               <div class="source-links">
-                <a href="https://developers.google.com/maps/documentation/javascript/load-maps-js-api" target="_blank" rel="noopener">Google Maps JS API</a>
-                <a href="https://developers.google.com/maps/documentation/javascript/reference/route" target="_blank" rel="noopener">Google Routes</a>
+                <a href="https://support.google.com/mymaps/answer/3109452?co=GENIE.Platform%3DDesktop&hl=en" target="_blank" rel="noopener">My Maps 嵌入說明</a>
+                <a href="https://support.google.com/maps/answer/7101463?co=GENIE.Platform%3DDesktop&hl=en-419" target="_blank" rel="noopener">Google Maps 分享</a>
                 <a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">Open-Meteo Docs</a>
               </div>
             </article>

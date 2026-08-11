@@ -1,0 +1,29 @@
+{
+  "source": {
+    "file": "沖繩家族旅遊_領隊版.pdf",
+    "sha256": "74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662",
+    "pageCount": 13,
+    "dateRange": "2026-12-17 to 2026-12-22",
+    "days": ["Day 0", "Day 1", "Day 2", "Day 3", "Day 4", "Day 5"]
+  },
+  "lodgingByDay": {
+    "Day 0": "メルキュール沖縄那覇（A隊）",
+    "Day 1-2": "阿拉馬海納／Ala MAHAINA",
+    "Day 3": "La'gent Hotel Okinawa Chatan",
+    "Day 4-5": "Y's Inn 那覇小祿駅前"
+  },
+  "headings": [
+    { "day": "Day 1", "page": 3, "heading": "抵達、取車、北上入住", "routeSummary": "OTS豐崎 → 瀨長島 → 業務超市 → 萬座毛 → 許田 → Starbucks；112公里／約2小時31分" },
+    { "day": "Day 2", "page": 5, "heading": "美麗海水族館＋古宇利島", "routeSummary": "美麗海水族館 → 古宇利島；47.9公里／約1小時23分" },
+    { "day": "Day 3", "page": 7, "heading": "A/B分組體驗、名護會合、美國村", "routeSummary": "阿拉馬海納 → Neo Park／名護點心站 → AEON Nago → 美國村；76.5公里／約1小時42分" },
+    { "day": "Day 4", "page": 9, "heading": "兒童王國、Rycom、港川、還車、國際通", "routeSummary": "兒童王國 → AEON Rycom → 港川 oHacorté → Y's Inn；38.2公里／約1小時39分，不含Chatan→兒童王國" },
+    { "day": "Day 5", "page": 11, "heading": "波上宮、iias／DMM、機場", "routeSummary": "波上宮 → iias／DMM豐崎；約20.2公里／約50分；Y's Inn→iias為計程車" }
+  ],
+  "operationalFlags": [
+    "JUNGLIA 2026-12-20 schedule and passes are not yet confirmed",
+    "A Happy Pancake, OKINAWA SHABU-SHABU and 波照間 require reservations",
+    "Day 1 Starbucks name needs official-store recheck",
+    "Day 4 Y's Inn parking has 14 spaces and no reservation",
+    "Day 5 A and B flights require separate airport timing"
+  ]
+}

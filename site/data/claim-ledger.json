@@ -4,11 +4,29 @@
   "gate": "CONDITIONAL",
   "source": {
     "requestedFile": "沖繩家族旅遊_領隊版.pdf",
-    "workingCopy": "沖繩家族旅遊行程 Day1-5.docx（同內容轉檔版）",
-    "sha256": "BC2FFAD2218A6C0539414471D60913A41FB5D513600B63492C99D2FAB8888ECB",
-    "note": "目前執行環境未保留桌面原始 PDF，但工作區保存了同內容的轉檔版與先前路線快照。"
+    "workingCopy": "C:/Users/User/Desktop/沖繩家族旅遊_領隊版.pdf",
+    "sha256": "74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662",
+    "pageCount": 13,
+    "note": "2026-08-11 已逐頁人工檢視最新桌面 PDF，並將 Day 0-Day 5 時間軸、住宿與交通重新對照。"
   },
   "claims": [
+    {
+      "id": "PDF-IMPORT-001",
+      "status": "manually_rechecked_source_pdf",
+      "claim": "The PWA itinerary content is synchronized to the latest 13-page PDF covering Day 0-Day 5",
+      "checkedAt": "2026-08-11",
+      "sourceType": "source_pdf",
+      "sourcePath": "C:/Users/User/Desktop/沖繩家族旅遊_領隊版.pdf",
+      "note": "All daily pages were rendered to PNG and visually inspected; operational claims remain conditional until their stated recheck window."
+    },
+    {
+      "id": "MAP-MYMAPS-001",
+      "status": "configuration_required_public_user_map",
+      "claim": "Daily maps are loaded from public Google My Maps iframe URLs configured per day",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://support.google.com/mymaps/answer/3109452?co=GENIE.Platform%3DDesktop&hl=en",
+      "note": "The PWA does not store or load a Google Maps API key. Each day remains visibly unconfigured until a public My Maps embed URL is supplied."
+    },
     {
       "id": "HOTEL-MERCURE-001",
       "status": "verified_official_recheck_before_trip",
@@ -40,11 +58,12 @@
       "sourceUrl": "https://lagent.jp/chatan/contact"
     },
     {
-      "id": "HOTEL-MONTEREY-001",
+      "id": "HOTEL-YSINN-001",
       "status": "verified_official_recheck_before_trip",
-      "claim": "Hotel Monterey La Soeur Naha address and phone",
+      "claim": "Y's Inn Naha Oroku Ekimae address, phone and email",
       "checkedAt": "2026-08-11",
-      "sourceUrl": "https://www.hotelmonterey.co.jp/en/lasoeur_naha/access/"
+      "sourceUrl": "https://ys-inn.jp/company/",
+      "note": "Day 4-5 lodging is taken from the latest PDF; official site confirms the address and contact details."
     },
     {
       "id": "OTS-001",
@@ -70,12 +89,12 @@
       "note": "Do not treat the source itinerary time as an official confirmed schedule."
     },
     {
-      "id": "ROUTE-OSRM-001",
+      "id": "ROUTE-PDF-001",
       "status": "estimate",
-      "claim": "Daily driving distances, minutes and road-reference summaries",
-      "checkedAt": "2026-08-08",
-      "sourceUrl": "https://router.project-osrm.org/",
-      "note": "Estimates only; Google Maps live navigation controls traffic, closures, weather and construction."
+      "claim": "Daily route totals, estimated minutes and road-reference summaries shown in the PWA",
+      "checkedAt": "2026-08-11",
+      "sourceType": "source_pdf",
+      "note": "Copied from the latest PDF route summaries; estimates only. Google Maps live navigation controls traffic, closures, weather and construction. Day 5 is taxi／Yui Rail, not self-driving."
     },
     {
       "id": "WEATHER-OPENMETEO-001",

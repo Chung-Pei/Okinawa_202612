@@ -2,13 +2,9 @@
   "use strict";
 
   const data = window.TRIP_DATA;
-  const config = window.TRIP_CONFIG || { googleMapsApiKey: "" };
+  const config = window.TRIP_CONFIG || { myMapsEmbedUrls: {} };
   const state = {
     dayIndex: 0,
-    mapsReady: false,
-    map: null,
-    markers: [],
-    routePolyline: null,
     deferredInstallPrompt: null,
     weatherRequest: null
   };
@@ -40,7 +36,7 @@
 
   function googleMapsUrl(stops, mode = "driving") {
     if (!stops || stops.length < 2) return "#";
-    const point = (stop) => `${stop.lat},${stop.lng}`;
+    const point = (stop) => stop.query || `${stop.lat},${stop.lng}`;
     const params = new URLSearchParams({
       api: "1",
       origin: point(stops[0]),
@@ -75,14 +71,27 @@
     state.dayIndex = index;
     renderDayTabs();
     renderDay();
-    renderMapForDay(currentDay());
+    renderMyMapsForDay(currentDay());
     document.querySelector(".day-intro")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function getMyMapsEmbedUrl(day) {
+    const raw = config.myMapsEmbedUrls?.[day.id] || day.myMapsEmbedUrl || "";
+    if (!raw) return "";
+    try {
+      const url = new URL(raw, window.location.href);
+      const validPath = /^\/maps\/d(?:\/u\/\d+)?\/embed\/?$/.test(url.pathname);
+      if (url.protocol !== "https:" || url.hostname !== "www.google.com" || !validPath) return "";
+      return url.href;
+    } catch (error) {
+      return "";
+    }
   }
 
   function renderDay() {
     const day = currentDay();
     const lodging = data.lodging[day.lodgingKey];
-    const modeLabel = day.mode === "driving" ? "自駕日" : day.mode === "mixed" ? "自駕＋輕軌" : "抵達日";
+    const modeLabel = day.transportLabel || (day.mode === "driving" ? "自駕日" : day.mode === "mixed" ? "混合交通" : "抵達日");
 
     $("#day-intro").innerHTML = `
       <div>
@@ -101,8 +110,20 @@
     renderWeatherPlaceholder(day);
     renderRoute(day);
     renderNotes(day);
-    $("#open-google-route").href = googleMapsUrl(day.route?.stops, day.mode === "driving" ? "driving" : "driving");
-    $("#open-google-route").setAttribute("aria-label", `${day.label} 在 Google Maps 開啟導航`);
+    const googleRoute = $("#open-google-route");
+    const overviewStops = day.route?.overviewStops
+      ? day.route.overviewStops.map((id) => day.route.stops.find((stop) => stop.id === id)).filter(Boolean)
+      : day.route?.stops;
+    const hasGoogleRoute = Boolean(!day.route?.hideOverviewNavigation && overviewStops?.length >= 2);
+    googleRoute.hidden = !hasGoogleRoute;
+    googleRoute.href = hasGoogleRoute ? googleMapsUrl(overviewStops, day.route.navigationMode || "driving") : "#";
+    googleRoute.textContent = day.route?.overviewNavigationLabel || "在 Google Maps 導航";
+    googleRoute.setAttribute("aria-label", `${day.label} 在 Google Maps 開啟導航`);
+    const myMap = $("#open-my-map");
+    const myMapsEmbedUrl = getMyMapsEmbedUrl(day);
+    myMap.hidden = !myMapsEmbedUrl;
+    myMap.href = myMapsEmbedUrl || "#";
+    myMap.setAttribute("aria-label", `${day.label} 開啟公開 My Maps`);
     loadWeather(day);
   }
 
@@ -266,17 +287,28 @@
     $("#route-title").textContent = `${day.label} 路段規劃`;
     $("#route-source").textContent = route ? route.source : "本日無自駕路線資料";
     $("#route-list").innerHTML = route ? route.legs.map((leg, index) => {
-      const stops = route.stops;
-      const from = stops[index]?.label || "起點";
-      const to = stops[index + 1]?.label || "目的地";
-      const subset = stops[index] && stops[index + 1] ? stops.slice(index, index + 2) : stops;
+      const stops = route.stops || [];
+      const stopById = new Map(stops.map((stop) => [stop.id, stop]));
+      const subset = leg.stopIds
+        ? leg.stopIds.map((id) => stopById.get(id)).filter(Boolean)
+        : (stops[index] && stops[index + 1] ? stops.slice(index, index + 2) : stops);
+      const from = leg.from || subset[0]?.label || stops[index]?.label || "起點";
+      const to = leg.to || subset[subset.length - 1]?.label || stops[index + 1]?.label || "目的地";
+      const distance = leg.distanceKm === null || leg.distanceKm === undefined ? "分段距離待確認" : `${leg.distanceKm} km`;
+      const minutes = leg.minutes === null || leg.minutes === undefined
+        ? "時間待確認"
+        : (typeof leg.minutes === "string" && leg.minutes.trim().startsWith("約") ? `${leg.minutes.trim()} 分鐘` : `約 ${leg.minutes} 分鐘`);
+      const openLabel = leg.openLabel || (route.routeType === "mixed" || route.navigationMode === "taxi" ? "開啟 Google Maps 路線參考" : "開啟此段導航");
+      const routeLink = subset.length >= 2 && leg.navigation !== false
+        ? `<a class="route-open" href="${escapeHtml(googleMapsUrl(subset, leg.navigationMode || route.navigationMode || "driving"))}" target="_blank" rel="noopener">${escapeHtml(openLabel)}</a>`
+        : `<span class="route-open route-open-disabled">${escapeHtml(openLabel === "開啟此段導航" ? "PDF 路線摘要" : openLabel)}</span>`;
       return `
         <article class="route-item">
           <div class="route-item-top"><span class="route-id">${escapeHtml(leg.id)}</span><span class="route-name">${escapeHtml(leg.name || `${from} → ${to}`)}</span></div>
-          <p class="route-metrics">${escapeHtml(leg.distanceKm)} km · 約 ${escapeHtml(leg.minutes)} 分鐘</p>
+          <p class="route-metrics">${escapeHtml(distance)} · ${escapeHtml(minutes)}</p>
           <p class="route-roads">道路摘要：${escapeHtml(leg.roads)}</p>
           <p class="route-roads">${escapeHtml(leg.note)}</p>
-          <a class="route-open" href="${escapeHtml(googleMapsUrl(subset))}" target="_blank" rel="noopener">開啟此段導航</a>
+          ${routeLink}
         </article>
       `;
     }).join("") : `<div class="weather-empty">本日以步行、輕軌與計程車為主，請查看時間軸。</div>`;
@@ -293,204 +325,23 @@
     `).join("");
   }
 
-  function showMapOverlay(message, description, fallback = false) {
-    const overlay = $("#map-overlay");
-    overlay.classList.toggle("is-fallback", fallback);
-    overlay.classList.remove("is-hidden");
-    overlay.querySelector("strong").textContent = message;
-    overlay.querySelector("p").innerHTML = description;
-  }
-
-  function hideMapOverlay() {
-    $("#map-overlay").classList.add("is-hidden");
-  }
-
-  function renderFallbackMap(day) {
+  function renderMyMapsForDay(day) {
     const map = $("#map");
-    const stops = day.route?.stops || [];
-    if (stops.length < 2) {
-      map.innerHTML = `<div class="fallback-empty">本日沒有自駕路線；請使用時間軸。</div>`;
-      showMapOverlay("本日無自駕底圖", "此日以抵達、輕軌或計程車為主。", true);
+    const embedUrl = getMyMapsEmbedUrl(day);
+    if (!embedUrl) {
+      map.innerHTML = `
+        <div class="my-maps-empty">
+          <span class="my-maps-empty-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5a2.5 2.5 0 0 0-2.5-2.5H4V5.5Z"/><path d="M4 16V19a2 2 0 0 0 2 2h12"/><path d="M8 7h8M8 10h5"/></svg></span>
+          <strong>尚未設定 ${escapeHtml(day.label)} 的公開 My Maps</strong>
+          <p>請把 Google My Maps 的「嵌入我的網站」網址填入 <code>site/config.js</code> 的 <code>myMapsEmbedUrls.${escapeHtml(day.id)}</code>。</p>
+          <small>目前仍可使用下方路段規劃與 Google Maps 導航連結。</small>
+        </div>
+      `;
       return;
     }
-    const lats = stops.map((stop) => stop.lat);
-    const lngs = stops.map((stop) => stop.lng);
-    const minLat = Math.min(...lats);
-    const maxLat = Math.max(...lats);
-    const minLng = Math.min(...lngs);
-    const maxLng = Math.max(...lngs);
-    const pad = 12;
-    const x = (lng) => pad + ((lng - minLng) / Math.max(maxLng - minLng, 0.001)) * (100 - pad * 2);
-    const y = (lat) => 88 - ((lat - minLat) / Math.max(maxLat - minLat, 0.001)) * 68;
-    const points = stops.map((stop) => `${x(stop.lng).toFixed(2)},${y(stop.lat).toFixed(2)}`).join(" ");
-    const circles = stops.map((stop, index) => `
-      <g class="fallback-stop"><circle cx="${x(stop.lng).toFixed(2)}" cy="${y(stop.lat).toFixed(2)}" r="3.4"/><text x="${x(stop.lng).toFixed(2)}" y="${(y(stop.lat) - 5).toFixed(2)}">${index + 1}</text></g>
-    `).join("");
     map.innerHTML = `
-      <svg class="fallback-map" viewBox="0 0 100 100" role="img" aria-label="${escapeHtml(day.label)} 路線示意圖">
-        <rect width="100" height="100" fill="#dcefe9"/>
-        <path d="M0 20 C21 12 28 28 48 18 S72 7 100 20 V0H0Z" fill="#c3e2dd"/>
-        <path d="M0 76 C24 66 36 90 61 73 S84 62 100 72 V100H0Z" fill="#c3e2dd"/>
-        <path d="M4 46 C23 39 32 51 48 43 S75 30 97 39" fill="none" stroke="#b9d3cf" stroke-width="1.4"/>
-        <path d="M10 87 C26 66 37 69 49 51 S73 35 88 9" fill="none" stroke="#fff" stroke-width="4" opacity=".92"/>
-        <polyline points="${points}" fill="none" stroke="#e76f32" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-        ${circles}
-        <text x="7" y="95" fill="#496a68" font-size="3.1" font-weight="700">示意線 · 設定 Google Maps key 後載入道路底圖</text>
-      </svg>
+      <iframe class="my-maps-frame" src="${escapeHtml(embedUrl)}" title="${escapeHtml(day.label)} 公開 Google My Maps" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
     `;
-    showMapOverlay("Google Maps 底圖尚未載入", "目前顯示的是路線示意。請在 <code>site/config.js</code> 填入受網域限制的 API key，再按「載入互動地圖」。", true);
-  }
-
-  function clearMapLayers() {
-    state.markers.forEach((marker) => {
-      if (typeof marker.setMap === "function") marker.setMap(null);
-      else marker.map = null;
-    });
-    state.markers = [];
-    if (state.routePolyline) {
-      state.routePolyline.setMap(null);
-      state.routePolyline = null;
-    }
-  }
-
-  async function loadGoogleMapsScript() {
-    if (!config.googleMapsApiKey) throw new Error("Google Maps API key is empty");
-    if (state.mapsReady && window.google?.maps) return;
-    if (window.__tripGoogleMapsPromise) return window.__tripGoogleMapsPromise;
-    window.__tripGoogleMapsPromise = new Promise((resolve, reject) => {
-      const callbackName = "__tripGoogleMapsCallback";
-      window[callbackName] = () => {
-        state.mapsReady = true;
-        resolve();
-        delete window[callbackName];
-      };
-      const script = document.createElement("script");
-      script.async = true;
-      script.defer = true;
-      script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(config.googleMapsApiKey)}&loading=async&callback=${callbackName}&v=weekly&language=zh-TW&region=JP`;
-      script.onerror = () => reject(new Error("Google Maps script failed to load"));
-      document.head.appendChild(script);
-    });
-    return window.__tripGoogleMapsPromise;
-  }
-
-  function loc(stop) { return { lat: stop.lat, lng: stop.lng }; }
-
-  async function renderGoogleMap(day) {
-    await loadGoogleMapsScript();
-    $("#map").innerHTML = "";
-    const mapsLib = await google.maps.importLibrary("maps");
-    const map = new mapsLib.Map($("#map"), {
-      center: day.weather,
-      zoom: 10,
-      mapTypeId: "roadmap",
-      gestureHandling: "greedy",
-      streetViewControl: false,
-      mapTypeControl: false,
-      fullscreenControl: true,
-      clickableIcons: true,
-      zoomControl: true
-    });
-    state.map = map;
-    clearMapLayers();
-    const stops = day.route?.stops || [];
-    const bounds = new google.maps.LatLngBounds();
-    const hasLegacyMarker = typeof google.maps.Marker === "function";
-    let AdvancedMarkerElement;
-    if (!hasLegacyMarker) {
-      const markerLib = await google.maps.importLibrary("marker");
-      AdvancedMarkerElement = markerLib.AdvancedMarkerElement;
-    }
-    stops.forEach((stop, index) => {
-      const position = loc(stop);
-      bounds.extend(position);
-      if (hasLegacyMarker) {
-        const marker = new google.maps.Marker({
-          map,
-          position,
-          title: `${index + 1}. ${stop.label}`,
-          label: { text: String(index + 1), color: "#ffffff", fontWeight: "800" }
-        });
-        state.markers.push(marker);
-      } else if (AdvancedMarkerElement) {
-        const pin = document.createElement("div");
-        pin.className = "advanced-stop-pin";
-        pin.textContent = String(index + 1);
-        const marker = new AdvancedMarkerElement({ map, position, title: `${index + 1}. ${stop.label}`, content: pin });
-        state.markers.push(marker);
-      }
-    });
-    if (stops.length) map.fitBounds(bounds, 64);
-    hideMapOverlay();
-    try {
-      const { Route } = await google.maps.importLibrary("routes");
-      const result = await Route.computeRoutes({
-        origin: loc(stops[0]),
-        destination: loc(stops[stops.length - 1]),
-        intermediates: stops.slice(1, -1).map((stop) => ({ location: loc(stop), vehicleStopover: true })),
-        travelMode: "DRIVING",
-        language: "zh-TW",
-        units: "METRIC",
-        routingPreference: "TRAFFIC_UNAWARE",
-        fields: ["path", "viewport", "localizedValues", "legs", "routeLabels"]
-      });
-      const route = result.routes?.[0];
-      if (!route?.path?.length) throw new Error("Google route returned no path");
-      state.routePolyline = new mapsLib.Polyline({
-        map,
-        path: route.path,
-        strokeColor: "#e76f32",
-        strokeOpacity: 0.95,
-        strokeWeight: 5,
-        zIndex: 10
-      });
-      if (route.viewport) map.fitBounds(route.viewport, 56);
-      $("#route-source").textContent = `${day.route.source} · Google Routes 已載入道路線形`;
-    } catch (error) {
-      const fallbackPolyline = new mapsLib.Polyline({
-        map,
-        path: stops.map(loc),
-        strokeColor: "#e76f32",
-        strokeOpacity: 0.85,
-        strokeWeight: 4,
-        geodesic: false,
-        zIndex: 10
-      });
-      state.routePolyline = fallbackPolyline;
-      showToast("Google 路線計算未完成，已顯示路段示意；仍可用 Google Maps 導航連結。", 4200);
-    }
-  }
-
-  function renderMapForDay(day) {
-    if (!config.googleMapsApiKey) {
-      clearMapLayers();
-      state.map = null;
-      renderFallbackMap(day);
-      return;
-    }
-    if (!state.mapsReady) renderFallbackMap(day);
-    else renderGoogleMap(day).catch(() => renderFallbackMap(day));
-  }
-
-  async function loadInteractiveMap() {
-    const day = currentDay();
-    if (!config.googleMapsApiKey) {
-      showToast("尚未設定 Google Maps API key；請先編輯 site/config.js。", 4200);
-      return;
-    }
-    const button = $("#load-map-button");
-    button.disabled = true;
-    button.textContent = "載入中…";
-    try {
-      await renderGoogleMap(day);
-      button.textContent = "重新整理地圖";
-      showToast("Google Maps 底圖與路線已載入。", 2600);
-    } catch (error) {
-      renderFallbackMap(day);
-      showToast("Google Maps 載入失敗，請檢查 API key、網域限制與 Maps/Routes API 是否啟用。", 5200);
-    } finally {
-      button.disabled = false;
-    }
   }
 
   function showToast(message, duration = 3000) {
@@ -573,13 +424,12 @@
   function init() {
     renderDayTabs();
     renderDay();
-    renderMapForDay(currentDay());
+    renderMyMapsForDay(currentDay());
     registerPwa();
     $("#share-button").addEventListener("click", shareTrip);
     $("#install-button").addEventListener("click", installPwa);
     $("#install-footer-button").addEventListener("click", showInstallDialog);
     $("#current-day-button").addEventListener("click", selectToday);
-    $("#load-map-button").addEventListener("click", loadInteractiveMap);
     $("#refresh-weather").addEventListener("click", () => { loadWeather(currentDay()); showToast("正在更新天氣資料…", 1800); });
     $("#show-sources-button").addEventListener("click", () => $("#sources").scrollIntoView({ behavior: "smooth", block: "start" }));
     $("#copy-contacts").addEventListener("click", copyContacts);

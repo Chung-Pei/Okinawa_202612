@@ -1,0 +1,19 @@
+{
+  "sourceFile": "C:/Users/User/Desktop/沖繩家族旅遊_領隊版.pdf",
+  "sourceName": "沖繩家族旅遊_領隊版.pdf",
+  "sha256": "74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662",
+  "pageCount": 13,
+  "language": "zh-Hant",
+  "privacy": "user-provided private travel document; do not publish the raw PDF",
+  "checkedAt": "2026-08-11",
+  "renderedPages": "tmp/pdfs/okinawa-latest-page-01.png through tmp/pdfs/okinawa-latest-page-13.png",
+  "locators": [
+    { "pages": "1-2", "content": "trip dates, flights, lodging assignments, car rental and pre-trip checklist" },
+    { "pages": "3-4", "content": "Day 1 arrival, OTS pickup, Senaga Island, Gyomu, Manzamo, Kyoda, Starbucks and Ala MAHAINA" },
+    { "pages": "5-6", "content": "Day 2 Churaumi Aquarium, Kouri Island, restaurant and road summary" },
+    { "pages": "7-8", "content": "Day 3 A/B split, Neo Park, JUNGLIA, AEON Nago, American Village and road summary" },
+    { "pages": "9-10", "content": "Day 4 Children's Kingdom, Rycom, Minatogawa, Y's Inn, OTS return and Kokusai-dori" },
+    { "pages": "11-12", "content": "Day 5 Naminoue, Y's Inn luggage pickup, taxi to iias/DMM, airport and split return flights" },
+    { "pages": "13", "content": "facility information, official links and lodging address index" }
+  ]
+}

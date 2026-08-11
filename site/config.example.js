@@ -1,7 +1,13 @@
-// Copy this file to config.js and add a browser-restricted Google Maps API key.
-// Enable Maps JavaScript API and Routes API in Google Cloud.
-// Restrict the key by HTTP referrer to your GitHub Pages origin, for example:
-// https://YOUR-USER.github.io/YOUR-REPOSITORY/*
+// Copy this file to config.js and add public Google My Maps embed URLs.
+// In Google My Maps: make the map public, then choose Share / Embed on my site.
+// Expected format: https://www.google.com/maps/d/embed?mid=...
 window.TRIP_CONFIG = {
-  googleMapsApiKey: ""
+  myMapsEmbedUrls: {
+    day0: "",
+    day1: "",
+    day2: "",
+    day3: "",
+    day4: "",
+    day5: ""
+  }
 };
