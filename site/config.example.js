@@ -1,13 +1,5 @@
-// Copy this file to config.js and add public Google My Maps embed URLs.
-// In Google My Maps: make the map public, then choose Share / Embed on my site.
-// Expected format: https://www.google.com/maps/d/embed?mid=...
+// Copy this file to config.js if a deployment needs a separate runtime config.
+// The default PWA map is Leaflet + OpenStreetMap and needs no API key.
 window.TRIP_CONFIG = {
-  myMapsEmbedUrls: {
-    day0: "",
-    day1: "",
-    day2: "",
-    day3: "",
-    day4: "",
-    day5: ""
-  }
+  mapProvider: "leaflet-openstreetmap"
 };

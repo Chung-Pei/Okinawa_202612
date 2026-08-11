@@ -20,12 +20,13 @@
       "note": "All daily pages were rendered to PNG and visually inspected; operational claims remain conditional until their stated recheck window."
     },
     {
-      "id": "MAP-MYMAPS-001",
-      "status": "configuration_required_public_user_map",
-      "claim": "Daily maps are loaded from public Google My Maps iframe URLs configured per day",
+      "id": "MAP-LEAFLET-OSM-001",
+      "status": "no_api_key_public_tiles",
+      "claim": "Daily maps are rendered in-page with Leaflet and public OpenStreetMap tiles, with numbered stops, planned route lines, and Google Maps handoff links",
       "checkedAt": "2026-08-11",
-      "sourceUrl": "https://support.google.com/mymaps/answer/3109452?co=GENIE.Platform%3DDesktop&hl=en",
-      "note": "The PWA does not store or load a Google Maps API key. Each day remains visibly unconfigured until a public My Maps embed URL is supplied."
+      "sourceUrl": "https://www.openstreetmap.org/copyright",
+      "sourceType": "public_map_tiles",
+      "note": "The map uses display anchors for itinerary places and draws the PDF stop/leg sequence; it is not live road geometry or live traffic routing. Coordinates should be rechecked if a future edition requires turn-by-turn accuracy. No Google Maps API key is stored or loaded."
     },
     {
       "id": "HOTEL-MERCURE-001",

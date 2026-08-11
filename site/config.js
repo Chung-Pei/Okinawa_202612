@@ -1,12 +1,5 @@
 // Public runtime configuration for GitHub Pages.
-// Add each public Google My Maps iframe URL after making the map public.
+// The PWA map uses Leaflet + OpenStreetMap and does not require an API key.
 window.TRIP_CONFIG = {
-  myMapsEmbedUrls: {
-    day0: "",
-    day1: "",
-    day2: "",
-    day3: "",
-    day4: "",
-    day5: ""
-  }
+  mapProvider: "leaflet-openstreetmap"
 };

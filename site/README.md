@@ -9,17 +9,16 @@
 3. `.github/workflows/pages.yml` 會把 `site/` 發佈到 Pages。
 4. 第一次部署完成後，用 Android Chrome 或 iOS Safari 開啟 Pages 網址即可加入主畫面。
 
-## Google My Maps 設定
+## 互動地圖（無 API Key）
 
-本版使用公開 Google My Maps iframe，不需要在 repository 放 Google Maps API Key：
+本版使用 Leaflet＋公開 OpenStreetMap 底圖，在 PWA 頁面內呈現類似參考截圖的互動介面：
 
-1. 在 Google My Maps 建立每日地圖，加入停靠點、路線與備註。
-2. 將地圖分享權限設為公開，或至少讓知道連結的人可以查看。
-3. 在 My Maps 選擇 **分享 → 嵌入我的網站**，複製 `https://www.google.com/maps/d/embed?...` 網址。
-4. 將網址填入 `site/config.js` 對應的 `myMapsEmbedUrls.day0` 至 `day5`。
-5. 推送更新後，日期分頁會切換到各日的 iframe；使用者也可按「開啟本日 My Maps」在 Google Maps 中查看。
+1. 日期分頁切換每日地圖。
+2. 地圖以編號圖釘標出當日景點，並依 PDF 的停靠／分支順序畫出規劃線。
+3. 右側（手機版為下方）景點卡片可點選地圖標記；每一站都有 Google Maps 外部搜尋連結。
+4. 每日上方與各路段仍保留 Google Maps 導航交接，出發時由 Google Maps 處理即時交通與轉彎指示。
 
-尚未填入網址的日期會顯示清楚的設定提示，不會假裝已載入地圖。下方的路段公里數、預估時間、道路摘要與 Google Maps 導航連結仍會照常顯示。
+這個地圖不需要 Google Maps API Key，也不會在 repository 放置金鑰。OpenStreetMap 底圖與 Leaflet CDN 需要網路；若底圖載入失敗，景點順序卡片與外部連結仍會保留。路線線段是行程順序／分支示意，不是即時路況或保證的道路幾何。
 
 ## 天氣與日期行為
 
@@ -29,7 +28,7 @@
 
 - 版面以手機單手操作為優先，日期分頁、路線按鈕與電話按鈕都有足夠觸控尺寸。
 - iOS 透過 Safari 的「分享 → 加入主畫面」安裝；Android Chrome 可使用瀏覽器的「安裝應用程式」或網站內的安裝說明。
-- PWA service worker 會快取旅程內容，沒有網路時仍可查看行程、住宿資料與路線估算；公開 My Maps iframe 與即時天氣需要網路。
+- PWA service worker 會快取旅程內容，沒有網路時仍可查看行程、住宿資料與路線估算；Leaflet 的外部底圖、Google Maps 導航與即時天氣需要網路。
 - 網站中的「導航」按鈕會把單段路線交給 Google Maps，讓使用者可選擇目前所在位置、避開收費道路等即時選項。
 
 ## 內容來源與維護

@@ -1,4 +1,4 @@
-const CACHE_NAME = "okinawa-leader-pwa-v8";
+const CACHE_NAME = "okinawa-leader-pwa-v9";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -31,9 +31,15 @@ self.addEventListener("fetch", (event) => {
   if (request.method !== "GET") return;
   const url = new URL(request.url);
 
-  // Weather and Google Maps are intentionally network-first / external. The app
-  // marks locally stored weather as cached so it is never presented as live.
-  if (url.hostname.includes("open-meteo.com") || url.hostname.includes("googleapis.com")) return;
+  // Weather, Leaflet CDN, OSM tiles, and Google Maps are intentionally external.
+  // The app marks locally stored weather as cached so it is never presented as live.
+  if (
+    url.hostname.includes("open-meteo.com") ||
+    url.hostname.includes("unpkg.com") ||
+    url.hostname.includes("openstreetmap.org") ||
+    url.hostname.includes("googleapis.com") ||
+    url.hostname.includes("google.com")
+  ) return;
 
   event.respondWith(
     caches.match(request).then((cached) => cached || fetch(request).then((response) => {

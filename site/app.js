@@ -2,11 +2,20 @@
   "use strict";
 
   const data = window.TRIP_DATA;
-  const config = window.TRIP_CONFIG || { myMapsEmbedUrls: {} };
   const state = {
     dayIndex: 0,
     deferredInstallPrompt: null,
-    weatherRequest: null
+    weatherRequest: null,
+    map: null
+  };
+
+  const MAP_STOP_TIMES = {
+    day0: { day0: "20:50" },
+    day1: { ots: "10:20", umikaji: "12:00", gyomu: "13:40", manzamo: "15:10", kyoda: "16:30", "starbucks-nago": "17:45", ala: "18:50" },
+    day2: { ala: "07:30", churaumi: "08:30", kouri: "14:00", "ala-return": "16:30" },
+    day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "aeon-nago": "13:30", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
+    day4: { lagent: "07:30", "childrens-kingdom": "09:30", rycom: "12:00", minatogawa: "15:00", "ys-inn": "16:10", "ots-return": "17:30" },
+    day5: { "ys-inn": "07:00", naminoue: "08:05", "ys-inn-return": "09:00", iias: "10:00", airport: "17:00" }
   };
 
   const $ = (selector) => document.querySelector(selector);
@@ -71,21 +80,7 @@
     state.dayIndex = index;
     renderDayTabs();
     renderDay();
-    renderMyMapsForDay(currentDay());
     document.querySelector(".day-intro")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  function getMyMapsEmbedUrl(day) {
-    const raw = config.myMapsEmbedUrls?.[day.id] || day.myMapsEmbedUrl || "";
-    if (!raw) return "";
-    try {
-      const url = new URL(raw, window.location.href);
-      const validPath = /^\/maps\/d(?:\/u\/\d+)?\/embed\/?$/.test(url.pathname);
-      if (url.protocol !== "https:" || url.hostname !== "www.google.com" || !validPath) return "";
-      return url.href;
-    } catch (error) {
-      return "";
-    }
   }
 
   function renderDay() {
@@ -110,6 +105,7 @@
     renderWeatherPlaceholder(day);
     renderRoute(day);
     renderNotes(day);
+    renderInteractiveMapForDay(day);
     const googleRoute = $("#open-google-route");
     const overviewStops = day.route?.overviewStops
       ? day.route.overviewStops.map((id) => day.route.stops.find((stop) => stop.id === id)).filter(Boolean)
@@ -119,11 +115,6 @@
     googleRoute.href = hasGoogleRoute ? googleMapsUrl(overviewStops, day.route.navigationMode || "driving") : "#";
     googleRoute.textContent = day.route?.overviewNavigationLabel || "在 Google Maps 導航";
     googleRoute.setAttribute("aria-label", `${day.label} 在 Google Maps 開啟導航`);
-    const myMap = $("#open-my-map");
-    const myMapsEmbedUrl = getMyMapsEmbedUrl(day);
-    myMap.hidden = !myMapsEmbedUrl;
-    myMap.href = myMapsEmbedUrl || "#";
-    myMap.setAttribute("aria-label", `${day.label} 開啟公開 My Maps`);
     loadWeather(day);
   }
 
@@ -325,23 +316,185 @@
     `).join("");
   }
 
-  function renderMyMapsForDay(day) {
-    const map = $("#map");
-    const embedUrl = getMyMapsEmbedUrl(day);
-    if (!embedUrl) {
-      map.innerHTML = `
-        <div class="my-maps-empty">
-          <span class="my-maps-empty-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5a2.5 2.5 0 0 0-2.5-2.5H4V5.5Z"/><path d="M4 16V19a2 2 0 0 0 2 2h12"/><path d="M8 7h8M8 10h5"/></svg></span>
-          <strong>尚未設定 ${escapeHtml(day.label)} 的公開 My Maps</strong>
-          <p>請把 Google My Maps 的「嵌入我的網站」網址填入 <code>site/config.js</code> 的 <code>myMapsEmbedUrls.${escapeHtml(day.id)}</code>。</p>
-          <small>目前仍可使用下方路段規劃與 Google Maps 導航連結。</small>
+  function hasCoordinates(stop) {
+    return Number.isFinite(Number(stop?.lat)) && Number.isFinite(Number(stop?.lng));
+  }
+
+  function getMapStops(day) {
+    if (day.route?.stops?.length) return day.route.stops;
+    const lodging = data.lodging[day.lodgingKey];
+    return [{
+      id: day.id,
+      label: lodging?.name || day.weather.label,
+      query: lodging?.map?.query || day.weather.label,
+      lat: day.weather.lat,
+      lng: day.weather.lng
+    }];
+  }
+
+  function mapStopTime(day, stop) {
+    return stop.time || MAP_STOP_TIMES[day.id]?.[stop.id] || "";
+  }
+
+  function mapStopBadge(stop) {
+    const text = String(stop.short || stop.label || "OKI").replace(/[^A-Za-z0-9ぁ-んァ-ヶ一-龯]/g, "");
+    return text.slice(0, 3) || "OKI";
+  }
+
+  function renderMapStopCards(day, stops) {
+    return stops.map((stop, index) => {
+      const cardId = `map-stop-card-${day.id}-${index}`;
+      const time = mapStopTime(day, stop);
+      const located = hasCoordinates(stop);
+      return `
+        <li class="map-stop-card${located ? "" : " is-unlocated"}" id="${escapeHtml(cardId)}" tabindex="0" data-map-stop-index="${index}">
+          <span class="map-stop-number" aria-hidden="true">${index + 1}</span>
+          <span class="map-stop-thumb" aria-hidden="true">${escapeHtml(mapStopBadge(stop))}</span>
+          <span class="map-stop-copy">
+            ${time ? `<span class="map-stop-time">${escapeHtml(time)}</span>` : ""}
+            <strong>${escapeHtml(stop.label)}</strong>
+            <span class="map-stop-status">${located ? "已標在地圖" : "地圖座標待補"}</span>
+          </span>
+          <a class="map-stop-link" href="${escapeHtml(googlePlaceUrl(stop))}" target="_blank" rel="noopener" aria-label="在 Google Maps 開啟 ${escapeHtml(stop.label)}">↗</a>
+        </li>
+      `;
+    }).join("");
+  }
+
+  function renderInteractiveMapForDay(day) {
+    const mapRoot = $("#map");
+    state.map?.remove();
+    state.map = null;
+    const stops = getMapStops(day);
+    const locatedStops = stops.filter(hasCoordinates);
+    const route = day.route;
+    const sourceNote = route?.source || "本日無自駕路線；地圖顯示住宿位置與行程起點。";
+    mapRoot.innerHTML = `
+      <div class="map-workbench${locatedStops.length ? "" : " is-fallback"}">
+        <div class="map-visual-pane">
+          <div id="leaflet-map" class="leaflet-map" role="application" aria-label="${escapeHtml(day.label)} Leaflet 互動地圖"></div>
+          <p class="map-provider-note">底圖 © OpenStreetMap contributors · 路線為 PDF 景點順序示意，導航請開 Google Maps</p>
+        </div>
+        <aside class="map-stop-sequence" aria-label="${escapeHtml(day.label)} 景點順序">
+          <div class="map-sequence-header">
+            <span class="map-sequence-kicker">${escapeHtml(day.label)}</span>
+            <h3>${escapeHtml(day.title)}</h3>
+            <p>${escapeHtml(sourceNote)}</p>
+          </div>
+          <ol class="map-stop-list">${renderMapStopCards(day, stops)}</ol>
+        </aside>
+      </div>
+    `;
+
+    const leafletRoot = $("#leaflet-map");
+    if (!window.L) {
+      leafletRoot.innerHTML = `
+        <div class="map-engine-fallback">
+          <strong>地圖底圖目前無法載入</strong>
+          <p>景點順序與 Google Maps 外部連結仍可使用；請確認網路後重新整理。</p>
         </div>
       `;
       return;
     }
-    map.innerHTML = `
-      <iframe class="my-maps-frame" src="${escapeHtml(embedUrl)}" title="${escapeHtml(day.label)} 公開 Google My Maps" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    `;
+    if (!locatedStops.length) {
+      leafletRoot.innerHTML = `
+        <div class="map-engine-fallback">
+          <strong>本日尚無可繪製的地圖座標</strong>
+          <p>請使用右側景點卡片開啟 Google Maps；行程資料與路段摘要仍可查看。</p>
+        </div>
+      `;
+      return;
+    }
+
+    const leafletMap = window.L.map(leafletRoot, {
+      zoomControl: false,
+      scrollWheelZoom: false,
+      preferCanvas: true,
+      attributionControl: true
+    });
+    state.map = leafletMap;
+    window.L.control.zoom({ position: "bottomright" }).addTo(leafletMap);
+    window.L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>'
+    }).addTo(leafletMap);
+
+    const stopById = new Map(stops.map((stop) => [stop.id, stop]));
+    const segments = (route?.legs || []).map((leg, index) => {
+      const segmentStops = leg.stopIds
+        ? leg.stopIds.map((id) => stopById.get(id)).filter(hasCoordinates)
+        : (locatedStops[index] && locatedStops[index + 1] ? locatedStops.slice(index, index + 2) : []);
+      return { id: leg.id || `L${index + 1}`, stops: segmentStops };
+    }).filter((segment) => segment.stops.length >= 2);
+    if (!segments.length && locatedStops.length >= 2) segments.push({ id: "route", stops: locatedStops });
+
+    const allPoints = [];
+    segments.forEach((segment, segmentIndex) => {
+      const points = segment.stops.map((stop) => [Number(stop.lat), Number(stop.lng)]);
+      allPoints.push(...points);
+      window.L.polyline(points, {
+        color: segmentIndex % 2 ? "#ffbb66" : "#79e6d4",
+        weight: 5,
+        opacity: 0.88,
+        lineCap: "round",
+        lineJoin: "round",
+        dashArray: route?.hideOverviewNavigation && segmentIndex > 1 ? "8 8" : null
+      }).addTo(leafletMap).bindTooltip(`${segment.id} · 行程順序示意`, { sticky: true });
+    });
+    if (!allPoints.length) allPoints.push(...locatedStops.map((stop) => [Number(stop.lat), Number(stop.lng)]));
+
+    const markers = new Map();
+    locatedStops.forEach((stop) => {
+      const index = stops.indexOf(stop);
+      const cardId = `map-stop-card-${day.id}-${index}`;
+      const marker = window.L.marker([Number(stop.lat), Number(stop.lng)], {
+        title: `${index + 1}. ${stop.label}`,
+        icon: window.L.divIcon({
+          className: "map-stop-marker-shell",
+          html: `<span class="map-stop-marker" aria-hidden="true">${index + 1}</span>`,
+          iconSize: [40, 40],
+          iconAnchor: [20, 20]
+        })
+      }).addTo(leafletMap);
+      marker.bindTooltip(`${index + 1}. ${escapeHtml(stop.label)}`, { direction: "top", offset: [0, -14] });
+      marker.on("click", () => focusMapStop(cardId, marker));
+      markers.set(index, marker);
+    });
+
+    const bounds = window.L.latLngBounds(allPoints);
+    const fitOptions = { maxZoom: locatedStops.length === 1 ? 14 : 11, animate: false };
+    leafletMap.fitBounds(bounds.pad(0.16), fitOptions);
+    window.setTimeout(() => {
+      if (state.map !== leafletMap) return;
+      leafletMap.invalidateSize();
+      leafletMap.fitBounds(bounds.pad(0.16), fitOptions);
+    }, 80);
+
+    $$(".map-stop-card").forEach((card) => {
+      const index = Number(card.dataset.mapStopIndex);
+      const marker = markers.get(index);
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("a")) return;
+        focusMapStop(card.id, marker);
+      });
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          focusMapStop(card.id, marker);
+        }
+      });
+    });
+  }
+
+  function focusMapStop(cardId, marker) {
+    $$(".map-stop-card.is-active").forEach((card) => card.classList.remove("is-active"));
+    const card = document.getElementById(cardId);
+    card?.classList.add("is-active");
+    card?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    if (marker && state.map) {
+      marker.openTooltip();
+      state.map.panTo(marker.getLatLng(), { animate: true, duration: 0.35 });
+    }
   }
 
   function showToast(message, duration = 3000) {
@@ -424,7 +577,6 @@
   function init() {
     renderDayTabs();
     renderDay();
-    renderMyMapsForDay(currentDay());
     registerPwa();
     $("#share-button").addEventListener("click", shareTrip);
     $("#install-button").addEventListener("click", installPwa);

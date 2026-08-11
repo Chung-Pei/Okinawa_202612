@@ -12,6 +12,7 @@
     <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png" />
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <title>沖繩家族旅遊｜領隊 PWA</title>
   </head>
   <body>
@@ -134,16 +135,15 @@
         <section class="map-section section-pad" aria-labelledby="map-title">
           <div class="section-heading map-heading">
             <div>
-              <h2 id="map-title">每日 My Maps 地圖</h2>
+              <h2 id="map-title">每日互動地圖</h2>
             </div>
             <div class="map-actions">
-              <a class="button button-primary" id="open-my-map" href="#" target="_blank" rel="noopener" hidden>開啟本日 My Maps</a>
               <a class="button button-secondary" id="open-google-route" href="#" target="_blank" rel="noopener">在 Google Maps 導航</a>
             </div>
           </div>
           <div class="map-layout">
             <div class="map-frame">
-              <div id="map" class="map-canvas" role="region" aria-live="polite" aria-label="每日 My Maps 地圖"></div>
+              <div id="map" class="map-canvas" role="region" aria-live="polite" aria-label="每日互動地圖"></div>
             </div>
             <aside class="route-rail">
               <div class="route-rail-header">
@@ -194,10 +194,11 @@
             </article>
             <article class="source-card">
               <h3>地圖 / 天氣</h3>
-              <p>每日地圖使用公開 Google My Maps iframe，不在本 repository 放 Google Maps API Key；導航按鈕另開 Google Maps。天氣使用 Open-Meteo，預報超過 16 天時會明確顯示尚未開放。</p>
+              <p>每日地圖使用 Leaflet＋公開 OpenStreetMap 底圖，不需要 Google Maps API Key；景點卡片與路段按鈕會另開 Google Maps 導航。天氣使用 Open-Meteo，預報超過 16 天時會明確顯示尚未開放。</p>
               <div class="source-links">
-                <a href="https://support.google.com/mymaps/answer/3109452?co=GENIE.Platform%3DDesktop&hl=en" target="_blank" rel="noopener">My Maps 嵌入說明</a>
                 <a href="https://support.google.com/maps/answer/7101463?co=GENIE.Platform%3DDesktop&hl=en-419" target="_blank" rel="noopener">Google Maps 分享</a>
+                <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>
+                <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap 貢獻者</a>
                 <a href="https://open-meteo.com/en/docs" target="_blank" rel="noopener">Open-Meteo Docs</a>
               </div>
             </article>
@@ -234,12 +235,13 @@
             </ol>
           </div>
         </div>
-        <p class="dialog-tip">Google Maps 與天氣需要網路；離線時仍可查看已載入的行程、住宿聯絡與路段估算。</p>
+        <p class="dialog-tip">互動地圖底圖、Google Maps 導航與天氣需要網路；離線時仍可查看已載入的行程、住宿聯絡與路段估算。</p>
         <button class="button button-primary dialog-done" value="cancel">知道了</button>
       </form>
     </dialog>
 
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="./config.js"></script>
     <script src="./data/trip-data.js"></script>
     <script src="./app.js" defer></script>

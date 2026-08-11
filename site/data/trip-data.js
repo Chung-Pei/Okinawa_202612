@@ -102,13 +102,13 @@ window.TRIP_DATA = {
       route: {
         source: "來源 PDF 路線總計：112 公里／約 2 小時 31 分；道路摘要以 PDF 為準",
         stops: [
-          { id: "ots", label: "OTS 豐崎", query: "OTSレンタカー 豊崎営業所 沖縄" },
-          { id: "umikaji", label: "瀨長島", query: "瀬長島ウミカジテラス 沖縄" },
-          { id: "gyomu", label: "業務超市小祿店", query: "業務スーパー 小禄店 沖縄" },
-          { id: "manzamo", label: "萬座毛", query: "万座毛 沖縄" },
-          { id: "kyoda", label: "許田休息站", query: "道の駅許田 やんばる物産センター 沖縄" },
-          { id: "starbucks-nago", label: "Starbucks 名護 21 世紀之森", query: "Starbucks 名護21世紀の森 沖縄" },
-          { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄" }
+          { id: "ots", label: "OTS 豐崎", query: "OTSレンタカー 豊崎営業所 沖縄", lat: 26.159864, lng: 127.660141 },
+          { id: "umikaji", label: "瀨長島", query: "瀬長島ウミカジテラス 沖縄", lat: 26.177979, lng: 127.644370 },
+          { id: "gyomu", label: "業務超市小祿店", query: "業務スーパー 小禄店 沖縄", lat: 26.1954, lng: 127.6684 },
+          { id: "manzamo", label: "萬座毛", query: "万座毛 沖縄", lat: 26.503440, lng: 127.851110 },
+          { id: "kyoda", label: "許田休息站", query: "道の駅許田 やんばる物産センター 沖縄", lat: 26.602209, lng: 127.953060 },
+          { id: "starbucks-nago", label: "Starbucks 名護 21 世紀之森", query: "Starbucks 名護21世紀の森 沖縄", lat: 26.5926, lng: 127.9770 },
+          { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄", lat: 26.693591, lng: 127.877974 }
         ],
         legs: [
           { id: "L1", name: "OTS 豐崎 → 瀨長島", distanceKm: null, minutes: "7", roads: "縣道249 → 國道331 → 瀨長島海中道路", note: "取車後前往瀨長島。" },
@@ -150,10 +150,10 @@ window.TRIP_DATA = {
       route: {
         source: "來源 PDF 路線總計：47.9 公里／約 1 小時 23 分；返程原路回本部",
         stops: [
-          { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄" },
-          { id: "churaumi", label: "海洋博公園／美麗海水族館", query: "沖縄美ら海水族館" },
-          { id: "kouri", label: "古宇利島", query: "古宇利島 沖縄" },
-          { id: "ala-return", label: "回本部住宿", query: "Ala MAHAINA CONDO HOTEL 沖縄" }
+          { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄", lat: 26.693591, lng: 127.877974 },
+          { id: "churaumi", label: "海洋博公園／美麗海水族館", query: "沖縄美ら海水族館", lat: 26.691024, lng: 127.879967 },
+          { id: "kouri", label: "古宇利島", query: "古宇利島 沖縄", lat: 26.704151, lng: 128.014158 },
+          { id: "ala-return", label: "回本部住宿", query: "Ala MAHAINA CONDO HOTEL 沖縄", lat: 26.693591, lng: 127.877974 }
         ],
         legs: [
           { id: "L1", name: "阿拉馬海納 → 海洋博公園", distanceKm: null, minutes: null, roads: "縣道114號", note: "早上短程前往水族館。" },
@@ -194,13 +194,13 @@ window.TRIP_DATA = {
         source: "來源 PDF 路線總計：76.5 公里／約 1 小時 42 分；A/B 分支與會合路線分開看",
         hideOverviewNavigation: true,
         stops: [
-          { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄" },
-          { id: "neopark", label: "Neo Park", query: "ネオパークオキナワ" },
-          { id: "junglia", label: "JUNGLIA", query: "JUNGLIA OKINAWA" },
-          { id: "aeon-nago", label: "AEON Nago", query: "イオン名護店" },
-          { id: "nago-snack", label: "名護點心站", query: "暖暮 名護店 沖縄" },
-          { id: "american-village", label: "美國村", query: "American Village Okinawa" },
-          { id: "lagent", label: "La'gent Hotel Okinawa Chatan", query: "La'gent Hotel Okinawa Chatan" }
+          { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄", lat: 26.693591, lng: 127.877974 },
+          { id: "neopark", label: "Neo Park", query: "ネオパークオキナワ", lat: 26.602009, lng: 127.977071 },
+          { id: "junglia", label: "JUNGLIA", query: "JUNGLIA OKINAWA", lat: 26.669779, lng: 128.000568 },
+          { id: "aeon-nago", label: "AEON Nago", query: "イオン名護店", lat: 26.595018, lng: 127.976914 },
+          { id: "nago-snack", label: "名護點心站", query: "暖暮 名護店 沖縄", lat: 26.5905, lng: 127.9770 },
+          { id: "american-village", label: "美國村", query: "American Village Okinawa", lat: 26.3166, lng: 127.7574 },
+          { id: "lagent", label: "La'gent Hotel Okinawa Chatan", query: "La'gent Hotel Okinawa Chatan", lat: 26.317017, lng: 127.755064 }
         ],
         legs: [
           { id: "A1", name: "A 組：阿拉馬海納 → Neo Park", from: "阿拉馬海納", to: "Neo Park", stopIds: ["ala", "neopark"], distanceKm: null, minutes: null, roads: "縣道114 → 449號", note: "A 組分支；非 B 組接續路線。" },
@@ -246,12 +246,12 @@ window.TRIP_DATA = {
       route: {
         source: "來源 PDF 路線總計：38.2 公里／約 1 小時 39 分，不含 Chatan→兒童王國段；國際通往返為非自駕路段",
         stops: [
-          { id: "lagent", label: "La'gent Hotel Chatan", query: "La'gent Hotel Okinawa Chatan" },
-          { id: "childrens-kingdom", label: "沖繩兒童王國", query: "沖縄こどもの国" },
-          { id: "rycom", label: "AEON Rycom", query: "イオンモール沖縄ライカム" },
-          { id: "minatogawa", label: "港川 oHacorté", query: "oHacorté 港川本店 沖縄" },
-          { id: "ys-inn", label: "Y's Inn 那覇小祿駅前", query: "ワイズイン那覇小禄駅前" },
-          { id: "ots-return", label: "OTS 豐崎還車", query: "OTSレンタカー 豊崎営業所 沖縄" }
+          { id: "lagent", label: "La'gent Hotel Chatan", query: "La'gent Hotel Okinawa Chatan", lat: 26.317017, lng: 127.755064 },
+          { id: "childrens-kingdom", label: "沖繩兒童王國", query: "沖縄こどもの国", lat: 26.319003, lng: 127.804769 },
+          { id: "rycom", label: "AEON Rycom", query: "イオンモール沖縄ライカム", lat: 26.316002, lng: 127.794521 },
+          { id: "minatogawa", label: "港川 oHacorté", query: "oHacorté 港川本店 沖縄", lat: 26.259064, lng: 127.722056 },
+          { id: "ys-inn", label: "Y's Inn 那覇小祿駅前", query: "ワイズイン那覇小禄駅前", lat: 26.1953, lng: 127.6667 },
+          { id: "ots-return", label: "OTS 豐崎還車", query: "OTSレンタカー 豊崎営業所 沖縄", lat: 26.159862, lng: 127.665036 }
         ],
         legs: [
           { id: "L1", name: "Chatan → 兒童王國", distanceKm: null, minutes: null, roads: "58 → 330 → 85 → 22號", note: "PDF 總計不含本段；出發時以導航確認。" },
@@ -299,11 +299,11 @@ window.TRIP_DATA = {
         navigationMode: "driving",
         hideOverviewNavigation: true,
         stops: [
-          { id: "ys-inn", label: "Y's Inn 小祿", query: "ワイズイン那覇小禄駅前" },
-          { id: "naminoue", label: "波上宮", query: "波上宮 沖縄" },
-          { id: "ys-inn-return", label: "回 Y's Inn 取行李", query: "ワイズイン那覇小禄駅前" },
-          { id: "iias", label: "iias／DMM 豐崎", query: "iias 沖縄豊崎" },
-          { id: "airport", label: "那霸機場", query: "那覇空港" }
+          { id: "ys-inn", label: "Y's Inn 小祿", query: "ワイズイン那覇小禄駅前", lat: 26.1953, lng: 127.6667 },
+          { id: "naminoue", label: "波上宮", query: "波上宮 沖縄", lat: 26.217881, lng: 127.674769 },
+          { id: "ys-inn-return", label: "回 Y's Inn 取行李", query: "ワイズイン那覇小禄駅前", lat: 26.1953, lng: 127.6667 },
+          { id: "iias", label: "iias／DMM 豐崎", query: "iias 沖縄豊崎", lat: 26.159862, lng: 127.665036 },
+          { id: "airport", label: "那霸機場", query: "那覇空港", lat: 26.194913, lng: 127.644790 }
         ],
         legs: [
           { id: "L1", name: "Y's Inn → 波上宮", from: "Y's Inn 小祿", to: "波上宮", stopIds: ["ys-inn", "naminoue"], distanceKm: null, minutes: "12-15", roads: "計程車", openLabel: "開啟 Google Maps 路線參考", note: "07:50 出發；不是自駕。" },
