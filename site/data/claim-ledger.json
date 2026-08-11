@@ -1,0 +1,88 @@
+{
+  "edition": "okinawa-family-trip-pwa",
+  "checkedAt": "2026-08-11T00:00:00+09:00",
+  "gate": "CONDITIONAL",
+  "source": {
+    "requestedFile": "沖繩家族旅遊_領隊版.pdf",
+    "workingCopy": "沖繩家族旅遊行程 Day1-5.docx（同內容轉檔版）",
+    "sha256": "BC2FFAD2218A6C0539414471D60913A41FB5D513600B63492C99D2FAB8888ECB",
+    "note": "目前執行環境未保留桌面原始 PDF，但工作區保存了同內容的轉檔版與先前路線快照。"
+  },
+  "claims": [
+    {
+      "id": "HOTEL-MERCURE-001",
+      "status": "verified_official_recheck_before_trip",
+      "claim": "Mercure Okinawa Naha address, phone and email",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://www.mercureokinawanaha.jp/contact/",
+      "note": "Day 0 accommodation name and stay assignment were supplied by the user; contact details were checked against the hotel's official contact page."
+    },
+    {
+      "id": "FLIGHT-MM930-USER-001",
+      "status": "user_provided_recheck_before_trip",
+      "claim": "A team MM930 arrives at Naha at 20:50 on 2026-12-17",
+      "checkedAt": "2026-08-11",
+      "sourceType": "user_message",
+      "note": "Flight number and arrival time were supplied by the user; recheck with the airline booking or flight notice before departure."
+    },
+    {
+      "id": "HOTEL-ALA-001",
+      "status": "verified_official_recheck_before_trip",
+      "claim": "Ala MAHAINA CONDO HOTEL address and phone",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://www.ala-mahaina.com/en/"
+    },
+    {
+      "id": "HOTEL-LAGENT-001",
+      "status": "verified_official_recheck_before_trip",
+      "claim": "La'gent Hotel Okinawa Chatan address, phone and email",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://lagent.jp/chatan/contact"
+    },
+    {
+      "id": "HOTEL-MONTEREY-001",
+      "status": "verified_official_recheck_before_trip",
+      "claim": "Hotel Monterey La Soeur Naha address and phone",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://www.hotelmonterey.co.jp/en/lasoeur_naha/access/"
+    },
+    {
+      "id": "OTS-001",
+      "status": "verified_official_recheck_before_trip",
+      "claim": "OTS Toyosaki office address, phone, opening hours and airport shuttle information",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://www.otsinternational.jp/otsrentacar/en/okinawa/office/toyosaki/"
+    },
+    {
+      "id": "CHURAUMI-001",
+      "status": "current_hours_future_recheck",
+      "claim": "Okinawa Churaumi Aquarium off-season hours and aquarium contact",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://oki-churaumi.jp/en/guide/hour/",
+      "note": "December 2026 program times and temporary closures must be checked close to travel."
+    },
+    {
+      "id": "JUNGLIA-001",
+      "status": "blocking_future_schedule",
+      "claim": "JUNGLIA 2026-12-20 opening hours, reservation/pass requirements and activity availability",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://www.junglia.jp/en/opening-hours",
+      "note": "Do not treat the source itinerary time as an official confirmed schedule."
+    },
+    {
+      "id": "ROUTE-OSRM-001",
+      "status": "estimate",
+      "claim": "Daily driving distances, minutes and road-reference summaries",
+      "checkedAt": "2026-08-08",
+      "sourceUrl": "https://router.project-osrm.org/",
+      "note": "Estimates only; Google Maps live navigation controls traffic, closures, weather and construction."
+    },
+    {
+      "id": "WEATHER-OPENMETEO-001",
+      "status": "live_when_within_forecast_window",
+      "claim": "The PWA fetches daily weather for each day/location from Open-Meteo, up to the API's 16-day forecast window",
+      "checkedAt": "2026-08-11",
+      "sourceUrl": "https://open-meteo.com/en/docs"
+    }
+  ]
+}

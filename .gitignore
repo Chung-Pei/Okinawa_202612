@@ -1,0 +1,10 @@
+.codex/
+.playwright-cli/
+output/
+outputs/
+reference/
+work/
+*.pdf
+*.docx
+*.tmp
+*.log
