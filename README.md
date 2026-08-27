@@ -4,4 +4,4 @@ GitHub Pages deployable PWA for the Okinawa family trip. The published static si
 
 The Pages workflow is configured in [`.github/workflows/pages.yml`](.github/workflows/pages.yml). Daily maps use an in-page Leaflet + public OpenStreetMap renderer with no Google Maps API key; each stop and route can hand off to Google Maps externally.
 
-The itinerary is synchronized to the latest 13-page PDF uploaded on 2026-08-11 (SHA-256 `74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662`). Day 4-5 lodging is Y's Inn Naha Oroku Ekimae, and Day 5 uses taxi from the hotel to iias/DMM; see `site/data/import-findings.json` for the audit record.
+The itinerary is synchronized to the 14-page `沖繩家族旅遊_領隊版_v4.pdf` received on 2026-08-27 (PDF integrated date 2026-08-24; SHA-256 `BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB`). Day 0 lodging is Y's Inn Naha Oroku Ekimae; Day 4-5 lodging is HOTEL ANTEROOM NAHA; Day 5 returns the rental car at OTS before walking to adjacent iias/DMM. See `site/data/import-findings.json` and `site/data/claim-ledger.json` for the audit record.

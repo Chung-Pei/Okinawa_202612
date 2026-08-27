@@ -1,107 +1,151 @@
 {
   "edition": "okinawa-family-trip-pwa",
-  "checkedAt": "2026-08-11T00:00:00+09:00",
+  "checkedAt": "2026-08-27T00:00:00+09:00",
   "gate": "CONDITIONAL",
   "source": {
-    "requestedFile": "沖繩家族旅遊_領隊版.pdf",
-    "workingCopy": "C:/Users/User/Desktop/沖繩家族旅遊_領隊版.pdf",
-    "sha256": "74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662",
-    "pageCount": 13,
-    "note": "2026-08-11 已逐頁人工檢視最新桌面 PDF，並將 Day 0-Day 5 時間軸、住宿與交通重新對照。"
+    "requestedFile": "reference/incoming/沖繩家族旅遊_領隊版_v4.pdf",
+    "sha256": "BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB",
+    "pageCount": 14,
+    "note": "v4 PDF 於 2026-08-24 標示整合；建置時逐頁人工檢視並同步 Day 0-Day 5。原始 PDF 不發布。"
   },
   "claims": [
     {
       "id": "PDF-IMPORT-001",
       "status": "manually_rechecked_source_pdf",
-      "claim": "The PWA itinerary content is synchronized to the latest 13-page PDF covering Day 0-Day 5",
-      "checkedAt": "2026-08-11",
+      "claim": "The PWA itinerary content is synchronized to the 14-page v4 PDF covering Day 0-Day 5",
+      "checkedAt": "2026-08-27",
       "sourceType": "source_pdf",
-      "sourcePath": "C:/Users/User/Desktop/沖繩家族旅遊_領隊版.pdf",
-      "note": "All daily pages were rendered to PNG and visually inspected; operational claims remain conditional until their stated recheck window."
+      "sourcePath": "reference/incoming/沖繩家族旅遊_領隊版_v4.pdf",
+      "note": "All pages were rendered to PNG and visually inspected; operational claims remain conditional until their stated recheck window."
     },
     {
       "id": "MAP-LEAFLET-OSM-001",
       "status": "no_api_key_public_tiles",
-      "claim": "Daily maps are rendered in-page with Leaflet and public OpenStreetMap tiles, with numbered stops, planned route lines, and Google Maps handoff links",
-      "checkedAt": "2026-08-11",
+      "claim": "Daily maps are rendered in-page with Leaflet and public OpenStreetMap tiles, with numbered stops, planned route lines and external Google Maps handoff links",
+      "checkedAt": "2026-08-27",
       "sourceUrl": "https://www.openstreetmap.org/copyright",
       "sourceType": "public_map_tiles",
-      "note": "The map uses display anchors for itinerary places and draws the PDF stop/leg sequence; it is not live road geometry or live traffic routing. Coordinates should be rechecked if a future edition requires turn-by-turn accuracy. No Google Maps API key is stored or loaded."
+      "note": "Solid lines indicate driving sequence; dashed lines indicate walking or transfer direction. The map is not live road geometry or live traffic routing. No Google Maps API key is stored or loaded."
     },
     {
-      "id": "HOTEL-MERCURE-001",
+      "id": "COORDINATES-OSM-001",
+      "status": "fixed_coordinate_audit",
+      "claim": "Route-stop coordinates were rechecked against public OSM/Nominatim or OSM feature anchors and written into the static itinerary data",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://nominatim.openstreetmap.org/",
+      "sourceType": "one_time_osm_geocoding",
+      "queryMethod": "Nominatim search plus Overpass OSM feature lookup; no runtime geocoding",
+      "precision": "OSM feature point/way centroid; Starbucks new shop uses the 21st Century Forest beach-area anchor because the shop is not yet an OSM feature",
+      "anchors": {
+        "ots": "way/205480368",
+        "umikaji": "way/1016587971",
+        "gyomu": "node/5234825627",
+        "manzamo": "node/2004524873",
+        "kyoda": "way/459571092",
+        "starbucks-nago": "relation/6191652 (21世紀の森ビーチ area anchor)",
+        "ala": "way/436824316",
+        "churaumi": "way/378128429",
+        "kouri": "relation/5012699",
+        "neopark": "way/415712228",
+        "junglia": "way/1281984233",
+        "aeon-nago": "way/415456937",
+        "nago-snack": "node/13947635875",
+        "american-village": "node/4443303792",
+        "lagent": "way/562968425",
+        "childrens-kingdom": "node/2484725838",
+        "rycom": "way/396524453",
+        "minatogawa": "node/4330706892",
+        "ys-inn": "way/969255857",
+        "anteroom": "way/714083708",
+        "kokusai": "relation/13154684",
+        "naminoue": "way/1337981786",
+        "iias": "way/710277652",
+        "airport": "relation/20229940"
+      },
+      "note": "The OSM tile layer remains public and attribution is visible in the map. Recheck coordinates if a future PDF changes an address or facility."
+    },
+    {
+      "id": "HOTEL-YSINN-001",
       "status": "verified_official_recheck_before_trip",
-      "claim": "Mercure Okinawa Naha address, phone and email",
-      "checkedAt": "2026-08-11",
-      "sourceUrl": "https://www.mercureokinawanaha.jp/contact/",
-      "note": "Day 0 accommodation name and stay assignment were supplied by the user; contact details were checked against the hotel's official contact page."
-    },
-    {
-      "id": "FLIGHT-MM930-USER-001",
-      "status": "user_provided_recheck_before_trip",
-      "claim": "A team MM930 arrives at Naha at 20:50 on 2026-12-17",
-      "checkedAt": "2026-08-11",
-      "sourceType": "user_message",
-      "note": "Flight number and arrival time were supplied by the user; recheck with the airline booking or flight notice before departure."
+      "claim": "Y's Inn Naha Oroku Ekimae address, phone, email and Day 0 assignment",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://ys-inn.jp/",
+      "note": "The Day 0 stay is from v4; late check-in, luggage handling and first-come mechanical parking remain to be confirmed before travel."
     },
     {
       "id": "HOTEL-ALA-001",
       "status": "verified_official_recheck_before_trip",
       "claim": "Ala MAHAINA CONDO HOTEL address and phone",
-      "checkedAt": "2026-08-11",
+      "checkedAt": "2026-08-27",
       "sourceUrl": "https://www.ala-mahaina.com/en/"
     },
     {
       "id": "HOTEL-LAGENT-001",
       "status": "verified_official_recheck_before_trip",
-      "claim": "La'gent Hotel Okinawa Chatan address, phone and email",
-      "checkedAt": "2026-08-11",
-      "sourceUrl": "https://lagent.jp/chatan/contact"
+      "claim": "La'gent Hotel Okinawa Chatan address, phone, email and parking",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://lagent.jp/chatan/en/access/"
     },
     {
-      "id": "HOTEL-YSINN-001",
+      "id": "HOTEL-ANTEROOM-001",
       "status": "verified_official_recheck_before_trip",
-      "claim": "Y's Inn Naha Oroku Ekimae address, phone and email",
-      "checkedAt": "2026-08-11",
-      "sourceUrl": "https://ys-inn.jp/company/",
-      "note": "Day 4-5 lodging is taken from the latest PDF; official site confirms the address and contact details."
+      "claim": "HOTEL ANTEROOM NAHA address, phone, email and Day 4-5 assignment",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://www.uds-hotels.com/anteroom/naha/",
+      "note": "Official page states 3-27-11 Maejima, Naha and provides the phone/email; the v4 lodging table supplies the trip booking assignment."
     },
     {
       "id": "OTS-001",
       "status": "verified_official_recheck_before_trip",
-      "claim": "OTS Toyosaki office address, phone, opening hours and airport shuttle information",
-      "checkedAt": "2026-08-11",
-      "sourceUrl": "https://www.otsinternational.jp/otsrentacar/en/okinawa/office/toyosaki/"
+      "claim": "OTS Toyosaki office address, phone and opening hours",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://www.otsinternational.jp/otsrentacar/en/okinawa/office/toyosaki/",
+      "note": "v4 moves return to Day 5 08:20-09:00; confirm extension and return procedure with the booking before travel."
+    },
+    {
+      "id": "STARBUCKS-001",
+      "status": "official_address_checked_osm_area_anchor",
+      "claim": "Starbucks Nago 21st Century Forest Park Akemio Terrace address and hours",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://store.starbucks.co.jp/detail-4503/",
+      "note": "The official store page supplies 宮里2-2 海の棟2 and 07:30-21:00; OSM does not yet contain the new shop feature, so the PWA discloses an area anchor."
     },
     {
       "id": "CHURAUMI-001",
       "status": "current_hours_future_recheck",
-      "claim": "Okinawa Churaumi Aquarium off-season hours and aquarium contact",
-      "checkedAt": "2026-08-11",
+      "claim": "Okinawa Churaumi Aquarium hours and timed programs",
+      "checkedAt": "2026-08-24",
       "sourceUrl": "https://oki-churaumi.jp/en/guide/hour/",
-      "note": "December 2026 program times and temporary closures must be checked close to travel."
+      "note": "December 2026 program times, temporary closures and first-come activities must be checked close to travel."
     },
     {
       "id": "JUNGLIA-001",
       "status": "blocking_future_schedule",
       "claim": "JUNGLIA 2026-12-20 opening hours, reservation/pass requirements and activity availability",
-      "checkedAt": "2026-08-11",
+      "checkedAt": "2026-08-24",
       "sourceUrl": "https://www.junglia.jp/en/opening-hours",
       "note": "Do not treat the source itinerary time as an official confirmed schedule."
+    },
+    {
+      "id": "OHACORTE-001",
+      "status": "official_address_checked",
+      "claim": "oHacorté Minatogawa address and opening information",
+      "checkedAt": "2026-08-27",
+      "sourceUrl": "https://ohacorte.com/shop/"
     },
     {
       "id": "ROUTE-PDF-001",
       "status": "estimate",
       "claim": "Daily route totals, estimated minutes and road-reference summaries shown in the PWA",
-      "checkedAt": "2026-08-11",
+      "checkedAt": "2026-08-27",
       "sourceType": "source_pdf",
-      "note": "Copied from the latest PDF route summaries; estimates only. Google Maps live navigation controls traffic, closures, weather and construction. Day 5 is taxi／Yui Rail, not self-driving."
+      "note": "Copied from v4 route summaries and schedule windows; estimates only. Google Maps live navigation controls traffic, closures, weather and construction. Day 4 keeps the car at ANTEROOM; Day 5 returns it at OTS before walking to iias."
     },
     {
       "id": "WEATHER-OPENMETEO-001",
       "status": "live_when_within_forecast_window",
       "claim": "The PWA fetches daily weather for each day/location from Open-Meteo, up to the API's 16-day forecast window",
-      "checkedAt": "2026-08-11",
+      "checkedAt": "2026-08-27",
       "sourceUrl": "https://open-meteo.com/en/docs"
     }
   ]

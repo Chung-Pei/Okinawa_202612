@@ -14,11 +14,11 @@
 本版使用 Leaflet＋公開 OpenStreetMap 底圖，在 PWA 頁面內呈現類似參考截圖的互動介面：
 
 1. 日期分頁切換每日地圖。
-2. 地圖以編號圖釘標出當日景點，並依 PDF 的停靠／分支順序畫出規劃線。
+2. 地圖以編號圖釘標出當日景點，並依 v4 PDF 的停靠／分支順序畫出規劃線；步行／轉乘段以虛線表示。
 3. 右側（手機版為下方）景點卡片可點選地圖標記；每一站都有 Google Maps 外部搜尋連結。
 4. 每日上方與各路段仍保留 Google Maps 導航交接，出發時由 Google Maps 處理即時交通與轉彎指示。
 
-這個地圖不需要 Google Maps API Key，也不會在 repository 放置金鑰。OpenStreetMap 底圖與 Leaflet CDN 需要網路；若底圖載入失敗，景點順序卡片與外部連結仍會保留。路線線段是行程順序／分支示意，不是即時路況或保證的道路幾何。
+這個地圖不需要 Google Maps API Key，也不會在 repository 放置金鑰。OpenStreetMap 底圖與 Leaflet CDN 需要網路；若底圖載入失敗，景點順序卡片與外部連結仍會保留。路線線段是行程順序／分支示意，不是即時路況或保證的道路幾何；新設施若尚未建立 OSM 圖徵，會標示地址級公園／設施錨點。
 
 ## 天氣與日期行為
 
@@ -33,11 +33,11 @@
 
 ## 內容來源與維護
 
-最新行程來源為使用者於 2026-08-11 上傳的 13 頁 PDF，SHA-256 為 `74CAB3CE4E49B266748FBC0F3F01AE88E71F2C40F8B8C982EB9680A8C114E662`。已逐頁人工核對 Day 0-Day 5，再同步到 `site/data/trip-data.js`；匯入對照與差異記錄放在 `site/data/import-ledger.json`、`site/data/import-findings.json`、`site/data/travel.draft.json`。
+最新行程來源為使用者於 2026-08-27 提供的 14 頁 `沖繩家族旅遊_領隊版_v4.pdf`，PDF 內標示整合日期 2026-08-24，SHA-256 為 `BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB`。已逐頁核對 Day 0-Day 5，再同步到 `site/data/trip-data.js`；匯入對照、差異與座標記錄放在 `site/data/import-ledger.json`、`site/data/import-findings.json`、`site/data/travel.draft.json`、`site/data/claim-ledger.json`。
 
 行程資料集中在 `site/data/trip-data.js`，日後只需更新該檔案即可調整行程、住宿、路線與聯絡資訊。官方來源連結也列在網站底部，適合出發前重新確認航班、景點公告、住宿政策與租車資訊。
 
-本版保留未來日期與尚未公告資訊的條件式提示：JUNGLIA 開園／票務、航班、餐廳預約、景點營業時間、Day 1 Starbucks 店名與 Y's Inn 停車都應在出發前再確認。Day 5 的 Y's Inn→iias／DMM 明確採計程車；iias→機場才可視情況選計程車或 Yui Rail。
+本版保留未來日期與尚未公告資訊的條件式提示：JUNGLIA 開園／票務、航班、餐廳預約、景點營業時間與停車都應在出發前再確認。Day 0 改住 Y's Inn；Day 4-5 改住 HOTEL ANTEROOM；Day 5 先到 OTS 還車，再步行至相鄰 iias／DMM，iias→機場才依 A/B 航班選計程車或公共交通。
 
 ## 本機預覽
 

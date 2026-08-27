@@ -10,12 +10,12 @@
   };
 
   const MAP_STOP_TIMES = {
-    day0: { day0: "20:50" },
+    day0: { airport: "20:50", "ys-inn": "抵達後" },
     day1: { ots: "10:20", umikaji: "12:00", gyomu: "13:40", manzamo: "15:10", kyoda: "16:30", "starbucks-nago": "17:45", ala: "18:50" },
     day2: { ala: "07:30", churaumi: "08:30", kouri: "14:00", "ala-return": "16:30" },
     day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "aeon-nago": "13:30", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
-    day4: { lagent: "07:30", "childrens-kingdom": "09:30", rycom: "12:00", minatogawa: "15:00", "ys-inn": "16:10", "ots-return": "17:30" },
-    day5: { "ys-inn": "07:00", naminoue: "08:05", "ys-inn-return": "09:00", iias: "10:00", airport: "17:00" }
+    day4: { lagent: "07:30", "childrens-kingdom": "09:30", rycom: "12:00", minatogawa: "15:00", anteroom: "16:05", kokusai: "18:00" },
+    day5: { anteroom: "07:30", naminoue: "07:40", "ots-return": "08:20", iias: "09:30", airport: "17:00" }
   };
 
   const $ = (selector) => document.querySelector(selector);
@@ -291,7 +291,7 @@
         : (typeof leg.minutes === "string" && leg.minutes.trim().startsWith("約") ? `${leg.minutes.trim()} 分鐘` : `約 ${leg.minutes} 分鐘`);
       const openLabel = leg.openLabel || (route.routeType === "mixed" || route.navigationMode === "taxi" ? "開啟 Google Maps 路線參考" : "開啟此段導航");
       const routeLink = subset.length >= 2 && leg.navigation !== false
-        ? `<a class="route-open" href="${escapeHtml(googleMapsUrl(subset, leg.navigationMode || route.navigationMode || "driving"))}" target="_blank" rel="noopener">${escapeHtml(openLabel)}</a>`
+        ? `<a class="route-open" href="${escapeHtml(googleMapsUrl(subset, leg.navigationMode || leg.mode || route.navigationMode || "driving"))}" target="_blank" rel="noopener">${escapeHtml(openLabel)}</a>`
         : `<span class="route-open route-open-disabled">${escapeHtml(openLabel === "開啟此段導航" ? "PDF 路線摘要" : openLabel)}</span>`;
       return `
         <article class="route-item">
@@ -346,14 +346,15 @@
       const cardId = `map-stop-card-${day.id}-${index}`;
       const time = mapStopTime(day, stop);
       const located = hasCoordinates(stop);
+      const approximate = Boolean(stop.coordinateNote);
       return `
-        <li class="map-stop-card${located ? "" : " is-unlocated"}" id="${escapeHtml(cardId)}" tabindex="0" data-map-stop-index="${index}">
+        <li class="map-stop-card${located ? "" : " is-unlocated"}${approximate ? " is-approximate" : ""}" id="${escapeHtml(cardId)}" tabindex="0" data-map-stop-index="${index}">
           <span class="map-stop-number" aria-hidden="true">${index + 1}</span>
           <span class="map-stop-thumb" aria-hidden="true">${escapeHtml(mapStopBadge(stop))}</span>
           <span class="map-stop-copy">
             ${time ? `<span class="map-stop-time">${escapeHtml(time)}</span>` : ""}
             <strong>${escapeHtml(stop.label)}</strong>
-            <span class="map-stop-status">${located ? "已標在地圖" : "地圖座標待補"}</span>
+            <span class="map-stop-status">${located ? (approximate ? "OSM 區域錨點" : "已標在地圖") : "地圖座標待補"}</span>
           </span>
           <a class="map-stop-link" href="${escapeHtml(googlePlaceUrl(stop))}" target="_blank" rel="noopener" aria-label="在 Google Maps 開啟 ${escapeHtml(stop.label)}">↗</a>
         </li>
@@ -373,7 +374,7 @@
       <div class="map-workbench${locatedStops.length ? "" : " is-fallback"}">
         <div class="map-visual-pane">
           <div id="leaflet-map" class="leaflet-map" role="application" aria-label="${escapeHtml(day.label)} Leaflet 互動地圖"></div>
-          <p class="map-provider-note">底圖 © OpenStreetMap contributors · 路線為 PDF 景點順序示意，導航請開 Google Maps</p>
+          <p class="map-provider-note">底圖 © OpenStreetMap contributors · 實線為自駕示意、虛線為步行／轉乘示意；導航請開 Google Maps</p>
         </div>
         <aside class="map-stop-sequence" aria-label="${escapeHtml(day.label)} 景點順序">
           <div class="map-sequence-header">
@@ -424,24 +425,30 @@
       const segmentStops = leg.stopIds
         ? leg.stopIds.map((id) => stopById.get(id)).filter(hasCoordinates)
         : (locatedStops[index] && locatedStops[index + 1] ? locatedStops.slice(index, index + 2) : []);
-      return { id: leg.id || `L${index + 1}`, stops: segmentStops };
+      return {
+        id: leg.id || `L${index + 1}`,
+        stops: segmentStops,
+        mapLine: leg.mapLine !== false,
+        mode: leg.mode || leg.navigationMode || route?.navigationMode || "driving"
+      };
     }).filter((segment) => segment.stops.length >= 2);
-    if (!segments.length && locatedStops.length >= 2) segments.push({ id: "route", stops: locatedStops });
+    if (!segments.length && !(route?.legs || []).length && locatedStops.length >= 2) {
+      segments.push({ id: "route", stops: locatedStops, mapLine: true, mode: route?.navigationMode || "driving" });
+    }
 
-    const allPoints = [];
-    segments.forEach((segment, segmentIndex) => {
+    const allPoints = locatedStops.map((stop) => [Number(stop.lat), Number(stop.lng)]);
+    segments.filter((segment) => segment.mapLine).forEach((segment, segmentIndex) => {
       const points = segment.stops.map((stop) => [Number(stop.lat), Number(stop.lng)]);
-      allPoints.push(...points);
+      const transferMode = ["walking", "transit", "rail", "bus", "taxi"].includes(segment.mode);
       window.L.polyline(points, {
-        color: segmentIndex % 2 ? "#ffbb66" : "#79e6d4",
+        color: transferMode ? "#ffbb66" : "#79e6d4",
         weight: 5,
         opacity: 0.88,
         lineCap: "round",
         lineJoin: "round",
-        dashArray: route?.hideOverviewNavigation && segmentIndex > 1 ? "8 8" : null
+        dashArray: transferMode ? "8 8" : null
       }).addTo(leafletMap).bindTooltip(`${segment.id} · 行程順序示意`, { sticky: true });
     });
-    if (!allPoints.length) allPoints.push(...locatedStops.map((stop) => [Number(stop.lat), Number(stop.lng)]));
 
     const markers = new Map();
     locatedStops.forEach((stop) => {

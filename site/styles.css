@@ -295,6 +295,7 @@ h1 em { color: var(--teal); font-style: normal; }
 .map-stop-copy strong { margin-bottom: 0.18rem; color: #f7fcfb; font-size: 0.86rem; line-height: 1.25; }
 .map-stop-time { color: #b9c7c1; font-size: 0.73rem; font-weight: 800; }
 .map-stop-status { color: #8ea49e; font-size: 0.68rem; }
+.map-stop-card.is-approximate .map-stop-status { color: #ffcf80; }
 .map-stop-link { display: grid; place-items: center; width: 28px; height: 28px; color: #bfeee4; background: rgba(121,230,212,0.1); border-radius: 50%; font-size: 1rem; font-weight: 900; text-decoration: none; }
 .map-stop-link:hover { color: #15201d; background: #79e6d4; }
 .map-stop-marker-shell { background: transparent; border: 0; }
