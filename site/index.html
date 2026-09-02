@@ -3,22 +3,27 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f766e" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="color-scheme" content="light" />
     <meta name="description" content="沖繩家族旅遊 2026：每日行程、自駕路線、住宿聯絡與旅遊日天氣預報。" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="沖繩家族旅遊" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@400;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="apple-touch-icon" sizes="180x180" href="./icons/icon-180.png" />
     <link rel="icon" href="./icons/icon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>沖繩家族旅遊｜領隊 PWA</title>
   </head>
   <body>
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
     <div class="app-shell">
       <header class="topbar">
-        <a class="brand" href="#top" aria-label="回到旅程首頁">
+        <a class="brand" href="#main-content" aria-label="回到旅程首頁">
           <span class="brand-mark" aria-hidden="true">沖</span>
           <span>
             <strong>沖繩家族旅遊</strong>
@@ -33,7 +38,7 @@
         </div>
       </header>
 
-      <main id="top">
+      <main id="main-content">
         <section class="hero section-pad" aria-labelledby="page-title">
           <div class="hero-copy">
             <p class="hero-meta">12.17 THU — 12.22 TUE · ASIA/TOKYO</p>
@@ -86,7 +91,7 @@
           </article>
         </section>
 
-        <section class="trip-section section-pad" aria-labelledby="day-heading">
+        <section class="trip-section section-pad" id="trip" aria-labelledby="day-heading">
           <div class="section-heading">
             <div>
               <h2 id="day-heading">每日行程</h2>
@@ -95,7 +100,7 @@
           </div>
           <nav class="day-tabs" id="day-tabs" aria-label="選擇行程日"></nav>
 
-          <div class="day-intro" id="day-intro"></div>
+          <div class="day-intro" id="day-intro" role="tabpanel" aria-live="polite"></div>
 
           <div class="content-grid">
             <section class="panel schedule-panel" aria-labelledby="schedule-title">
@@ -132,7 +137,7 @@
           </div>
         </section>
 
-        <section class="map-section section-pad" aria-labelledby="map-title">
+        <section class="map-section section-pad" id="map-section" aria-labelledby="map-title">
           <div class="section-heading map-heading">
             <div>
               <h2 id="map-title">每日互動地圖</h2>
@@ -159,7 +164,7 @@
           </div>
         </section>
 
-        <section class="field-notes section-pad" aria-labelledby="field-notes-title">
+        <section class="field-notes section-pad" id="notes" aria-labelledby="field-notes-title">
           <div class="section-heading">
             <div>
               <h2 id="field-notes-title">領隊備忘</h2>
@@ -206,6 +211,21 @@
           <p class="footer-note">此網站是領隊用行前與現場工具，不取代航空公司、景點、住宿或租車公司的最新通知。離線快取會標示上次更新時間，不會被當成即時路況或即時天氣。</p>
         </section>
       </main>
+
+      <nav class="floating-bottom-nav" aria-label="快速導覽">
+        <a class="nav-item is-active" href="#trip" data-nav-target="trip" aria-current="page">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5V5.5Zm0 0v15M8 7h7m-7 4h7" /></svg>
+          <span>行程</span>
+        </a>
+        <a class="nav-item" href="#map-section" data-nav-target="map-section">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 6-3 6 3 4-2v14l-4 2-6-3-6 3V6Zm6-3v14m6-11v14" /></svg>
+          <span>地圖</span>
+        </a>
+        <a class="nav-item" href="#notes" data-nav-target="notes">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2H19v16H8.5A2.5 2.5 0 0 0 6 20.5v-16Zm0 0v16M9 6h7m-7 4h6m-6 4h4" /></svg>
+          <span>備忘</span>
+        </a>
+      </nav>
 
       <footer class="site-footer section-pad">
         <span>沖繩家族旅遊 · Leader PWA</span>

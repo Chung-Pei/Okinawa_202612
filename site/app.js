@@ -21,6 +21,10 @@
   const $ = (selector) => document.querySelector(selector);
   const $$ = (selector) => Array.from(document.querySelectorAll(selector));
 
+  function scrollBehavior() {
+    return window.matchMedia?.("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  }
+
   function escapeHtml(value) {
     return String(value ?? "")
       .replaceAll("&", "&amp;")
@@ -65,13 +69,25 @@
     const tabs = $("#day-tabs");
     tabs.setAttribute("role", "tablist");
     tabs.innerHTML = data.days.map((day, index) => `
-      <button class="day-tab" type="button" role="tab" aria-selected="${index === state.dayIndex}" aria-controls="day-intro" data-day-index="${index}">
+      <button class="day-tab" type="button" role="tab" aria-selected="${index === state.dayIndex}" aria-controls="day-intro" aria-label="${escapeHtml(day.label)} ${escapeHtml(day.title)}" tabindex="${index === state.dayIndex ? "0" : "-1"}" data-day-index="${index}">
         <strong>${escapeHtml(day.label)}</strong>
         <span>${escapeHtml(day.dateLabel)}</span>
       </button>
     `).join("");
     $$(".day-tab").forEach((tab) => {
       tab.addEventListener("click", () => selectDay(Number(tab.dataset.dayIndex)));
+      tab.addEventListener("keydown", (event) => {
+        if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+        event.preventDefault();
+        const currentIndex = Number(tab.dataset.dayIndex);
+        const nextIndex = event.key === "Home"
+          ? 0
+          : event.key === "End"
+            ? data.days.length - 1
+            : (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + data.days.length) % data.days.length;
+        selectDay(nextIndex);
+        window.requestAnimationFrame(() => $(`.day-tab[data-day-index="${nextIndex}"]`)?.focus());
+      });
     });
   }
 
@@ -80,7 +96,7 @@
     state.dayIndex = index;
     renderDayTabs();
     renderDay();
-    document.querySelector(".day-intro")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.querySelector(".day-intro")?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
   }
 
   function renderDay() {
@@ -88,8 +104,9 @@
     const lodging = data.lodging[day.lodgingKey];
     const modeLabel = day.transportLabel || (day.mode === "driving" ? "自駕日" : day.mode === "mixed" ? "混合交通" : "抵達日");
 
+    $("#day-intro").setAttribute("aria-label", `${day.label} ${day.title}`);
     $("#day-intro").innerHTML = `
-      <div>
+      <div class="day-intro-copy">
         <h3>${escapeHtml(day.title)}</h3>
         <p>${escapeHtml(day.intro)}</p>
       </div>
@@ -155,10 +172,10 @@
         <p class="lodging-en">${escapeHtml(lodging.english)}</p>
         <p class="lodging-address">${escapeHtml(lodging.address)}</p>
         <div class="lodging-actions">
-          <a class="contact-chip" href="tel:${escapeHtml(lodging.phone)}" aria-label="撥打 ${escapeHtml(lodging.name)} 電話">電話 ${escapeHtml(lodging.phone)}</a>
-          <a class="contact-chip" href="${escapeHtml(googlePlaceUrl(lodging.map))}" target="_blank" rel="noopener">地圖</a>
+          <a class="contact-chip" href="tel:${escapeHtml(lodging.phone)}" aria-label="撥打 ${escapeHtml(lodging.name)} 電話"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.7 4.5 5.4 5.8a2 2 0 0 0-.9 2.4c1.7 5.3 5.9 9.5 11.2 11.2a2 2 0 0 0 2.4-.9l1.3-2.3-3.6-2.4-1.5 1.5a13.2 13.2 0 0 1-5.7-5.7l1.5-1.5-2.4-3.6Z" /></svg><span>電話 ${escapeHtml(lodging.phone)}</span></a>
+          <a class="contact-chip" href="${escapeHtml(googlePlaceUrl(lodging.map))}" target="_blank" rel="noopener"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></svg><span>地圖</span></a>
         </div>
-        ${lodging.email ? `<a class="contact-chip" href="mailto:${escapeHtml(lodging.email)}">Email ${escapeHtml(lodging.email)}</a>` : ""}
+        ${lodging.email ? `<a class="contact-chip" href="mailto:${escapeHtml(lodging.email)}"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg><span>Email ${escapeHtml(lodging.email)}</span></a>` : ""}
         <p class="lodging-note">${escapeHtml(lodging.note)} · ${escapeHtml(lodging.source)}</p>
       </div>
     `;
@@ -166,8 +183,10 @@
 
   function renderWeatherPlaceholder(day) {
     $("#weather-card").innerHTML = `
-      <div class="weather-empty" aria-live="polite">
-        <strong>${escapeHtml(day.weather.label)}</strong><br />正在查詢 ${escapeHtml(day.date)} 的預報範圍…
+      <div class="weather-empty weather-loading" aria-live="polite" aria-busy="true">
+        <div class="weather-loading-copy"><span class="loading-dot" aria-hidden="true"></span><p><strong>正在查詢 ${escapeHtml(day.weather.label)}</strong><span>${escapeHtml(day.date)} 的旅遊日預報</span></p></div>
+        <span class="skeleton-line skeleton-line-wide" aria-hidden="true"></span>
+        <span class="skeleton-line" aria-hidden="true"></span>
       </div>
     `;
   }
@@ -212,7 +231,7 @@
     const index = payload.daily?.time?.indexOf(day.date) ?? -1;
     if (index < 0) {
       $("#weather-card").innerHTML = `
-        <div class="weather-empty" aria-live="polite">
+        <div class="weather-empty" aria-live="polite" aria-busy="false">
           <strong>${escapeHtml(day.weather.label)}</strong>
           <p class="weather-note">目前尚未進入 16 日預報範圍。出發前約兩週回到本頁更新；不要以長期氣候平均當作當日預報。</p>
         </div>
@@ -225,7 +244,7 @@
     const fetchedLabel = new Intl.DateTimeFormat("zh-TW", { dateStyle: "short", timeStyle: "short" }).format(new Date(fetchedAt));
     const stateLabel = cached ? "離線快取" : "即時查詢";
     $("#weather-card").innerHTML = `
-      <div class="weather-card" aria-live="polite">
+      <div class="weather-card" aria-live="polite" aria-busy="false">
         <div class="weather-main">
           <div class="weather-symbol">${weatherIcon(weather[1])}</div>
           <div>
@@ -257,6 +276,10 @@
     });
     const requestId = `${day.id}-${Date.now()}`;
     state.weatherRequest = requestId;
+    const refreshButton = $("#refresh-weather");
+    refreshButton.disabled = true;
+    refreshButton.setAttribute("aria-busy", "true");
+    refreshButton.textContent = "查詢中";
     try {
       const response = await fetch(`https://api.open-meteo.com/v1/forecast?${query.toString()}`, { cache: "no-store" });
       if (!response.ok) throw new Error(`Weather HTTP ${response.status}`);
@@ -269,6 +292,12 @@
         if (state.weatherRequest === requestId && currentDay().id === day.id) renderWeather(day, cached, true);
       } else if (state.weatherRequest === requestId && currentDay().id === day.id) {
         $("#weather-card").innerHTML = `<div class="weather-empty"><strong>目前無法取得天氣</strong><p class="weather-note">請確認網路後按「更新」。行程與住宿資料仍可離線查看。</p></div>`;
+      }
+    } finally {
+      if (state.weatherRequest === requestId) {
+        refreshButton.disabled = false;
+        refreshButton.removeAttribute("aria-busy");
+        refreshButton.textContent = "更新";
       }
     }
   }
@@ -356,7 +385,7 @@
             <strong>${escapeHtml(stop.label)}</strong>
             <span class="map-stop-status">${located ? (approximate ? "OSM 區域錨點" : "已標在地圖") : "地圖座標待補"}</span>
           </span>
-          <a class="map-stop-link" href="${escapeHtml(googlePlaceUrl(stop))}" target="_blank" rel="noopener" aria-label="在 Google Maps 開啟 ${escapeHtml(stop.label)}">↗</a>
+          <a class="map-stop-link" href="${escapeHtml(googlePlaceUrl(stop))}" target="_blank" rel="noopener" aria-label="在 Google Maps 開啟 ${escapeHtml(stop.label)}"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5m0-5-8 8" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg></a>
         </li>
       `;
     }).join("");
@@ -364,6 +393,7 @@
 
   function renderInteractiveMapForDay(day) {
     const mapRoot = $("#map");
+    mapRoot.setAttribute("aria-busy", "true");
     state.map?.remove();
     state.map = null;
     const stops = getMapStops(day);
@@ -395,6 +425,7 @@
           <p>景點順序與 Google Maps 外部連結仍可使用；請確認網路後重新整理。</p>
         </div>
       `;
+      mapRoot.setAttribute("aria-busy", "false");
       return;
     }
     if (!locatedStops.length) {
@@ -404,6 +435,7 @@
           <p>請使用右側景點卡片開啟 Google Maps；行程資料與路段摘要仍可查看。</p>
         </div>
       `;
+      mapRoot.setAttribute("aria-busy", "false");
       return;
     }
 
@@ -491,13 +523,14 @@
         }
       });
     });
+    mapRoot.setAttribute("aria-busy", "false");
   }
 
   function focusMapStop(cardId, marker) {
     $$(".map-stop-card.is-active").forEach((card) => card.classList.remove("is-active"));
     const card = document.getElementById(cardId);
     card?.classList.add("is-active");
-    card?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    card?.scrollIntoView({ behavior: scrollBehavior(), block: "nearest" });
     if (marker && state.map) {
       marker.openTooltip();
       state.map.panTo(marker.getLatLng(), { animate: true, duration: 0.35 });
@@ -581,6 +614,28 @@
     });
   }
 
+  function setupFloatingNav() {
+    const links = $$(".nav-item");
+    const sections = links
+      .map((link) => document.getElementById(link.dataset.navTarget))
+      .filter(Boolean);
+    const setActive = (targetId) => {
+      links.forEach((link) => {
+        const active = link.dataset.navTarget === targetId;
+        link.classList.toggle("is-active", active);
+        if (active) link.setAttribute("aria-current", "page");
+        else link.removeAttribute("aria-current");
+      });
+    };
+    setActive("trip");
+    if (!("IntersectionObserver" in window)) return;
+    const observer = new IntersectionObserver((entries) => {
+      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (visible) setActive(visible.target.id);
+    }, { rootMargin: "-18% 0px -58% 0px", threshold: [0.05, 0.25, 0.5] });
+    sections.forEach((section) => observer.observe(section));
+  }
+
   function init() {
     renderDayTabs();
     renderDay();
@@ -592,6 +647,7 @@
     $("#refresh-weather").addEventListener("click", () => { loadWeather(currentDay()); showToast("正在更新天氣資料…", 1800); });
     $("#show-sources-button").addEventListener("click", () => $("#sources").scrollIntoView({ behavior: "smooth", block: "start" }));
     $("#copy-contacts").addEventListener("click", copyContacts);
+    setupFloatingNav();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
