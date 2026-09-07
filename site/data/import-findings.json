@@ -1,37 +1,51 @@
 {
-  "sourceSha256": "BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB",
-  "checkedAt": "2026-08-27",
+  "sourceSha256": "639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D",
+  "checkedAt": "2026-09-07",
   "status": "conditional_release",
   "findings": [
     {
       "severity": "corrected",
-      "locator": "pages 2-3 and 14",
+      "locator": "v7 pages 2-3 and 16",
       "finding": "Day 0 lodging is Y's Inn Naha Oroku Ekimae; Day 4-5 lodging is HOTEL ANTEROOM NAHA",
       "pwaCorrection": "lodging.ysInn is assigned to Day 0; lodging.anteroom is assigned to Day 4 and Day 5"
     },
     {
       "severity": "corrected",
-      "locator": "pages 9-12",
-      "finding": "Rental-car return moved from Day 4 to Day 5 08:20-09:00 at OTS Toyosaki, followed by a walk to adjacent iias",
-      "pwaCorrection": "Day 4 leaves the car at HOTEL ANTEROOM; Day 5 route is ANTEROOM → Naminoue → OTS → iias, with OTS→iias rendered as a walking segment"
+      "locator": "v7 pages 10-12",
+      "finding": "Rental-car return is on Day 5 08:20-09:00 at OTS Toyosaki, followed by a walk to adjacent iias",
+      "pwaCorrection": "Day 4 leaves the car at ANTEROOM; Day 5 route is ANTEROOM → Naminoue → OTS → iias, with OTS→iias rendered as a walking segment"
     },
     {
       "severity": "corrected",
-      "locator": "pages 5-6",
+      "locator": "v7 pages 5-6",
       "finding": "Day 2 uses a hard 13:00 aquarium departure, Kouri lunch, timed Ocean Blue/dolphin/sea-turtle items and no second entry",
-      "pwaCorrection": "Day 2 timeline was rebuilt in the v4 order and labels first-come or conditional items explicitly"
+      "pwaCorrection": "Day 2 timeline follows the v7 order and labels first-come or conditional items explicitly"
     },
     {
       "severity": "corrected",
-      "locator": "pages 4, 7-12",
+      "locator": "v7 pages 4, 7-12",
       "finding": "Several existing map anchors were materially displaced from the named facilities",
-      "pwaCorrection": "Fixed OSM/Nominatim coordinates were rechecked on 2026-08-27 for the route stops; each route stop now uses the corrected anchor"
+      "pwaCorrection": "Fixed OSM/Nominatim coordinates were rechecked for the route stops; each route stop uses the corrected static anchor"
+    },
+    {
+      "severity": "corrected",
+      "locator": "v7 restaurant pages 5, 7, 9, 11, 15",
+      "finding": "Restaurant choices need to match the actual meal window and PDF booking state",
+      "pwaCorrection": "Known-closed restaurants were removed from the usable cards: Day 1 CAHAYA BULAN for the approximately 19:30 dinner slot and Day 4 LaLa Zorba for Monday. Hateruma is shown as an unreserved Day 4 candidate with three usable evening options remaining."
     },
     {
       "severity": "conditional",
-      "locator": "pages 2, 4-5, 7-13",
+      "locator": "v7 pages 2, 4-5, 7-15",
       "finding": "Flight times, restaurant reservations, opening hours, JUNGLIA schedule, seasonal lights, parking and live traffic remain time-sensitive",
-      "pwaCorrection": "Kept as conditional tags and the global source/fact-gate notice"
+      "pwaCorrection": "Kept as conditional tags and the global source/fact-gate notice; unknown restaurant hours remain marked for recheck"
+    }
+  ],
+  "secondarySourceFindings": [
+    {
+      "severity": "integrated",
+      "locator": "MD section 四 and daily restaurant sections",
+      "finding": "MD supplies restaurant descriptions, addresses, official links, Google Maps links and four Japanese dietary-ordering rules",
+      "pwaCorrection": "Added expandable meal cards, direct external links and copyable Japanese rule cards; v7 remains authoritative for timing, opening and booking state"
     }
   ]
 }

@@ -4,11 +4,11 @@ window.TRIP_DATA = {
     subtitle: "領隊版 PWA",
     dates: "2026-12-17/2026-12-22",
     timezone: "Asia/Tokyo",
-    sourceFile: "沖繩家族旅遊_領隊版_v4.pdf",
-    importedSource: "沖繩家族旅遊_領隊版_v4.pdf（2026-08-24 整合版）",
-    sourceSha256: "BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB",
-    importedAt: "2026-08-27T00:00:00+09:00",
-    note: "已逐頁人工核對 v4 PDF 14 頁；來源涵蓋 Day 0-Day 5。航班、營業時間、預約與 JUNGLIA 時段仍須於出發前依官方／訂位資料重查。"
+    sourceFile: "沖繩家族旅遊_領隊版_v7.pdf",
+    importedSource: "沖繩家族旅遊_領隊版_v7.pdf（2026-09-07 核對版）＋蔬食餐廳指南 v3.1",
+    sourceSha256: "639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D",
+    importedAt: "2026-09-07T00:00:00+09:00",
+    note: "已逐頁人工核對 v7 PDF 16 頁；行程、營業時間與訂位狀態以 v7 為主，餐廳特色、地址、官網與 Google Maps 搜尋連結由 MD v3.1 補充。航班、餐廳預約、JUNGLIA 時段與景點公告仍須於出發前重查。"
   },
   map: {
     provider: "Leaflet + OpenStreetMap",
@@ -25,7 +25,7 @@ window.TRIP_DATA = {
       phone: "+81-980-51-7800",
       map: { query: "Ala MAHAINA CONDO HOTEL, Okinawa Motobu Yamagawa 1421-1" },
       website: "https://www.ala-mahaina.com/en/",
-      source: "PDF v4 Day 1-2；官方網站查核 2026-08-27",
+      source: "PDF v7 Day 1-2；官方網站查核 2026-08-27",
       note: "Day 1-2 住宿基地。"
     },
     lagent: {
@@ -36,7 +36,7 @@ window.TRIP_DATA = {
       email: "okinawa-chatan@lagent.jp",
       map: { query: "La'gent Hotel Okinawa Chatan, Okinawa Chatan Mihama 25-3" },
       website: "https://lagent.jp/chatan/contact",
-      source: "PDF v4 Day 3；官方聯絡頁查核 2026-08-27",
+      source: "PDF v7 Day 3；官方聯絡頁查核 2026-08-27",
       note: "Day 3 住宿基地。"
     },
     ysInn: {
@@ -47,7 +47,7 @@ window.TRIP_DATA = {
       email: "info@ys-inn.jp",
       map: { query: "ワイズイン那覇小禄駅前, 沖縄県那覇市金城5丁目9番地1" },
       website: "https://ys-inn.jp/",
-      source: "PDF v4 Day 0；Y's Inn 官方網站查核 2026-08-27",
+      source: "PDF v7 Day 0；Y's Inn 官方網站查核 2026-08-27",
       note: "Day 0 A 隊住宿；Check-in 16:00-02:00、Check-out 10:00。停車僅 14 格機械式、1,000 円／晚、先到先得不可預約；晚到前先電話確認。"
     },
     anteroom: {
@@ -58,7 +58,7 @@ window.TRIP_DATA = {
       email: "info@anteroom-naha.com",
       map: { query: "HOTEL ANTEROOM NAHA, 沖縄県那覇市前島3丁目27番地11" },
       website: "https://www.uds-hotels.com/anteroom/naha/",
-      source: "PDF v4 Day 4-5；官方網站查核 2026-08-27",
+      source: "PDF v7 Day 4-5；官方網站查核 2026-08-27",
       note: "Day 4-5 住宿；Check-in 15:00、Check-out 11:00。停車 52 格、先到先得、1,500 円／晚。"
     }
   },
@@ -79,7 +79,7 @@ window.TRIP_DATA = {
         { time: "抵達後", title: "入住 Y's Inn 那覇小祿駅前", detail: "地址：那霸市金城 5-9-1；可搭 Yui Rail 約 2 站、4-5 分鐘至小祿再步行約 3 分鐘，或搭計程車約 5-10 分鐘。", tag: "A 隊／住宿", type: "source" }
       ],
       route: {
-        source: "來源 PDF v4：那霸機場 → 小祿住宿；開車／計程車約 5-10 分鐘，亦可搭 Yui Rail 約 2 站",
+        source: "來源 PDF v7：那霸機場 → 小祿住宿；開車／計程車約 5-10 分鐘，亦可搭 Yui Rail 約 2 站",
         routeType: "mixed",
         navigationMode: "driving",
         stops: [
@@ -110,16 +110,16 @@ window.TRIP_DATA = {
         { time: "06:55-09:15", title: "B 隊：BR0112 抵達那霸領行李", detail: "航班以訂位紀錄為準；A 隊已於 Day 0 晚間先抵達。", tag: "航班待重查", type: "conditional" },
         { time: "09:15-10:20", title: "入境、全隊會合", detail: "保留排隊緩衝，確認全隊與行李到齊。", tag: "集合", type: "source" },
         { time: "10:20-11:40", title: "接駁前往 OTS 豐崎租車", detail: "接駁車程約 15-20 分鐘；11:40 完成租車手續，核對駕照、譯本、護照並錄影車況內外。", tag: "租車", type: "source" },
-        { time: "12:00-13:30", title: "瀨長島午餐", detail: "幸福鬆餅店 A Happy Pancake（需二週前預約）或 Flooding Burger（漢堡）；備案：JEF Tomigusuku（有素堡）或 baby face planet's（蛋包飯、義大利麵）。", tag: "午餐／需預約", type: "conditional" },
+        { time: "12:00-13:30", title: "瀨長島午餐", detail: "SEE THE SEA（Plant-Based／Vegan）首選；第二選 Taco Rice Cafe Kijimuna；A Happy Pancake 需二週前預約，若已預約可改列首選。", tag: "午餐／PDF v7 餐廳排序", type: "conditional" },
         { time: "13:40-14:10", title: "業務超市小祿店（可跳過）", detail: "營業 09:30-20:00；行程緊湊可直接跳過，不影響後段。", tag: "彈性停靠", type: "conditional" },
         { time: "15:10-15:50", title: "萬座毛（優先保留）", detail: "11-2 月開放 08:00-19:00，現場酌收 100 日圓；今日主要景點。", tag: "主要景點", type: "source" },
         { time: "16:30-17:30", title: "許田休息站", detail: "營業 08:30-19:00、全年無休；買土產、水果、美麗海水族館優惠票，也可作晚餐地點。", tag: "休息／採買", type: "source" },
         { time: "17:45-18:20", title: "Starbucks 名護21世紀の森公園あけみおてらす店", detail: "官方地址：名護市宮里2-2 海の棟2；營業 07:30-21:00。店舖位於 21 世紀之森公園海邊，OSM 尚未建立店舖圖徵，地圖採公園區域錨點；出發前仍請以官方店舖頁確認。", tag: "次優先／地址級錨點", type: "conditional" },
         { time: "18:50-19:00", title: "抵達阿拉馬海納，check in", detail: "地址：1421-1 Yamagawa, Motobu。", tag: "住宿", type: "source" },
-        { time: "19:30-21:00", title: "晚餐（若許田未用餐）", detail: "樓下共構商場 Hanasaki Marche（花咲市場）。", tag: "晚餐／彈性", type: "source" }
+        { time: "19:30", title: "本部町晚餐", detail: "依 v7 晚餐時段已移除不適配的餐廳；保留海邦丸與食事処 千作為確認後候選。", tag: "晚餐／先確認營業時間", type: "conditional" }
       ],
       route: {
-        source: "來源 PDF v4 路線總計：112 公里／約 2 小時 31 分；道路摘要以 PDF 為準",
+        source: "來源 PDF v7 路線總計：112 公里／約 2 小時 31 分；道路摘要以 PDF 為準",
         stops: [
           { id: "ots", label: "OTS 豐崎", query: "OTSレンタカー 豊崎営業所 沖縄", lat: 26.1588693, lng: 127.6544462 },
           { id: "umikaji", label: "瀨長島ウミカジテラス", query: "瀬長島ウミカジテラス 沖縄", lat: 26.1763883, lng: 127.6404055 },
@@ -163,13 +163,13 @@ window.TRIP_DATA = {
         { time: "12:20-12:35", title: "黑潮之海最後巡覽", detail: "完成最後拍照與出口前確認。", tag: "水族館", type: "source" },
         { time: "12:35-13:00", title: "離館緩衝，13:00 準時出發", detail: "今天不安排二次入館；午餐改到古宇利島處理。", tag: "硬時間點", type: "source" },
         { time: "13:00-13:40", title: "開車前往古宇利島", detail: "車程約 30-40 分鐘，依路況與孩童狀態調整。", tag: "自駕", type: "source" },
-        { time: "14:00-15:30", title: "A/B 分組活動＋午餐", detail: "A 組古宇利透明玻璃船餵魚；B 組古宇利海洋塔＋蝦蝦飯，午餐不留在水族館。", tag: "A/B 分組", type: "source" },
+        { time: "14:00-15:30", title: "A/B 分組活動＋古宇利島午餐", detail: "Restaurant L LOTA 為完整午餐首選；なんくるKITCHEN 適合輕食；Shirasa 食堂為備援。A 組古宇利透明玻璃船餵魚、B 組古宇利海洋塔＋蝦蝦飯，午餐不留在水族館。", tag: "A/B 分組／餐廳需確認", type: "source" },
         { time: "15:30-16:00", title: "合體下午茶", detail: "方案一「なんくるKITCHEN」水果碗，或方案二「モリンガの木」。", tag: "彈性", type: "source" },
         { time: "16:30", title: "返回飯店、休息 30 分鐘", detail: "回阿拉馬海納後先讓孩子休息，再準備晚餐。", tag: "住宿", type: "source" },
-        { time: "18:00", title: "晚餐「OKINAWA SHABU-SHABU」本部店", detail: "需提前訂位，鄰近今晚住宿。", tag: "晚餐／需訂位", type: "conditional" }
+        { time: "18:00", title: "晚餐「OKINAWA SHABU-SHABU」本部店", detail: "原訂主方案；備援為沖縄そばと島どうふ TO-PU。預約時指定昆布／蔬菜鍋底、獨立鍋具，不使用魚介高湯。", tag: "晚餐／需訂位與確認湯底", type: "conditional" }
       ],
       route: {
-        source: "來源 PDF v4 路線總計：47.9 公里／約 1 小時 23 分；13:00 離開水族館，返程原路回本部",
+        source: "來源 PDF v7 路線總計：47.9 公里／約 1 小時 23 分；13:00 離開水族館，返程原路回本部",
         stops: [
           { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄", lat: 26.6826085, lng: 127.8834902 },
           { id: "churaumi", label: "海洋博公園／美麗海水族館", query: "沖縄美ら海水族館", lat: 26.6943689, lng: 127.8780380 },
@@ -200,7 +200,7 @@ window.TRIP_DATA = {
         { time: "09:30-12:00", title: "A：Neo Park", detail: "全年無休，09:30-17:30，入園截止 17:00。", tag: "A 隊", type: "source" },
         { time: "10:00-14:30", title: "B：JUNGLIA（含午餐）", detail: "山原森林冒險、熱氣球、叢林越野車；票券與營業時間須於 T-7～T-1 向官方行事曆 junglia.jp/calendar 再次確認。", tag: "B 隊／必查", type: "conditional" },
         { time: "12:00", title: "A 組出發名護市區", detail: "A 組離開 Neo Park 前往名護市區。", tag: "A 隊", type: "source" },
-        { time: "12:30", title: "A 組名護市區午餐", detail: "午餐地點待排，依隊伍狀況調整。", tag: "A 隊", type: "source" },
+        { time: "12:30", title: "A 組名護市區午餐", detail: "くまキッチン首選；ナカラマサラ與農家の台所 楽家為備援，均需依座位與高湯狀況確認。", tag: "A 隊／餐廳排序", type: "source" },
         { time: "13:30", title: "A 組逛「名護 AEON」", detail: "在 AEON Nago 等待 B 組。", tag: "A 隊／會合點", type: "source" },
         { time: "14:30", title: "B 組出發名護市區", detail: "JUNGLIA 結束後前往名護市區。", tag: "B 隊", type: "source" },
         { time: "15:00", title: "AB 隊 AEON Nago 會合", detail: "逾時以電話／訊息確認，直接前往美國村。", tag: "共同集合", type: "source" },
@@ -208,11 +208,11 @@ window.TRIP_DATA = {
         { time: "15:50", title: "前往美國村", detail: "車程約 50 分鐘。", tag: "自駕", type: "source" },
         { time: "17:00", title: "美國村 American Village 逛街", detail: "依現場人流與停車狀況調整。", tag: "景點", type: "source" },
         { time: "17:30", title: "海邊日落＋12 月聖誕點燈", detail: "點燈日期需出發前確認。", tag: "日期待重查", type: "conditional" },
-        { time: "18:30", title: "美國村晚餐（待排）＋自由逛街", detail: "晚餐餐廳依現場狀況安排。", tag: "晚餐／彈性", type: "source" },
+        { time: "18:30", title: "美國村晚餐＋自由逛街", detail: "Bollywood Dreams 首選；Esparza's、The Calif Kitchen 為順路備援。Bollywood Dreams 建議提前確認 8 人座位。", tag: "晚餐／建議訂位", type: "conditional" },
         { time: "20:30", title: "入住 La'gent Hotel Okinawa Chatan", detail: "北谷柔婕閣。", tag: "住宿", type: "source" }
       ],
       route: {
-        source: "來源 PDF v4 路線總計：76.5 公里／約 1 小時 42 分；A/B 分支與會合路線分開看",
+        source: "來源 PDF v7 路線總計：76.5 公里／約 1 小時 42 分；A/B 分支與會合路線分開看",
         hideOverviewNavigation: true,
         stops: [
           { id: "ala", label: "阿拉馬海納", query: "Ala MAHAINA CONDO HOTEL 沖縄", lat: 26.6826085, lng: 127.8834902 },
@@ -253,19 +253,19 @@ window.TRIP_DATA = {
       schedule: [
         { time: "07:30", title: "早餐、La'gent 退房／行李上車", detail: "早餐後完成 La'gent 退房，行李上車；出發前確認飯店退房與行李寄放規則。", tag: "集合／退房", type: "source" },
         { time: "09:30-11:30", title: "沖繩兒童王國", detail: "平日 09:30-17:30；固定休園日為每週二，12/21（一）正常開園。", tag: "親子", type: "source" },
-        { time: "12:00", title: "永旺夢樂城（AEON Rycom）＋午餐", detail: "專門店營業 10:00-22:00。", tag: "購物", type: "source" },
+        { time: "12:00", title: "永旺夢樂城（AEON Rycom）＋午餐", detail: "Rycom 餐廳區逐店挑選為最實際方案；Gokoku（3.7★）、Jai Thai（3.8★）僅作不移車優先時的門檻例外。專門店營業 10:00-22:00。", tag: "購物／餐廳逐店確認", type: "source" },
         { time: "14:30", title: "結束購物", detail: "依購物與午餐狀況調整。", tag: "轉場", type: "source" },
         { time: "15:00", title: "港川外人住宅：oHacorté", detail: "地址：浦添市港川2丁目17-1 #18；水果塔 11:30 起販售，官方營業 10:30-19:00（內用 11:30 起）。", tag: "下午茶", type: "source" },
         { time: "15:40", title: "結束下午茶，出發前島", detail: "前往 HOTEL ANTEROOM NAHA；此段車程約 20-25 分鐘，尚未以當日導航覆核。", tag: "自駕／估算", type: "conditional" },
         { time: "16:05", title: "入住 HOTEL ANTEROOM，放行李", detail: "地址：那霸市前島3-27-11；Check-in 15:00。停車 52 格、1,500 円／晚、先到先得；先處理行李與房間。", tag: "住宿／停車", type: "source" },
         { time: "16:05-18:00", title: "飯店休息、整理隔日行李", detail: "車留在 HOTEL ANTEROOM；租車延至 Day 5 早上才到 OTS 還車。", tag: "不還車", type: "source" },
         { time: "18:00", title: "步行前往國際通", detail: "飯店官方資訊：至美栄橋站步行約 12 分鐘；今晚不開車，預留親子步行時間。", tag: "步行", type: "source" },
-        { time: "18:40", title: "晚餐「波照間沖繩地方料理」", detail: "需先訂位；全家步行前往國際通方向。", tag: "晚餐／需訂位", type: "conditional" },
+        { time: "18:40", title: "晚餐「波照間沖繩地方料理」（建議候選）", detail: "目前尚未訂位；若採用請先確認 8 人座位、素食菜色、鰹だし與五辛需求。Tamatebako、Borrachos 為備援；全家步行前往國際通方向。", tag: "晚餐／尚未訂位", type: "conditional" },
         { time: "20:00", title: "繼續逛國際通", detail: "依全家體力與回程交通調整。", tag: "逛街", type: "source" },
         { time: "21:00", title: "步行回 HOTEL ANTEROOM 休息", detail: "車留在飯店；整理 Day 5 07:30 退房、波上宮與還車文件。", tag: "住宿", type: "source" }
       ],
       route: {
-        source: "來源 PDF v4 路線總計：30.6 公里／約 1 小時 26 分；國際通往返為步行段，今晚不還車",
+        source: "來源 PDF v7 路線總計：30.6 公里／約 1 小時 26 分；國際通往返為步行段，今晚不還車",
         routeType: "mixed",
         navigationMode: "driving",
         overviewStops: ["lagent", "childrens-kingdom", "rycom", "minatogawa", "anteroom"],
@@ -311,8 +311,9 @@ window.TRIP_DATA = {
         { time: "08:20-09:00", title: "OTS 豐崎營業所還車", detail: "加油、驗車、交車；租車延長至 Day 5，OTS 營業 08:00-19:00，預計在受理時段內完成。", tag: "還車", type: "source" },
         { time: "09:00-09:20", title: "還車後步行至 iias", detail: "OTS 官方資料標示與 iias 相鄰；步行約 1-3 分鐘，先處理行李，不搭單軌。", tag: "步行／非單軌", type: "source" },
         { time: "09:30-12:30", title: "A 組 iias 購物／B 組 DMM 水族館", detail: "iias 店舖 10:00-21:00；DMM 09:00-19:00，位於 iias 2F，兩組同一地點分頭活動。", tag: "A/B 分組", type: "source" },
-        { time: "12:30", title: "午餐（iias 內餐廳）", detail: "依現場候位與隊伍需求安排。", tag: "午餐", type: "source" },
+        { time: "12:30", title: "午餐（iias 內餐廳）", detail: "Crazy Spice iias 首選；iias Food Street 可分流；Tacorice Cafe Kijimuna 作快速備案，均在還車後同一商場內處理。", tag: "午餐／同場分流", type: "source" },
         { time: "13:30", title: "A/B 行程分流", detail: "A 組依航班提早離開；B 組可繼續購物、自由活動或前往西松屋。", tag: "A/B 分流", type: "source" },
+        { time: "16:00-16:30", title: "B 組：iias 提前晚餐（建議）", detail: "PDF v7 建議先在 iias 吃完整晚餐，再前往機場；比 17:00 到機場後為了湊評分門檻更穩定。", tag: "B 組／建議提前用餐", type: "conditional" },
         { time: "14:30", title: "A 組前往那霸機場", detail: "A 隊 MM929 16:50 那霸起飛；PDF 排程 14:50 抵達機場，交通依當日計程車／公共交通狀況決定。", tag: "A 隊／機場", type: "conditional" },
         { time: "14:50", title: "A 組抵達機場", detail: "預留報到與安檢緩衝。", tag: "A 隊", type: "source" },
         { time: "16:30", title: "B 組前往那霸機場", detail: "B 隊 BR185 20:10 那霸起飛；PDF 排程 17:00 抵達機場。", tag: "B 隊／機場", type: "conditional" },
@@ -321,7 +322,7 @@ window.TRIP_DATA = {
         { time: "20:10-20:55", title: "B 隊：BR185 回程航班", detail: "20:10 那霸起飛、20:55 桃園抵達；航班與訂位紀錄出發前最終確認。", tag: "B 隊／航班待重查", type: "conditional" }
       ],
       route: {
-        source: "來源 PDF v4：HOTEL ANTEROOM → 波上宮 → OTS → iias 約 18 公里／48 分鐘；還車後 OTS→iias 為步行",
+        source: "來源 PDF v7：HOTEL ANTEROOM → 波上宮 → OTS → iias 約 18 公里／48 分鐘；還車後 OTS→iias 為步行",
         routeType: "mixed",
         navigationMode: "driving",
         overviewStops: ["anteroom", "naminoue", "ots-return", "iias"],

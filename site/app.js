@@ -2,6 +2,7 @@
   "use strict";
 
   const data = window.TRIP_DATA;
+  const restaurantGuide = window.RESTAURANT_GUIDE || { meta: { dietaryRules: [] }, days: {} };
   const state = {
     dayIndex: 0,
     deferredInstallPrompt: null,
@@ -122,6 +123,7 @@
     renderWeatherPlaceholder(day);
     renderRoute(day);
     renderNotes(day);
+    renderRestaurantPlan(day);
     renderInteractiveMapForDay(day);
     const googleRoute = $("#open-google-route");
     const overviewStops = day.route?.overviewStops
@@ -343,6 +345,106 @@
     $("#notes-grid").innerHTML = notes.map((note) => `
       <article class="note-card"><h3>${escapeHtml(note.title)}</h3><p>${escapeHtml(note.detail)}</p></article>
     `).join("");
+  }
+
+  function renderRestaurantOption(option, index) {
+    const unavailable = option.status === "unavailable";
+    const mapHref = option.mapUrl || googlePlaceUrl({ query: option.query });
+    const highlights = Array.isArray(option.highlights) && option.highlights.length
+      ? `<ul class="restaurant-highlights">${option.highlights.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+      : "";
+    return `
+      <details class="restaurant-option${unavailable ? " is-unavailable" : ""}"${index === 0 && !unavailable ? " open" : ""}>
+        <summary class="restaurant-summary">
+          <span class="restaurant-rank${unavailable ? " is-warning" : ""}">${escapeHtml(option.rank || "備選")}</span>
+          <span class="restaurant-summary-copy">
+            <strong>${escapeHtml(option.name)}</strong>
+            <span>${escapeHtml(option.dietary || "飲食方向待確認")} · ${escapeHtml(option.rating || "—")}</span>
+          </span>
+          <svg class="restaurant-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5" /></svg>
+        </summary>
+        <div class="restaurant-option-body">
+          <div class="restaurant-facts">
+            <div><span>飲食方向</span><strong>${escapeHtml(option.dietary || "待確認")}</strong></div>
+            <div><span>營業／適配</span><strong>${escapeHtml(option.hours || "出發前再確認")}</strong></div>
+            <div><span>地址</span><strong>${escapeHtml(option.address || "地址出發前再確認")}</strong></div>
+          </div>
+          <p class="restaurant-detail">${escapeHtml(option.detail || "")}</p>
+          ${highlights}
+          <p class="restaurant-caution"><strong>注意</strong>${escapeHtml(option.caution || "出發前再次確認營業與素食條件。")}</p>
+          <div class="restaurant-actions">
+            ${option.website ? `<a class="restaurant-link" href="${escapeHtml(option.website)}" target="_blank" rel="noopener"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5m0-5-8 8" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg>${escapeHtml(option.websiteLabel || "官方網站")}</a>` : ""}
+            <a class="restaurant-link restaurant-link-map" href="${escapeHtml(mapHref)}" target="_blank" rel="noopener"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></svg>Google Maps</a>
+          </div>
+        </div>
+      </details>
+    `;
+  }
+
+  function renderRestaurantPlan(day) {
+    const root = $("#restaurant-plan");
+    if (!root) return;
+    const guide = restaurantGuide.days?.[day.id];
+    if (!guide?.meals?.length) {
+      root.innerHTML = `
+        <div class="restaurant-empty">
+          <strong>本日沒有另外安排餐廳</strong>
+          <p>請依時間軸與領隊備忘處理抵達、早餐或交通中的用餐需求。</p>
+        </div>
+      `;
+      return;
+    }
+    root.innerHTML = guide.meals.map((meal) => `
+      <article class="meal-card">
+        <div class="meal-card-header">
+          <div>
+            <span class="meal-kicker">${escapeHtml(meal.label)} · ${escapeHtml(meal.time)}</span>
+            <h3>${escapeHtml(meal.location)}</h3>
+          </div>
+          <span class="meal-fit">${escapeHtml(meal.fit)}</span>
+        </div>
+        <p class="meal-strategy"><strong>安排建議</strong>${escapeHtml(meal.strategy)}</p>
+        <div class="restaurant-options">${meal.options.map((option, index) => renderRestaurantOption(option, index)).join("")}</div>
+      </article>
+    `).join("");
+  }
+
+  function dietaryRulesText(rules = restaurantGuide.meta?.dietaryRules || []) {
+    return rules.map((rule) => `${rule.title}\n${rule.japanese.join("\n")}`).join("\n\n");
+  }
+
+  async function copyText(text, successMessage, failureMessage) {
+    try {
+      await navigator.clipboard.writeText(text);
+      showToast(successMessage, 2600);
+    } catch (error) {
+      showToast(failureMessage, 3600);
+    }
+  }
+
+  function renderDietaryRules() {
+    const root = $("#dietary-rules-grid");
+    const rules = restaurantGuide.meta?.dietaryRules || [];
+    if (!root) return;
+    root.innerHTML = rules.map((rule, index) => `
+      <article class="dietary-rule-card">
+        <div class="dietary-rule-top">
+          <div>
+            <span class="dietary-rule-number">0${index + 1}</span>
+            <h3>${escapeHtml(rule.title)}</h3>
+          </div>
+          <button class="copy-rule-button" type="button" data-copy-rule="${escapeHtml(rule.id)}" aria-label="複製${escapeHtml(rule.title)}日文"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="12" rx="2" /><path d="M5 16V6a2 2 0 0 1 2-2h8" /></svg><span>複製</span></button>
+        </div>
+        <p class="dietary-rule-hint">${escapeHtml(rule.hint)}</p>
+        <div class="dietary-rule-japanese">${rule.japanese.map((line) => `<p lang="ja">${escapeHtml(line)}</p>`).join("")}</div>
+      </article>
+    `).join("");
+    $$('[data-copy-rule]').forEach((button) => {
+      button.addEventListener("click", () => {
+        const rule = rules.find((item) => item.id === button.dataset.copyRule);
+        if (rule) copyText(rule.japanese.join("\n"), `已複製「${rule.title}」日文。`, "無法複製，請長按選取文字。");
+      });
+    });
   }
 
   function hasCoordinates(stop) {
@@ -628,6 +730,21 @@
       });
     };
     setActive("trip");
+    links.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const target = document.getElementById(link.dataset.navTarget);
+        if (!target) return;
+        event.preventDefault();
+        const topbarHeight = document.querySelector(".topbar")?.getBoundingClientRect().height || 0;
+        const tabsHeight = document.querySelector(".day-tabs")?.getBoundingClientRect().height || 0;
+        const targetNeedsTabsOffset = link.dataset.navTarget === "meals";
+        const offset = topbarHeight + (targetNeedsTabsOffset ? tabsHeight + 12 : 12);
+        const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+        window.scrollTo({ top, behavior: scrollBehavior() });
+        history.replaceState(null, "", `#${target.id}`);
+        setActive(target.id);
+      });
+    });
     if (!("IntersectionObserver" in window)) return;
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
@@ -639,6 +756,7 @@
   function init() {
     renderDayTabs();
     renderDay();
+    renderDietaryRules();
     registerPwa();
     $("#share-button").addEventListener("click", shareTrip);
     $("#install-button").addEventListener("click", installPwa);
@@ -647,6 +765,9 @@
     $("#refresh-weather").addEventListener("click", () => { loadWeather(currentDay()); showToast("正在更新天氣資料…", 1800); });
     $("#show-sources-button").addEventListener("click", () => $("#sources").scrollIntoView({ behavior: "smooth", block: "start" }));
     $("#copy-contacts").addEventListener("click", copyContacts);
+    $("#copy-dietary-rules")?.addEventListener("click", () => {
+      copyText(dietaryRulesText(), "已複製四句點餐日文。", "無法複製，請長按選取文字。");
+    });
     setupFloatingNav();
   }
 

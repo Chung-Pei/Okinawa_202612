@@ -260,6 +260,49 @@ h1 em { color: var(--teal); font-style: normal; }
 .day-intro-meta { display: flex; flex-wrap: wrap; justify-content: end; gap: 0.45rem; }
 .day-intro-meta span { padding: 0.45rem 0.65rem; color: var(--navy); background: rgba(255,255,255,0.78); border: 1px solid rgba(31, 110, 140, 0.14); border-radius: var(--radius-sm); font-size: 0.72rem; font-weight: 700; }
 .content-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, 0.75fr); gap: 1rem; align-items: start; }
+.meal-section { margin-top: clamp(2rem, 4vw, 3.5rem); padding-top: clamp(1.5rem, 3vw, 2.25rem); border-top: 1px solid var(--line); scroll-margin-top: calc(136px + env(safe-area-inset-top, 0px)); }
+.subsection-heading { margin-bottom: 0.9rem; }
+.subsection-heading h3 { margin: 0; color: var(--navy); font-size: clamp(1.35rem, 2vw, 1.8rem); font-weight: 600; }
+.meal-card { padding: clamp(1rem, 2vw, 1.35rem); background: var(--shell); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); }
+.meal-card + .meal-card { margin-top: 0.9rem; }
+.meal-card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.meal-kicker { display: block; margin-bottom: 0.35rem; color: var(--teal); font-size: 0.72rem; font-weight: 900; letter-spacing: 0.08em; }
+.meal-card-header h3 { margin: 0; color: var(--navy); font-size: clamp(1.08rem, 2vw, 1.4rem); }
+.meal-fit { flex: 0 0 auto; max-width: 42%; padding: 0.4rem 0.6rem; color: var(--teal-deep); background: var(--teal-soft); border-radius: var(--radius-sm); font-size: 0.7rem; font-weight: 800; line-height: 1.35; text-align: right; }
+.meal-strategy { margin: 0.9rem 0; padding: 0.8rem 0.9rem; color: var(--muted); background: var(--panel); border: 1px solid rgba(200, 169, 126, 0.32); border-top: 3px solid var(--yellow); border-radius: var(--radius-sm); font-size: 0.82rem; }
+.meal-strategy strong { display: inline-block; margin-right: 0.35rem; color: var(--navy); }
+.restaurant-options { display: grid; gap: 0.55rem; }
+.restaurant-option { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: 0 1px 4px rgba(11, 37, 69, 0.025); }
+.restaurant-option[open] { border-color: rgba(31, 110, 140, 0.38); box-shadow: 0 5px 16px rgba(11, 37, 69, 0.06); }
+.restaurant-summary { display: grid; grid-template-columns: auto minmax(0, 1fr) 24px; align-items: center; gap: 0.72rem; min-height: 60px; padding: 0.7rem 0.85rem; cursor: pointer; list-style: none; }
+.restaurant-summary::-webkit-details-marker { display: none; }
+.restaurant-rank { display: inline-flex; align-items: center; min-height: 28px; padding: 0.25rem 0.48rem; color: var(--teal-deep); background: var(--teal-soft); border-radius: var(--radius-sm); font-size: 0.67rem; font-weight: 900; line-height: 1.2; white-space: nowrap; }
+.restaurant-rank.is-warning { color: #8a4c0c; background: var(--orange-soft); }
+.restaurant-summary-copy { min-width: 0; }
+.restaurant-summary-copy strong, .restaurant-summary-copy span { display: block; overflow: hidden; text-overflow: ellipsis; }
+.restaurant-summary-copy strong { color: var(--navy); font-size: 0.92rem; line-height: 1.35; white-space: normal; }
+.restaurant-summary-copy span { margin-top: 0.14rem; color: var(--muted); font-size: 0.72rem; white-space: normal; }
+.restaurant-chevron { width: 20px; height: 20px; color: var(--teal); fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; transition: transform 180ms var(--ease-luxury); }
+.restaurant-option[open] .restaurant-chevron { transform: rotate(180deg); }
+.restaurant-option-body { padding: 0.1rem 0.85rem 0.95rem; border-top: 1px solid var(--line-subtle); }
+.restaurant-facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.55rem; margin-top: 0.8rem; }
+.restaurant-facts div { min-width: 0; padding: 0.55rem 0.65rem; background: var(--panel-subtle); border-radius: var(--radius-sm); }
+.restaurant-facts span, .restaurant-facts strong { display: block; }
+.restaurant-facts span { color: var(--muted); font-size: 0.65rem; font-weight: 700; }
+.restaurant-facts strong { margin-top: 0.16rem; color: var(--navy); font-size: 0.75rem; line-height: 1.45; overflow-wrap: anywhere; }
+.restaurant-detail { margin: 0.85rem 0 0; color: var(--muted); font-size: 0.81rem; }
+.restaurant-highlights { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.7rem 0 0; padding: 0; list-style: none; }
+.restaurant-highlights li { padding: 0.3rem 0.5rem; color: var(--teal-deep); background: var(--teal-soft); border-radius: var(--radius-sm); font-size: 0.68rem; font-weight: 700; }
+.restaurant-caution { margin: 0.8rem 0 0; padding: 0.65rem 0.7rem; color: #795d35; background: var(--yellow-soft); border-radius: var(--radius-sm); font-size: 0.75rem; }
+.restaurant-caution strong { margin-right: 0.35rem; color: #8a4c0c; }
+.restaurant-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.85rem; }
+.restaurant-link { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; padding: 0.45rem 0.65rem; color: var(--teal-deep); background: var(--teal-soft); border: 1px solid transparent; border-radius: var(--radius-button); font-size: 0.74rem; font-weight: 800; text-decoration: none; }
+.restaurant-link:hover { color: var(--navy); border-color: rgba(31, 110, 140, 0.24); }
+.restaurant-link .ui-icon { width: 16px; height: 16px; }
+.restaurant-link-map { color: #8a4c0c; background: var(--orange-soft); }
+.restaurant-empty { padding: 1rem; color: var(--muted); background: var(--panel); border: 1px dashed var(--line); border-radius: var(--radius-md); }
+.restaurant-empty strong { display: block; margin-bottom: 0.25rem; color: var(--navy); }
+.restaurant-empty p { margin: 0; font-size: 0.82rem; }
 .stacked-panels { display: grid; gap: 1rem; }
 .panel { padding: clamp(1rem, 2vw, 1.45rem); background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow); }
 .panel-header, .route-rail-header { display: flex; align-items: start; justify-content: space-between; gap: 1rem; }
@@ -388,9 +431,24 @@ code { padding: 0.08rem 0.28rem; color: var(--teal-deep); background: var(--teal
 .note-card h3 { margin-bottom: 0.45rem; color: var(--navy); font-size: 1.02rem; }
 .note-card p { margin-bottom: 0; color: var(--muted); font-size: 0.86rem; }
 
+.food-safety { background: var(--shell); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.dietary-rules-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
+.dietary-rule-card { min-width: 0; padding: 1.05rem; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow); }
+.dietary-rule-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; }
+.dietary-rule-top > div { min-width: 0; }
+.dietary-rule-number { display: block; color: var(--orange); font-family: var(--font-number); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.08em; }
+.dietary-rule-card h3 { margin: 0.2rem 0 0; color: var(--navy); font-family: var(--font-body); font-size: 0.98rem; line-height: 1.35; }
+.dietary-rule-hint { min-height: 2.6em; margin: 0.55rem 0 0.75rem; color: var(--muted); font-size: 0.73rem; }
+.dietary-rule-japanese { padding: 0.75rem; color: #334e5c; background: var(--teal-soft); border-radius: var(--radius-sm); }
+.dietary-rule-japanese p { margin: 0; font-family: "Noto Serif TC", serif; font-size: 0.8rem; line-height: 1.6; }
+.dietary-rule-japanese p + p { margin-top: 0.35rem; }
+.copy-rule-button { display: inline-flex; align-items: center; justify-content: center; gap: 0.25rem; min-width: 64px; min-height: 44px; padding: 0.35rem 0.45rem; color: var(--teal-deep); background: transparent; border: 1px solid var(--line); border-radius: var(--radius-button); cursor: pointer; font-size: 0.7rem; font-weight: 800; }
+.copy-rule-button:hover { background: var(--teal-soft); border-color: rgba(31, 110, 140, 0.24); }
+.copy-rule-button .ui-icon { width: 15px; height: 15px; }
+
 .sources-section { background: #102a35; color: #f7fcfb; }
 .source-card { min-height: 220px; padding: 1.2rem; background: #1b3b47; border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); }
-.sources-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
+.sources-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
 .source-card h3 { margin: 0.6rem 0 0.45rem; font-size: 1.04rem; }
 .source-card p { margin-bottom: 0.7rem; color: #d5e2e2; font-size: 0.84rem; }
 .source-card code { display: block; overflow-wrap: anywhere; color: #bcefe5; background: rgba(143, 212, 199, 0.1); font-size: 0.68rem; }
@@ -457,6 +515,7 @@ code { padding: 0.08rem 0.28rem; color: var(--teal-deep); background: var(--teal
   .hero { min-height: min(560px, calc(100dvh - 56px)); grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr); }
   .summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .content-grid, .map-layout { grid-template-columns: minmax(0, 1fr); }
+  .dietary-rules-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .route-rail { order: 0; }
   .map-frame, .map-canvas { min-height: 560px; height: auto; }
   .map-workbench, .map-visual-pane, .leaflet-map { min-height: 560px; }
@@ -481,6 +540,10 @@ code { padding: 0.08rem 0.28rem; color: var(--teal-deep); background: var(--teal
   .day-intro-meta { justify-content: start; }
   .day-tabs { width: 100%; margin-bottom: 1.25rem; }
   .panel { border-radius: var(--radius-md); }
+  .meal-card-header { display: block; }
+  .meal-fit { display: inline-flex; max-width: none; margin-top: 0.65rem; text-align: left; }
+  .restaurant-facts { grid-template-columns: minmax(0, 1fr); }
+  .dietary-rules-grid { grid-template-columns: minmax(0, 1fr); }
   .timeline::before { left: 55px; }
   .timeline-item { grid-template-columns: 44px minmax(0, 1fr); gap: 0.95rem; }
   .timeline-dot { left: 49px; }

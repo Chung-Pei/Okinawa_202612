@@ -1,10 +1,10 @@
 {
   "source": {
-    "file": "reference/incoming/沖繩家族旅遊_領隊版_v4.pdf",
-    "sha256": "BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB",
-    "pageCount": 14,
-    "editionDate": "2026-08-24",
-    "checkedAt": "2026-08-27",
+    "file": "user-provided/沖繩家族旅遊_領隊版_v7.pdf",
+    "sha256": "639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D",
+    "pageCount": 16,
+    "editionDate": "as stated in the user-provided v7 PDF",
+    "checkedAt": "2026-09-07",
     "dateRange": "2026-12-17 to 2026-12-22",
     "days": ["Day 0", "Day 1", "Day 2", "Day 3", "Day 4", "Day 5"]
   },
@@ -23,9 +23,17 @@
   ],
   "operationalFlags": [
     "JUNGLIA 2026-12-20 schedule and passes are not yet confirmed",
-    "A Happy Pancake, OKINAWA SHABU-SHABU and 波照間 require reservations",
+    "A Happy Pancake and OKINAWA SHABU-SHABU follow their v7 reservation conditions; Day 4 Hateruma is a candidate and is not reserved",
     "Day 1 Starbucks uses an address-level 21st Century Forest park anchor because the new shop is not yet an OSM feature",
     "Day 4 HOTEL ANTEROOM parking is first-come; Day 5 OTS return extension must be confirmed",
-    "Day 5 A and B flights require separate airport timing"
+    "Day 5 A and B flights require separate airport timing",
+    "Restaurants known to be closed in the planned meal window are removed from the PWA cards"
+  ],
+  "secondarySources": [
+    {
+      "file": "user-provided/沖繩家族旅行_每日蔬食餐廳完整推薦指南_v3.1_地址官網GoogleMap版.md",
+      "sha256": "14C3CA674C006973870C14C47F42C562E9138F95D3C8D7D31E1FB4BFF34C33D3",
+      "role": "restaurant guide enrichment and Japanese dietary-ordering rules"
+    }
   ]
 }

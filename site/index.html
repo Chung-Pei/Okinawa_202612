@@ -63,7 +63,7 @@
           <div class="notice-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M12 7v6m0 4h.01M10.1 3.8 2.7 17a2 2 0 0 0 1.75 3h15.1a2 2 0 0 0 1.75-3l-7.4-13.2a2.16 2.16 0 0 0-3.8 0Z"/></svg></div>
           <div>
             <strong id="fact-gate-title">行前核對提醒</strong>
-            <p>本網站把來源 PDF 行程與即時資訊分開標示。航班、JUNGLIA 2026/12/20 時段、餐廳預約與各景點臨時公告，出發前仍需再確認；地圖時間是估算，不代表即時路況。</p>
+            <p>本網站以 v7 PDF 作為行程、營業時間與訂位狀態主體，並整合蔬食指南的餐廳特色與連結。航班、JUNGLIA 2026/12/20 時段、餐廳預約與各景點臨時公告，出發前仍需再確認。</p>
           </div>
           <button class="text-button" id="show-sources-button" type="button">查看查核來源</button>
         </section>
@@ -96,7 +96,7 @@
             <div>
               <h2 id="day-heading">每日行程</h2>
             </div>
-            <p class="section-note" id="last-updated">網站資料層：2026-08-27 · Asia/Taipei</p>
+            <p class="section-note" id="last-updated">網站資料層：2026-09-07 · Asia/Taipei</p>
           </div>
           <nav class="day-tabs" id="day-tabs" aria-label="選擇行程日"></nav>
 
@@ -135,6 +135,28 @@
               </section>
             </aside>
           </div>
+
+          <section class="meal-section" id="meals" aria-labelledby="meal-title">
+            <div class="section-heading subsection-heading">
+              <div>
+                <h3 id="meal-title">今日餐廳建議</h3>
+                <p class="section-note">v7 PDF 主體 · 點開餐廳查看特色、營業適配與導航</p>
+              </div>
+              <span class="status-pill status-recheck">蔬食指南整合</span>
+            </div>
+            <div id="restaurant-plan"></div>
+          </section>
+        </section>
+
+        <section class="food-safety section-pad" id="food-safety" aria-labelledby="food-safety-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="food-safety-title">台灣素食點餐安全規則</h2>
+              <p class="section-note">四句先存起來；每家店仍要依現場菜單確認高湯、醬料與五辛。</p>
+            </div>
+            <button class="text-button" id="copy-dietary-rules" type="button">複製四句日文</button>
+          </div>
+          <div class="dietary-rules-grid" id="dietary-rules-grid"></div>
         </section>
 
         <section class="map-section section-pad" id="map-section" aria-labelledby="map-title">
@@ -183,12 +205,21 @@
           <div class="sources-grid">
             <article class="source-card">
               <h3>來源行程</h3>
-              <p>使用者最新上傳之「沖繩家族旅遊_領隊版_v4.pdf」內容；已逐頁人工核對 14 頁，內文涵蓋 Day0–Day5，整合日期為 2026-08-24。</p>
-              <code>SHA-256：BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB</code>
+              <p>使用者最新上傳之「沖繩家族旅遊_領隊版_v7.pdf」內容；已逐頁人工核對 16 頁，內文涵蓋 Day0–Day5。行程、營業時間與訂位狀態以此 PDF 為主。</p>
+              <code>SHA-256：639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D</code>
+            </article>
+            <article class="source-card">
+              <h3>蔬食餐廳指南</h3>
+              <p>以「每日蔬食餐廳完整推薦指南 v3.1」補充餐廳特色、地址、官方網站與 Google Maps；若與 v7 PDF 的時段或訂位狀態不同，以 PDF 為準。</p>
+              <code>SHA-256：14C3CA674C006973870C14C47F42C562E9138F95D3C8D7D31E1FB4BFF34C33D3</code>
+              <div class="source-links">
+                <a href="https://hateruma.jcc-okinawa.net/" target="_blank" rel="noopener">波照間官方網站</a>
+                <a href="https://maps.app.goo.gl/1e6UQL7usckTacay6" target="_blank" rel="noopener">波照間 Google Maps</a>
+              </div>
             </article>
             <article class="source-card">
               <h3>住宿 / 租車</h3>
-              <p>Day 0 為 Y's Inn；Day 1–2 為阿拉馬海納、Day 3 為 La'gent、Day 4–5 為 HOTEL ANTEROOM，均依 v4 PDF 對照；電話／Email 另以住宿官方網站重查。還車已移至 Day 5 08:20-09:00，OTS 營業與訂位資訊出發前仍須重查。</p>
+              <p>Day 0 為 Y's Inn；Day 1–2 為阿拉馬海納、Day 3 為 La'gent、Day 4–5 為 HOTEL ANTEROOM，均依 v7 PDF 對照；還車已移至 Day 5 08:20-09:00，OTS 營業與訂位資訊出發前仍須重查。</p>
               <div class="source-links">
                 <a href="https://www.ala-mahaina.com/en/" target="_blank" rel="noopener">Ala MAHAINA</a>
                 <a href="https://lagent.jp/chatan/contact" target="_blank" rel="noopener">La'gent Chatan</a>
@@ -199,7 +230,7 @@
             </article>
             <article class="source-card">
               <h3>地圖 / 天氣</h3>
-              <p>每日地圖使用 Leaflet＋公開 OpenStreetMap 底圖，不需要 Google Maps API Key；景點卡片與路段按鈕會另開 Google Maps 導航。天氣使用 Open-Meteo，預報超過 16 天時會明確顯示尚未開放。</p>
+              <p>每日地圖使用 Leaflet＋公開 OpenStreetMap 底圖，不需要 Google Maps API Key；餐廳、景點卡片與路段按鈕會另開 Google Maps 導航。天氣使用 Open-Meteo，預報超過 16 天時會明確顯示尚未開放。</p>
               <div class="source-links">
                 <a href="https://support.google.com/maps/answer/7101463?co=GENIE.Platform%3DDesktop&hl=en-419" target="_blank" rel="noopener">Google Maps 分享</a>
                 <a href="https://leafletjs.com/" target="_blank" rel="noopener">Leaflet</a>
@@ -216,6 +247,10 @@
         <a class="nav-item is-active" href="#trip" data-nav-target="trip" aria-current="page">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5V5.5Zm0 0v15M8 7h7m-7 4h7" /></svg>
           <span>行程</span>
+        </a>
+        <a class="nav-item" href="#meals" data-nav-target="meals">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v8m3-8v8m-3-4h3m-1.5 4v10M15 3v17m0-17c2.8 1.2 4.2 3.2 4.2 5.9 0 2.7-1.4 4.7-4.2 5.9" /></svg>
+          <span>餐廳</span>
         </a>
         <a class="nav-item" href="#map-section" data-nav-target="map-section">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 6-3 6 3 4-2v14l-4 2-6-3-6 3V6Zm6-3v14m6-11v14" /></svg>
@@ -264,6 +299,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="./config.js"></script>
     <script src="./data/trip-data.js"></script>
+    <script src="./data/restaurant-guide.js"></script>
     <script src="./app.js" defer></script>
   </body>
 </html>

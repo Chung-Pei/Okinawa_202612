@@ -1,13 +1,13 @@
 {
-  "sourceFile": "reference/incoming/沖繩家族旅遊_領隊版_v4.pdf",
-  "sourceName": "沖繩家族旅遊_領隊版_v4.pdf",
-  "sha256": "BE75EECA26EB08CE9F89679C032C100F9788FF521F51C57AF459DB080A2AA2BB",
-  "pageCount": 14,
+  "sourceFile": "user-provided/沖繩家族旅遊_領隊版_v7.pdf",
+  "sourceName": "沖繩家族旅遊_領隊版_v7.pdf",
+  "sha256": "639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D",
+  "pageCount": 16,
   "language": "zh-Hant",
   "privacy": "user-provided private travel document; raw PDF is not published",
-  "checkedAt": "2026-08-27",
-  "sourceEditionDate": "2026-08-24",
-  "renderedPages": "tmp/pdfs/v4/page-01.png through tmp/pdfs/v4/page-14.png",
+  "checkedAt": "2026-09-07",
+  "sourceEditionDate": "as stated in the user-provided v7 PDF",
+  "renderedPages": "tmp/pdfs/v7-page-01.png through tmp/pdfs/v7-page-16.png",
   "locators": [
     { "pages": "1-2", "content": "trip dates, flights, lodging assignments, car rental and pre-trip checklist" },
     { "pages": "3-4", "content": "Day 0 Y's Inn arrival, Day 1 OTS pickup, Senaga, Gyomu, Manzamo, Kyoda, Starbucks and Ala MAHAINA" },
@@ -15,6 +15,15 @@
     { "pages": "7-8", "content": "Day 3 A/B split, Neo Park, JUNGLIA, AEON Nago, American Village and road summary" },
     { "pages": "9-10", "content": "Day 4 Children's Kingdom, Rycom, Minatogawa, HOTEL ANTEROOM and walk to Kokusai-dori" },
     { "pages": "11-12", "content": "Day 5 HOTEL ANTEROOM, Naminoue, OTS return, walk to iias/DMM, airport and split flights" },
-    { "pages": "13-14", "content": "official facility checks, operation flags and final lodging address table" }
+    { "pages": "13-15", "content": "official facility checks, operation flags, restaurant timing and lodging address table" },
+    { "pages": "16", "content": "v7 final notes and source cross-check page" }
+  ],
+  "secondarySources": [
+    {
+      "file": "user-provided/沖繩家族旅行_每日蔬食餐廳完整推薦指南_v3.1_地址官網GoogleMap版.md",
+      "sha256": "14C3CA674C006973870C14C47F42C562E9138F95D3C8D7D31E1FB4BFF34C33D3",
+      "checkedAt": "2026-09-04",
+      "role": "restaurant descriptions, addresses, official links, Google Maps links and four Japanese dietary-ordering rules"
+    }
   ]
 }
