@@ -103,30 +103,57 @@
 
           <div class="day-intro" id="day-intro" role="tabpanel" aria-live="polite"></div>
 
-          <div class="content-grid">
-            <section class="panel schedule-panel" aria-labelledby="schedule-title">
+          <section class="panel schedule-panel trip-schedule-panel" aria-labelledby="schedule-title">
+            <div class="panel-header">
+              <div>
+                <h3 id="schedule-title">時間軸</h3>
+              </div>
+              <span class="panel-kicker" id="schedule-kicker">SOURCE ITINERARY</span>
+            </div>
+            <div class="timeline" id="timeline"></div>
+          </section>
+
+          <section class="map-section section-pad" id="map-section" aria-labelledby="map-title">
+            <div class="section-heading map-heading">
+              <div>
+                <h2 id="map-title">每日互動地圖</h2>
+              </div>
+              <div class="map-actions">
+                <a class="button button-secondary" id="open-google-route" href="#" target="_blank" rel="noopener">在 Google Maps 導航</a>
+              </div>
+            </div>
+            <div class="map-layout">
+              <div class="map-frame">
+                <div id="map" class="map-canvas" role="region" aria-live="polite" aria-label="每日互動地圖"></div>
+              </div>
+              <aside class="route-rail">
+                <div class="route-rail-header">
+                  <div>
+                    <h3 id="route-title">路段規劃</h3>
+                  </div>
+                  <span class="estimate-badge">估算</span>
+                </div>
+                <p class="route-source" id="route-source"></p>
+                <p class="route-totals" id="route-totals" hidden></p>
+                <div class="route-list" id="route-list"></div>
+                <div class="route-caveat">距離與時間是預先規劃估算；出發時請以 Google Maps 導航、天氣、道路施工與即時交通為準。日本為左側通行，租車時請確認保險、駕照文件與 ETC 規則。</div>
+              </aside>
+            </div>
+          </section>
+
+          <div class="side-grid">
+            <section class="panel lodging-panel" id="lodging" aria-labelledby="lodging-title">
               <div class="panel-header">
                 <div>
-                  <h3 id="schedule-title">時間軸</h3>
+                  <h3 id="lodging-title">今晚住這裡</h3>
                 </div>
-                <span class="panel-kicker" id="schedule-kicker">SOURCE ITINERARY</span>
+                <span class="status-pill" id="lodging-status">OFFICIAL</span>
               </div>
-              <div class="timeline" id="timeline"></div>
+              <div class="panel-subactions">
+                <button class="text-button" id="copy-contacts" type="button">複製住宿電話</button>
+              </div>
+              <div id="lodging-card"></div>
             </section>
-
-            <aside class="stacked-panels">
-              <section class="panel lodging-panel" id="lodging" aria-labelledby="lodging-title">
-                <div class="panel-header">
-                  <div>
-                    <h3 id="lodging-title">今晚住這裡</h3>
-                  </div>
-                  <span class="status-pill" id="lodging-status">OFFICIAL</span>
-                </div>
-                <div class="panel-subactions">
-                  <button class="text-button" id="copy-contacts" type="button">複製住宿電話</button>
-                </div>
-                <div id="lodging-card"></div>
-              </section>
 
               <section class="panel weather-panel" aria-labelledby="weather-title">
                 <div class="panel-header">
@@ -135,9 +162,8 @@
                   </div>
                   <button class="small-button" id="refresh-weather" type="button">更新</button>
                 </div>
-                <div id="weather-card"></div>
-              </section>
-            </aside>
+              <div id="weather-card"></div>
+            </section>
           </div>
 
           <section class="meal-section" id="meals" aria-labelledby="meal-title">
@@ -214,32 +240,6 @@
           <div id="memo-app"></div>
         </section>
 
-        <section class="map-section section-pad" id="map-section" aria-labelledby="map-title">
-          <div class="section-heading map-heading">
-            <div>
-              <h2 id="map-title">每日互動地圖</h2>
-            </div>
-            <div class="map-actions">
-              <a class="button button-secondary" id="open-google-route" href="#" target="_blank" rel="noopener">在 Google Maps 導航</a>
-            </div>
-          </div>
-          <div class="map-layout">
-            <div class="map-frame">
-              <div id="map" class="map-canvas" role="region" aria-live="polite" aria-label="每日互動地圖"></div>
-            </div>
-            <aside class="route-rail">
-              <div class="route-rail-header">
-                <div>
-                  <h3 id="route-title">路段規劃</h3>
-                </div>
-                <span class="estimate-badge">估算</span>
-              </div>
-              <p class="route-source" id="route-source"></p>
-              <div class="route-list" id="route-list"></div>
-              <div class="route-caveat">距離與時間是預先規劃估算；出發時請以 Google Maps 導航、天氣、道路施工與即時交通為準。日本為左側通行，租車時請確認保險、駕照文件與 ETC 規則。</div>
-            </aside>
-          </div>
-        </section>
 
         <section class="sources-section section-pad" id="sources" aria-labelledby="sources-title">
           <div class="section-heading">
@@ -275,6 +275,10 @@
         <a class="nav-item is-active" href="#trip" data-nav-target="trip" aria-current="page">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v15H7.5A2.5 2.5 0 0 0 5 20.5V5.5Zm0 0v15M8 7h7m-7 4h7" /></svg>
           <span>行程</span>
+        </a>
+        <a class="nav-item" href="#map-section" data-nav-target="map-section">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></svg>
+          <span>地圖</span>
         </a>
         <a class="nav-item" href="#lodging" data-nav-target="lodging">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4M2 17h20" /></svg>

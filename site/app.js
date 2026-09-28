@@ -319,10 +319,47 @@
     }
   }
 
+  function parseLegMinutes(value) {
+    if (typeof value === "number" && Number.isFinite(value)) return value;
+    const nums = String(value || "").match(/\d+(?:\.\d+)?/g);
+    if (!nums || !nums.length) return null;
+    return nums.map(Number).reduce((a, b) => a + b, 0) / nums.length;
+  }
+
+  function formatTotalMinutes(total) {
+    const rounded = Math.round(total);
+    if (rounded < 60) return `約 ${rounded} 分`;
+    const h = Math.floor(rounded / 60);
+    const m = rounded % 60;
+    return m ? `約 ${h} 小時 ${m} 分` : `約 ${h} 小時`;
+  }
+
   function renderRoute(day) {
     const route = day.route;
     $("#route-title").textContent = `${day.label} 路段規劃`;
     $("#route-source").textContent = route ? route.source : "本日無自駕路線資料";
+    const totalsEl = $("#route-totals");
+    if (totalsEl) {
+      const legs = route?.legs || [];
+      let kmTotal = 0;
+      let minTotal = 0;
+      let hasKm = false;
+      let hasMin = false;
+      legs.forEach((leg) => {
+        if (typeof leg.distanceKm === "number" && Number.isFinite(leg.distanceKm)) { kmTotal += leg.distanceKm; hasKm = true; }
+        const m = parseLegMinutes(leg.minutes);
+        if (m !== null) { minTotal += m; hasMin = true; }
+      });
+      const parts = [];
+      if (hasKm) parts.push(`約 ${Math.round(kmTotal)} km`);
+      if (hasMin) parts.push(formatTotalMinutes(minTotal));
+      if (parts.length) {
+        totalsEl.textContent = `本日自駕總計：${parts.join(" · ")}`;
+        totalsEl.hidden = false;
+      } else {
+        totalsEl.hidden = true;
+      }
+    }
     $("#route-list").innerHTML = route ? route.legs.map((leg, index) => {
       const stops = route.stops || [];
       const stopById = new Map(stops.map((stop) => [stop.id, stop]));
@@ -746,6 +783,12 @@
   /* ---- 出發前核實勾選（IndexedDB settings.precheck） ---- */
   const precheckState = { checked: {} };
 
+  // 穩定鍵：用項目文字做 slug，避免陣列增刪造成舊存檔錯位
+  function precheckSlug(text) {
+    const slug = String(text || "").replace(/[^\u4e00-\u9fa5\uf900-\ufa2da-zA-Z0-9]+/g, "").slice(0, 24);
+    return slug || "item";
+  }
+
   async function loadPrecheck() {
     try {
       const saved = await window.DB.getSetting("precheck");
@@ -789,9 +832,9 @@
   }
 
   function renderPrecheckCard({ title, items, prefix, resetId, footer }) {
-    const rows = items.map((item, index) => `
+    const rows = items.map((item) => `
       <li><label class="precheck-row">
-        <input type="checkbox" data-precheck="${prefix}-${index}" aria-label="${escapeHtml(item.title)}">
+        <input type="checkbox" data-precheck="${escapeHtml(item.key)}" aria-label="${escapeHtml(item.title)}">
         <span class="precheck-text"><strong>${escapeHtml(item.title)}</strong>${item.note ? `<span class="precheck-note">${escapeHtml(item.note)}</span>` : ""}</span>
       </label></li>`).join("");
     return `<article class="ext-panel">
@@ -828,10 +871,11 @@
     ];
     const appendixLink = (tabId, label) =>
       `<p class="ext-note"><a href="#appendix" data-goto-appendix="${tabId}">詳細請見附錄 → ${escapeHtml(label)}</a></p>`;
-    const drivingItems = (qi.drivingDocs || []).map((d) => ({ title: d.doc, note: d.note }));
+    const drivingItems = (qi.drivingDocs || []).map((d) => ({ title: d.doc, note: d.note, key: `dd-${precheckSlug(d.doc)}` }));
     const checklistItems = (qi.checklist || []).map((c) => ({
       title: `${c.when}｜${c.item}${c.warn ? " ⚠" : ""}`,
-      note: c.note
+      note: c.note,
+      key: `cl-${precheckSlug(c.item)}`
     }));
     const budgetCards = (qi.budget || []).map((b) => `
       <div class="ext-card">
