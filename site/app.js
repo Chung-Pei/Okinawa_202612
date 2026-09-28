@@ -122,7 +122,6 @@
     renderLodging(lodging);
     renderWeatherPlaceholder(day);
     renderRoute(day);
-    renderNotes(day);
     renderRestaurantPlan(day);
     renderInteractiveMapForDay(day);
     const googleRoute = $("#open-google-route");
@@ -352,17 +351,6 @@
     }).join("") : `<div class="weather-empty">本日以步行、輕軌與計程車為主，請查看時間軸。</div>`;
   }
 
-  function renderNotes(day) {
-    const notes = day.notes || [
-      { title: "集合與通訊", detail: "出發前指定集合點、最後集合時間與 A/B 隊聯絡人；長距離轉場請先確認所有人已上車。" },
-      { title: "先看官方公告", detail: "景點營業、節目、預約、停車與臨時休館屬變動資訊，請從本頁來源連結再確認。" },
-      { title: "導航以現場為準", detail: "路段估算只協助預排；出發時請用 Google Maps 看即時交通、施工、天氣與替代路線。" }
-    ];
-    $("#notes-grid").innerHTML = notes.map((note) => `
-      <article class="note-card"><h3>${escapeHtml(note.title)}</h3><p>${escapeHtml(note.detail)}</p></article>
-    `).join("");
-  }
-
   function renderRestaurantOption(option, index) {
     const unavailable = option.status === "unavailable";
     const mapHref = option.mapUrl || googlePlaceUrl({ query: option.query });
@@ -408,7 +396,7 @@
       root.innerHTML = `
         <div class="restaurant-empty">
           <strong>本日沒有另外安排餐廳</strong>
-          <p>請依時間軸與領隊備忘處理抵達、早餐或交通中的用餐需求。</p>
+          <p>請依時間軸處理抵達、早餐或交通中的用餐需求。</p>
         </div>
       `;
       return;
@@ -755,6 +743,65 @@
       .map((line) => `<p>${escapeHtml(line)}</p>`).join("");
   }
 
+  /* ---- 出發前核實勾選（IndexedDB settings.precheck） ---- */
+  const precheckState = { checked: {} };
+
+  async function loadPrecheck() {
+    try {
+      const saved = await window.DB.getSetting("precheck");
+      precheckState.checked = (saved && typeof saved === "object") ? saved : {};
+    } catch (error) {
+      precheckState.checked = {};
+    }
+    paintPrecheck();
+  }
+
+  async function savePrecheck() {
+    try {
+      await window.DB.setSetting("precheck", precheckState.checked);
+    } catch (error) { /* 離線儲存失敗時僅本次會話有效 */ }
+  }
+
+  function paintPrecheck() {
+    document.querySelectorAll("[data-precheck]").forEach((box) => {
+      const checked = !!precheckState.checked[box.dataset.precheck];
+      box.checked = checked;
+      box.closest(".precheck-row")?.classList.toggle("is-done", checked);
+    });
+    updatePrecheckCounts();
+  }
+
+  function updatePrecheckCounts() {
+    document.querySelectorAll("[data-precheck-count]").forEach((el) => {
+      const prefix = el.dataset.precheckCount;
+      const boxes = document.querySelectorAll(`[data-precheck^="${prefix}-"]`);
+      const done = Array.from(boxes).filter((b) => b.checked).length;
+      el.textContent = boxes.length ? `${done}／${boxes.length} 已確認` : "";
+    });
+  }
+
+  async function clearPrecheckPrefix(prefix) {
+    Object.keys(precheckState.checked).forEach((key) => {
+      if (key.startsWith(`${prefix}-`)) delete precheckState.checked[key];
+    });
+    await savePrecheck();
+    paintPrecheck();
+  }
+
+  function renderPrecheckCard({ title, items, prefix, resetId, footer }) {
+    const rows = items.map((item, index) => `
+      <li><label class="precheck-row">
+        <input type="checkbox" data-precheck="${prefix}-${index}" aria-label="${escapeHtml(item.title)}">
+        <span class="precheck-text"><strong>${escapeHtml(item.title)}</strong>${item.note ? `<span class="precheck-note">${escapeHtml(item.note)}</span>` : ""}</span>
+      </label></li>`).join("");
+    return `<article class="ext-panel">
+      <div class="precheck-head"><h3 style="margin:0">${escapeHtml(title)}</h3><span class="precheck-count" data-precheck-count="${prefix}"></span></div>
+      <ul class="precheck-list">${rows}</ul>
+      <div class="precheck-head" style="margin-top:0.55rem"><span></span><button class="text-button" id="${resetId}" type="button">重設勾選</button></div>
+      ${footer || ""}
+    </article>`;
+  }
+
   function renderQuickinfo() {
     const root = $("#quickinfo-content");
     if (!root) return;
@@ -779,16 +826,12 @@
       "取車 Day1 11:40｜還車 Day5 08:00–09:00",
       "兩台車分別辦理（OTS1504557／OTS1501685），QR 碼截圖各自存好"
     ];
-    const drivingSummary = [
-      "護照＋台灣駕照正本＋日文譯本，每位駕駛各一套",
-      "台灣國際駕照在日本不適用",
-      "譯本規費 NT$100，建議出發前 2 週辦理"
-    ];
     const appendixLink = (tabId, label) =>
       `<p class="ext-note"><a href="#appendix" data-goto-appendix="${tabId}">詳細請見附錄 → ${escapeHtml(label)}</a></p>`;
-    const checklistRows = (qi.checklist || []).map((c) => ({
-      label: `${c.when}｜${c.item}${c.warn ? " ⚠" : ""}`,
-      value: c.note
+    const drivingItems = (qi.drivingDocs || []).map((d) => ({ title: d.doc, note: d.note }));
+    const checklistItems = (qi.checklist || []).map((c) => ({
+      title: `${c.when}｜${c.item}${c.warn ? " ⚠" : ""}`,
+      note: c.note
     }));
     const budgetCards = (qi.budget || []).map((b) => `
       <div class="ext-card">
@@ -800,12 +843,25 @@
       { title: "航班", body: flightCards },
       { title: "住宿", body: `${extRows(lodgingSummary)}${appendixLink("lodging", "行前查核")}` },
       { title: "租車", body: `<ul class="ext-list">${rentalSummary.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>${appendixLink("rental", "租車")}` },
-      { title: "駕駛文件", body: `<ul class="ext-list">${drivingSummary.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>${appendixLink("driving", "駕駛文件")}` },
-      { title: "出發前行李／文件清單", body: extRows(checklistRows) },
       { title: "預算", body: `${budgetCards}${qi.budgetNote ? `<p class="ext-note">${escapeHtml(qi.budgetNote)}</p>` : ""}` }
     ].filter((card) => card.body);
     root.innerHTML = `<div class="ext-cards">${cards.map((card) => `
-      <article class="ext-panel"><h3>${escapeHtml(card.title)}</h3>${card.body}</article>`).join("")}</div>`;
+      <article class="ext-panel"><h3>${escapeHtml(card.title)}</h3>${card.body}</article>`).join("")}
+      ${renderPrecheckCard({ title: "駕駛文件", items: drivingItems, prefix: "dd", resetId: "precheck-reset-driving", footer: appendixLink("driving", "駕駛文件") })}
+      ${renderPrecheckCard({ title: "出發前行李／文件清單", items: checklistItems, prefix: "cl", resetId: "precheck-reset-checklist" })}
+    </div>`;
+    root.querySelectorAll("[data-precheck]").forEach((box) => {
+      box.addEventListener("change", async () => {
+        if (box.checked) precheckState.checked[box.dataset.precheck] = true;
+        else delete precheckState.checked[box.dataset.precheck];
+        box.closest(".precheck-row")?.classList.toggle("is-done", box.checked);
+        await savePrecheck();
+        updatePrecheckCounts();
+      });
+    });
+    armTwoStageReset($("#precheck-reset-driving"), () => clearPrecheckPrefix("dd"), "駕駛文件勾選已重設。");
+    armTwoStageReset($("#precheck-reset-checklist"), () => clearPrecheckPrefix("cl"), "行李／文件清單勾選已重設。");
+    loadPrecheck();
   }
 
   function renderBooking() {
@@ -1128,7 +1184,12 @@
         } catch (error) { showToast("刪除失敗。", 2600); }
       });
     });
-    armTwoStageReset($("#memo-reset"), () => window.DB.clearNotes().then(loadMemos), "筆記已清除。");
+    armTwoStageReset($("#memo-reset"), () => window.DB.clearNotes().then(async () => {
+      precheckState.checked = {};
+      await savePrecheck();
+      paintPrecheck();
+      await loadMemos();
+    }), "筆記與出發前勾選已清除。");
   }
 
   async function loadMemos() {
@@ -1159,6 +1220,14 @@
     const sections = links
       .map((link) => document.getElementById(link.dataset.navTarget))
       .filter(Boolean);
+    // #lodging 是 #trip 內的住宿面板，不納入 observer（它永遠被行程包住、用比例比不出「在看住宿」）；
+    // 點住宿導覽時改用短暫鎖定來保持高亮。
+    const observedSections = sections.filter((section) => section.id !== "lodging");
+    let lodgingLockUntil = 0;
+    // 使用者手動捲動（滾輪／觸控）就解除住宿高亮鎖定，回到 observer 正常判斷
+    ["wheel", "touchmove"].forEach((evt) =>
+      window.addEventListener(evt, () => { lodgingLockUntil = 0; }, { passive: true })
+    );
     const setActive = (targetId) => {
       links.forEach((link) => {
         const active = link.dataset.navTarget === targetId;
@@ -1175,20 +1244,32 @@
         event.preventDefault();
         const topbarHeight = document.querySelector(".topbar")?.getBoundingClientRect().height || 0;
         const tabsHeight = document.querySelector(".day-tabs")?.getBoundingClientRect().height || 0;
-        const targetNeedsTabsOffset = link.dataset.navTarget === "meals";
-        const offset = topbarHeight + (targetNeedsTabsOffset ? tabsHeight + 12 : 12);
+        const offset = topbarHeight + tabsHeight + 12;
         const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
         window.scrollTo({ top, behavior: scrollBehavior() });
         history.replaceState(null, "", `#${target.id}`);
         setActive(target.id);
+        // 點「住宿」後 3 秒內 observer 不搶高亮，讓使用者停在今晚住這裡面板時維持住宿高亮
+        lodgingLockUntil = target.id === "lodging" ? Date.now() + 3000 : 0;
       });
     });
     if (!("IntersectionObserver" in window)) return;
+    // 注意：callback 的 entries 只包含「有變化」的項目；用 seen 累積所有已觀察區塊的最新狀態，
+    // 否則上一個高亮區塊退出 band、而新區塊沒有跨越 threshold 時，高亮會卡在舊區塊。
+    // threshold 含 0，讓很高的區塊（如加了核實勾選後變很高的行前）在 band 內也算可見。
+    const seen = new Map();
     const observer = new IntersectionObserver((entries) => {
-      const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      entries.forEach((entry) => seen.set(entry.target, entry));
+      if (Date.now() < lodgingLockUntil) {
+        setActive("lodging");
+        return;
+      }
+      const visible = [...seen.values()]
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
       if (visible) setActive(visible.target.id);
-    }, { rootMargin: "-18% 0px -58% 0px", threshold: [0.05, 0.25, 0.5] });
-    sections.forEach((section) => observer.observe(section));
+    }, { rootMargin: "-18% 0px -58% 0px", threshold: [0, 0.05, 0.25, 0.5] });
+    observedSections.forEach((section) => observer.observe(section));
   }
 
   function init() {

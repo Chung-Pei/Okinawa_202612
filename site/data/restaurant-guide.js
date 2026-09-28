@@ -28,6 +28,42 @@ window.RESTAURANT_GUIDE = {
     ]
   },
   days: {
+    day0: {
+      meals: [
+        {
+          id: "day0-dinner",
+          label: "晚餐",
+          time: "21:20–",
+          location: "那霸機場／小祿",
+          fit: "抵達日晚餐",
+          strategy: "A 隊約 21:20 才到小祿，附近餐廳多已打烊；在那霸機場 2F 先買便當／飯糰，或到小祿駅前超商解決。",
+          options: [
+            {
+              rank: "①首選",
+              name: "那霸機場國內線 2F 餐飲／便當",
+              dietary: "葷素皆有",
+              address: "那霸機場國內線航廈 2F",
+              hours: "依各店鋪，約至 20:30–21:00",
+              highlights: ["出境前先買齊", "選擇多"],
+              detail: "抵達後先在機場 2F 解決或外帶，再搭車往小祿。",
+              caution: "各店打烊時間不一，先買再出關。",
+              query: "那霸機場 國內線 2F 餐廳"
+            },
+            {
+              rank: "②備選",
+              name: "小祿駅前超商",
+              dietary: "葷素皆有",
+              address: "Yui Rail 小祿站周邊",
+              hours: "24 小時",
+              highlights: ["飯糰／便當", "最近"],
+              detail: "飯店步行可達範圍的超商，宵夜與隔日早餐可一併採買。",
+              caution: "素食可買飯糰、豆乳、沙拉，注意高湯成分。",
+              query: "コンビニ 小禄駅 沖縄"
+            }
+          ]
+        }
+      ]
+    },
     day1: {
       meals: [
         {

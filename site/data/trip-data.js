@@ -75,8 +75,8 @@ lodgingKey: "ysInn",
 weather: { label: "那霸市區／小祿", lat: 26.1977684, lng: 127.6657587},
 schedule: [
 { time: "18:20", title: "A 隊：樂桃 MM930 桃園起飛", detail: "12/17 樂桃 MM930，桃園 18:20 起飛。", tag: "A 隊／航班", type: "source"},
-{ time: "20:50", title: "MM930 抵達那霸", detail: "A 隊抵達後完成入境、領行李；今晚不取租車。", tag: "A 隊／抵達", type: "source"},
-{ time: "抵達後", title: "入住 Y's Inn 那覇小祿駅前", detail: "那霸市金城 5-9-1；Yui Rail 小祿站步行約 3 分，或計程車約 5–10 分。", tag: "A 隊／住宿", type: "source"}
+{ time: "20:50", title: "MM930 抵達那霸", detail: "A 隊抵達後完成入境、領行李；今晚不取租車。B 隊 BR112 於 12/18 06:55–09:15 抵達。", tag: "A 隊／抵達", type: "source"},
+{ time: "抵達後", title: "入住 Y's Inn 那覇小祿駅前", detail: "那霸市金城 5-9-1；Yui Rail 小祿站步行約 3 分，或計程車約 5–10 分。地址另存日文／英文兩版備用。", tag: "A 隊／住宿", type: "source"}
 ],
 route: {
 source: "v16 路線：那霸機場 → 小祿住宿（計程車約 5–10 分，或 Yui Rail 2 站）",
@@ -90,12 +90,6 @@ legs: [
 { id: "L1", name: "那霸機場 → Y's Inn", from: "那霸機場", to: "Y's Inn 那覇小祿駅前", stopIds: ["airport", "ys-inn"], distanceKm: null, minutes: "5-10", roads: "計程車／Yui Rail＋步行", openLabel: "開啟 Google Maps 路線參考", note: "PDF 提供交通方式；今晚尚未取租車，地圖線為方向示意。"}
 ]
 },
-notes: [
-{ title: "A 隊晚餐（21:20 後）", detail: "約 21:20 才到小祿，附近餐廳多已打烊。機場 2F 先買便當／飯糰，或小祿駅前超商解決。"},
-{ title: "晚到入住", detail: "把 Y's Inn 地址存成日文／英文兩版；晚到前先電話確認。"},
-{ title: "A／B 航班", detail: "B 隊 BR112 於 12/18 06:55–09:15 抵達；A 隊回程比 B 隊早約 3.5 小時，Day 5 分開抓時間。"},
-{ title: "隔日取車文件", detail: "護照、駕照、日文譯本、租車訂單放同一文件袋。兩台車分別辦理（OTS1504557／OTS1501685），QR 碼截圖各自存好。"}
-]
 },
 {
 id: "day1",
@@ -111,9 +105,9 @@ schedule: [
 { time: "06:55-09:15", title: "B 隊：BR112 抵達那霸", detail: "長榮 BR112：桃園 T2 起飛 → 那霸 T1 抵達。", tag: "航班", type: "source"},
 { time: "09:00", title: "A 隊退房", detail: "09:15 自小祿駅搭單軌（2 站約 5 分／¥250）往那霸機場。", tag: "A 隊", type: "source"},
 { time: "09:15-10:20", title: "入境、全隊會合", detail: "國際線到達大廳會合；保留排隊緩衝。", tag: "集合", type: "source"},
-{ time: "10:20-11:40", title: "接駁前往 OTS 豐崎租車", detail: "接駁約 15–20 分；兩台車分別辦手續（OTS1504557／OTS1501685），駕駛出示護照＋台灣駕照正本＋日文譯本；全程錄影車況。", tag: "租車", type: "source"},
+{ time: "10:20-11:40", title: "接駁前往 OTS 豐崎租車", detail: "接駁約 15–20 分；兩台車分別辦手續（OTS1504557／OTS1501685），駕駛出示護照＋台灣駕照正本＋日文譯本；全程錄影車況。文件放同一文件袋，QR 碼截圖各自存好。", tag: "租車", type: "source"},
 { time: "12:00-13:30", title: "瀨長島午餐", detail: "SEE THE SEA（免預約）＞ A Happy Pancake（需兩週前預約）＞ POSILLIPO。", tag: "午餐", type: "conditional"},
-{ time: "13:40-14:10", title: "業務超市小祿店（可跳過）", detail: "09:30–20:00；行程緊可直接跳過。", tag: "彈性停靠", type: "conditional"},
+{ time: "13:40-14:10", title: "業務超市小祿店（可跳過）", detail: "09:30–20:00；行程緊可直接跳過。若 13:30 離開瀨長島已 delay 30 分鐘以上，直接跳過，保證 18:30 前到飯店。", tag: "彈性停靠", type: "conditional"},
 { time: "15:10-15:50", title: "萬座毛（優先保留）", detail: "11–2 月 08:00–19:00；現場酌收 100 日圓。", tag: "主要景點", type: "source"},
 { time: "16:30-17:30", title: "許田休息站", detail: "08:30–19:00 全年無休；買土產、水果、美麗海水族館優惠票。", tag: "休息／採買", type: "source"},
 { time: "17:55-18:00", title: "抵達阿拉馬海納，check in", detail: "1421-1 Yamagawa, Motobu；許田直達約 25 分。", tag: "住宿", type: "source"},
@@ -137,11 +131,6 @@ legs: [
 { id: "L5", name: "許田 → 阿拉馬海納", stopIds: ["kyoda", "ala"], distanceKm: null, minutes: "25", roads: "國道58 → 449 → 縣道114", note: "許田後直達；以 17:55–18:00 入住為目標。"}
 ]
 },
-notes: [
-{ title: "Starbucks 已刪除", detail: "原許田後的 Starbucks 名護 21 世紀之森已刪除（12 月 17:38 天黑）；改到 Day 3 午後當彈性選項。"},
-{ title: "彈性檢查點", detail: "13:30 離開瀨長島時若已 delay 30 分鐘以上，放掉業務超市，保證 18:30 前到飯店。"},
-{ title: "晚餐策略", detail: "海邦丸提前預約客製為主線；喜菜ハウス瀬底為備案（先確認營業時間）。"}
-]
 },
 {
 id: "day2",
@@ -198,18 +187,18 @@ mode: "driving",
 lodgingKey: "lagent",
 weather: { label: "北谷町（住宿基地）", lat: 26.3210666, lng: 127.7552524},
 schedule: [
-{ time: "07:00", title: "早餐、行李放大廳", detail: "確認兩組聯絡方式。", tag: "分隊準備", type: "source"},
+{ time: "07:00", title: "早餐、行李放大廳", detail: "確認兩組聯絡方式。A 隊＝Day 0 前鋒隊 → JUNGLIA；B 隊＝Day 1 抵達隊 → Neo Park。", tag: "分隊準備", type: "source"},
 { time: "08:00-08:40", title: "海洋博公園短散步", detail: "戶外開放空間，不影響 09:30／10:00 入場。", tag: "彈性", type: "source"},
 { time: "08:40", title: "出發前往兩大園區", detail: "A、B 兩組分別前往 JUNGLIA 與 Neo Park。", tag: "A/B 分隊", type: "source"},
 { time: "09:30-12:00", title: "B 隊：Neo Park", detail: "09:30–17:30（入園截止 17:00）；大人 ¥1,600／小孩 ¥800／3 歲以下免費。輕便鐵道首班 10:30，建議先逛步道再搭車。", tag: "B 隊", type: "source"},
-{ time: "10:00-14:30", title: "A 隊：JUNGLIA（含午餐）", detail: "大人 ¥6,930／小孩 ¥4,950／3 歲以下免費，建議官網事先網購。開閉園與票種請依官方行事曆 junglia.jp/calendar。園內約 4.5 小時，先排好必玩 2–3 項。", tag: "A 隊", type: "conditional"},
+{ time: "10:00-14:30", title: "A 隊：JUNGLIA（含午餐）", detail: "大人 ¥6,930／小孩 ¥4,950／3 歲以下免費，建議官網事先網購。開閉園與票種請依官方行事曆 junglia.jp/calendar；12/20 時段以 10 月底公告的官方版本為準。園內約 4.5 小時，先排好必玩 2–3 項。", tag: "A 隊", type: "conditional"},
 { time: "12:00", title: "B 隊出發名護市區", detail: "B 隊離開 Neo Park 前往名護市區。", tag: "B 隊", type: "source"},
 { time: "12:30", title: "B 隊名護市區午餐", detail: "アイタル食堂首選；ナカラマサラ、農家の台所 楽家備援。", tag: "B 隊", type: "conditional"},
 { time: "13:30", title: "B 隊逛「名護 AEON」", detail: "在 AEON Nago 等待 A 隊。", tag: "B 隊／會合點", type: "source"},
 { time: "14:30", title: "A 隊出發名護市區", detail: "JUNGLIA 結束後前往名護市區。", tag: "A 隊", type: "source"},
 { time: "15:00", title: "A、B 隊 AEON Nago 會合", detail: "逾時以電話／訊息確認，直接前往美國村。", tag: "共同集合", type: "source"},
 { time: "15:15-15:50", title: "名護點心站（彈性）", detail: "暖暮拉麵、Blue Seal，或 Starbucks 名護 21 世紀之森；時間不足可跳過。", tag: "彈性", type: "conditional"},
-{ time: "15:50", title: "前往美國村", detail: "車程約 50 分鐘。", tag: "自駕", type: "source"},
+{ time: "15:50", title: "前往美國村", detail: "車程約 50 分鐘。會合後依點心站、車流與日落時間決定是否停留。", tag: "自駕", type: "source"},
 { time: "17:00", title: "美國村 American Village 逛街", detail: "依現場人流與停車狀況調整。", tag: "景點", type: "source"},
 { time: "17:30", title: "海邊日落＋12 月聖誕點燈", detail: "點燈期間 11 月底後查北谷町／Depot Island 公告；Depot Island 全年有燈飾。北谷每週六 20:00 花火，Day3（週日）看不到。", tag: "景點", type: "source"},
 { time: "18:30", title: "美國村晚餐＋自由逛街", detail: "Bollywood Dreams 首選（建議官網提前訂位）；Esparza's、The Calif Kitchen 備援。", tag: "晚餐", type: "conditional"},
@@ -237,12 +226,6 @@ legs: [
 { id: "C3", name: "美國村 → La'gent Hotel", from: "美國村", to: "La'gent Hotel Okinawa Chatan", stopIds: ["american-village", "lagent"], distanceKm: null, minutes: null, roads: "北谷市區短程", note: "20:30 入住。"}
 ]
 },
-notes: [
-{ title: "固定分組", detail: "A 隊＝Day 0 前鋒隊 → JUNGLIA；B 隊＝Day 1 抵達隊 → Neo Park。"},
-{ title: "JUNGLIA 營業時間", detail: "官方每月月底公布未來 4 個月營業時間，僅未來 2 個月為確定版；12/20 時段請依 10 月底公告後的官方版本。"},
-{ title: "A/B 會合規則", detail: "統一在 AEON Nago 會合；逾時先電話／訊息確認。"},
-{ title: "共同南下", detail: "會合後依點心站彈性、車流與日落時間決定是否停留，再前往美國村。"}
-]
 },
 {
 id: "day4",
@@ -262,14 +245,14 @@ schedule: [
 { time: "14:30", title: "結束購物", detail: "依購物與午餐狀況調整。", tag: "轉場", type: "source"},
 { time: "15:00", title: "港川外人住宅：oHacorté", detail: "11:30–19:00，現為不定休；建議外帶，不堂食久候。", tag: "下午茶", type: "conditional"},
 { time: "15:40-16:00", title: "出發前島，順道波上宮", detail: "港川 → 波上宮約 20 分，順路不繞路。", tag: "自駕", type: "conditional"},
-{ time: "16:00-16:20", title: "波上宮參拜＋買御守／御朱印", detail: "境內 24 小時免費開放；授與所約 09:00–16:30；免費停車約 20 格。", tag: "參拜／御守", type: "source"},
+{ time: "16:00-16:20", title: "波上宮參拜＋買御守／御朱印", detail: "境內 24 小時免費開放；授與所約 09:00–16:30；免費停車約 20 格。把握今天參拜＋買御守；Day5 清晨授與所未開，只能拍照。", tag: "參拜／御守", type: "source"},
 { time: "16:20-16:35", title: "前往 HOTEL ANTEROOM NAHA", detail: "波上宮 → 前島約 10–15 分。", tag: "自駕", type: "conditional"},
-{ time: "16:35", title: "抵達 HOTEL ANTEROOM NAHA，check in", detail: "已訂 3 間房，Check-in 15:00 起。停車 52 格、1,500 円／晚，先到先得。", tag: "住宿／停車", type: "source"},
+{ time: "16:35", title: "抵達 HOTEL ANTEROOM NAHA，check in", detail: "已訂 3 間房，Check-in 15:00 起。停車 52 格、1,500 円／晚，先到先得；先處理行李再確認車位。", tag: "住宿／停車", type: "source"},
 { time: "16:35-18:00", title: "飯店休息、整理隔日行李", detail: "車留飯店；Day 5 早上到 OTS 還車。", tag: "休息", type: "source"},
 { time: "18:00", title: "步行前往國際通", detail: "前島步行至國際通約 15–20 分；今晚不開車。", tag: "步行", type: "source"},
 { time: "18:40", title: "晚餐「Tamatebako」", detail: "純素、★4.7；小店一人經營，8 人務必提前預約。", tag: "晚餐", type: "conditional"},
 { time: "20:00", title: "繼續逛國際通", detail: "依全家體力與回程交通調整。", tag: "逛街", type: "source"},
-{ time: "21:00", title: "步行回 HOTEL ANTEROOM 休息", detail: "整理 Day 5 07:30 退房與還車文件。回程備案：美榮橋駅步行約 12 分（末班車 23:30），或叫計程車（約 ¥1,000、5 分）。", tag: "住宿", type: "source"}
+{ time: "21:00", title: "步行回 HOTEL ANTEROOM 休息", detail: "今天不還車；整理 Day 5 07:30 退房與還車文件。回程備案：美榮橋駅步行約 12 分（末班車 23:30），或叫計程車（約 ¥1,000、5 分）。", tag: "住宿", type: "source"}
 ],
 route: {
 source: "v16 路線：北谷 → 兒童王國 → Rycom → 港川 → 波上宮 → HOTEL ANTEROOM；國際通往返步行，今晚不還車",
@@ -295,12 +278,6 @@ legs: [
 { id: "L6", name: "HOTEL ANTEROOM → 國際通", from: "HOTEL ANTEROOM NAHA", to: "國際通", stopIds: ["anteroom", "kokusai"], distanceKm: null, minutes: "15-20", roads: "步行；非自駕", navigation: false, mapLine: false, mode: "walking", openLabel: "步行段（不開啟導航）", note: "車留飯店；往美栄橋／國際通方向步行。"}
 ]
 },
-notes: [
-{ title: "波上宮改到今天下午", detail: "Day5 清晨授與所未開，只能拍照；改今天下午順路參拜＋買御守（16:00 授與所仍開）。"},
-{ title: "還車策略", detail: "今天不還車；Day 5 07:30 退房後到 OTS 08:00–09:00 還車。"},
-{ title: "HOTEL ANTEROOM 停車", detail: "52 格、1,500 円／晚，先到先得；先處理行李再確認車位。"},
-{ title: "國際通交通", detail: "飯店步行前往國際通，不開車找停車位。"}
-]
 },
 {
 id: "day5",
@@ -324,11 +301,11 @@ schedule: [
 { time: "13:30", title: "iias 採購、自由逛、西松屋", detail: "之後 A、B 隊分開前往機場。", tag: "A/B 分流", type: "source"},
 { time: "14:30", title: "前往那霸機場", detail: "改叫一般計程車；各家庭分開叫車（3／2／3 人），現場排班或用 APP（GO／DiDi／Uber）。", tag: "A 隊／機場", type: "conditional"},
 { time: "14:50", title: "抵達那霸機場", detail: "距 16:50 起飛約 2 小時緩衝。", tag: "A 隊", type: "source"},
-{ time: "16:50-17:35", title: "MM929 回程航班", detail: "樂桃 MM929：那霸 16:50 起飛 → 桃園 17:35 抵達。", tag: "A 隊／航班", type: "source"},
+{ time: "16:50-17:35", title: "MM929 回程航班", detail: "樂桃 MM929：那霸 16:50 起飛 → 桃園 17:35 抵達。A 隊回程比 B 隊早約 3.5 小時；A 隊 13:00 後分流、14:30 往機場。", tag: "A 隊／航班", type: "source"},
 { time: "16:00-16:30", title: "iias 提前晚餐（建議）", detail: "先在 iias 吃完晚餐再去機場。", tag: "B 組", type: "conditional"},
 { time: "16:30", title: "前往那霸機場", detail: "比照 A 隊分開叫一般計程車。", tag: "B 隊／機場", type: "conditional"},
 { time: "17:00", title: "抵達那霸機場", detail: "距 20:10 起飛約 3 小時，可在機場用晚餐、免稅購物。", tag: "B 隊", type: "source"},
-{ time: "20:10-20:55", title: "BR185 回程航班", detail: "長榮 BR185：那霸 T1 20:10 起飛 → 桃園 T2 20:55 抵達。", tag: "B 隊／航班", type: "source"}
+{ time: "20:10-20:55", title: "BR185 回程航班", detail: "長榮 BR185：那霸 T1 20:10 起飛 → 桃園 T2 20:55 抵達。B 隊 16:30 出發、17:00 到機場。", tag: "B 隊／航班", type: "source"}
 ],
 route: {
 source: "v16：HOTEL ANTEROOM → OTS → iias（不繞波上宮）；還車後 OTS→iias 步行",
@@ -348,11 +325,6 @@ legs: [
 { id: "L3", name: "iias／DMM → 那霸機場", from: "iias／DMM 豐崎", to: "那霸機場", stopIds: ["iias", "airport"], distanceKm: null, minutes: null, roads: "計程車／公共交通；依 A/B 航班分流", navigation: true, mapLine: true, mode: "transit", openLabel: "開啟 Google Maps 路線參考", note: "依 A/B 航班搭計程車或公共交通；虛線僅表示移動方向。"}
 ]
 },
-notes: [
-{ title: "兩隊分開抓時間", detail: "A 隊 MM929 16:50 起飛，13:00 後分流、14:30 往機場；B 隊 16:30 出發、17:00 到機場。"},
-{ title: "還車後到 iias", detail: "OTS 與 iias 相鄰，步行約 1–3 分；先寄放行李。"},
-{ title: "iias 到機場", detail: "依 A/B 航班搭計程車或公共交通；當日確認交通。"}
-]
 }
 ]
 };

@@ -249,12 +249,12 @@ h1 em { color: var(--teal); font-style: normal; }
 .section-heading h2 { margin-bottom: 0; color: var(--navy); font-size: clamp(1.8rem, 3vw, 2.75rem); font-weight: 600; letter-spacing: -0.035em; }
 .map-section .section-heading h2 { color: #ffffff; }
 .section-note { margin: 0 0 0.2rem; color: var(--muted); font-size: 0.88rem; }
-.day-tabs { position: sticky; z-index: 10; top: calc(56px + env(safe-area-inset-top, 0px)); display: flex; gap: 0.5rem; width: fit-content; max-width: 100%; padding: 0.35rem; margin-bottom: 1.5rem; overflow-x: auto; background: rgba(255, 255, 255, 0.88); border: 1px solid var(--line); border-radius: var(--radius-pill); box-shadow: var(--shadow); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); scrollbar-width: none; }
+.day-tabs { position: sticky; z-index: 10; top: calc(56px + env(safe-area-inset-top, 0px)); display: flex; gap: 0.34rem; width: fit-content; max-width: 100%; padding: 0.24rem; margin: 0.45rem 1rem 1rem; overflow-x: auto; background: rgba(255, 255, 255, 0.88); border: 1px solid var(--line); border-radius: var(--radius-pill); box-shadow: var(--shadow); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); scrollbar-width: none; }
 .day-tabs::-webkit-scrollbar { display: none; }
-.day-tab { flex: 0 0 auto; min-width: 92px; min-height: 44px; padding: 0.55rem 0.9rem; color: var(--muted); text-align: left; background: transparent; border: 1px solid transparent; border-radius: var(--radius-pill); cursor: pointer; transition: var(--transition-fast); }
+.day-tab { flex: 0 0 auto; min-width: 62px; min-height: 32px; padding: 0.36rem 0.6rem; color: var(--muted); text-align: left; background: transparent; border: 1px solid transparent; border-radius: var(--radius-pill); cursor: pointer; transition: var(--transition-fast); }
 .day-tab strong, .day-tab span { display: block; }
-.day-tab strong { color: var(--ink); font-size: 1.05rem; }
-.day-tab span { font-size: 0.85rem; }
+.day-tab strong { color: var(--ink); font-size: 0.72rem; }
+.day-tab span { font-size: 0.6rem; }
 .day-tab:hover { color: var(--navy); background: var(--teal-soft); }
 .day-tab[aria-selected="true"] { color: white; background: var(--navy); border-color: var(--navy); box-shadow: 0 2px 8px rgba(11, 37, 69, 0.2); }
 .day-tab[aria-selected="true"] strong { color: white; }
@@ -622,6 +622,18 @@ code { padding: 0.08rem 0.28rem; color: var(--teal-deep); background: var(--teal
 .ext-list li { margin-bottom: 0.45rem; font-size: 0.95rem; line-height: 1.65; color: var(--ink-soft); }
 .ext-list li.is-warn { color: #b33939; }
 .ext-list li.is-warn strong { color: #b33939; }
+.panel-subactions { display: flex; justify-content: flex-end; padding: 0 1rem; margin-bottom: 0.4rem; }
+.precheck-head { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.55rem; }
+.precheck-head .precheck-count { font-size: 0.85rem; color: var(--muted); }
+.precheck-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.45rem; }
+.precheck-row { display: flex; gap: 0.6rem; align-items: flex-start; padding: 0.55rem 0.65rem; background: rgba(255, 255, 255, 0.72); border: 1px solid var(--line); border-radius: var(--radius-sm); cursor: pointer; }
+.precheck-row input[type="checkbox"] { width: 1.2rem; height: 1.2rem; margin-top: 0.12rem; flex: 0 0 auto; accent-color: var(--teal-deep); cursor: pointer; }
+.precheck-text { font-size: 0.95rem; line-height: 1.6; color: var(--ink-soft); }
+.precheck-text strong { color: var(--ink); }
+.precheck-note { display: block; margin-top: 0.15rem; font-size: 0.85rem; color: var(--muted); }
+.precheck-row.is-done { background: var(--teal-soft); }
+.precheck-row.is-done .precheck-text { color: var(--muted); }
+.precheck-row.is-done .precheck-text strong { color: var(--muted); text-decoration: line-through; }
 .ext-card { border: 1px solid var(--panel-line); border-radius: var(--radius-sm); padding: 0.85rem 1rem; margin-bottom: 0.8rem; }
 .ext-card:last-child { margin-bottom: 0; }
 
