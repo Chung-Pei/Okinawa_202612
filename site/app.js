@@ -117,7 +117,7 @@
         <span>${escapeHtml(lodging?.name || "住宿待補")}</span>
       </div>
     `;
-    $("#schedule-kicker").textContent = day.mode === "driving" ? "SOURCE + ROUTE" : "SOURCE ITINERARY";
+    $("#schedule-kicker").textContent = "行程時間軸";
     renderTimeline(day);
     renderLodging(lodging);
     renderWeatherPlaceholder(day);
@@ -137,18 +137,34 @@
     loadWeather(day);
   }
 
+  const quickBrief = (text) => `<div class="quick-brief"><strong>速查</strong><p>${escapeHtml(text)}</p></div>`;
+  const foldable = (label, inner, cls) => `<details class="foldable${cls ? " " + cls : ""}"><summary>${escapeHtml(label)}</summary><div class="foldable-body">${inner}</div></details>`;
+  const bodyList = (body) => {
+    const lines = String(body || "").split("\n").map((line) => line.trim()).filter(Boolean);
+    if (lines.length > 1) return `<ul class="ext-list">${lines.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>`;
+    return extParagraphs(body);
+  };
+
   function renderTimeline(day) {
-    $("#timeline").innerHTML = day.schedule.map((item) => `
+    $("#timeline").innerHTML = day.schedule.map((item) => {
+      const detail = item.detail || "";
+      const folded = detail.length > 60;
+      const preview = folded ? `${detail.slice(0, 48)}…` : detail;
+      const detailHtml = folded
+        ? `<p class="timeline-detail">${escapeHtml(preview)}</p>
+           ${foldable("展開詳情", `<p>${escapeHtml(detail)}</p>`, "timeline-more")}`
+        : `<p class="timeline-detail">${escapeHtml(detail)}</p>`;
+      return `
       <article class="timeline-item is-${escapeHtml(item.type || "source")}">
         <div class="timeline-time">${escapeHtml(item.time)}</div>
         <span class="timeline-dot" aria-hidden="true"></span>
         <div class="timeline-body">
           <div class="timeline-title">${escapeHtml(item.title)}</div>
-          <p class="timeline-detail">${escapeHtml(item.detail)}</p>
+          ${detailHtml}
           <span class="timeline-tag">${escapeHtml(item.tag)}</span>
         </div>
-      </article>
-    `).join("");
+      </article>`;
+    }).join("");
   }
 
   function renderLodging(lodging) {
@@ -166,7 +182,7 @@
       `;
       return;
     }
-    status.textContent = "官方資料";
+    status.textContent = "已確認";
     status.className = "status-pill";
     $("#lodging-card").innerHTML = `
       <div class="lodging-card">
@@ -316,9 +332,9 @@
         : (stops[index] && stops[index + 1] ? stops.slice(index, index + 2) : stops);
       const from = leg.from || subset[0]?.label || stops[index]?.label || "起點";
       const to = leg.to || subset[subset.length - 1]?.label || stops[index + 1]?.label || "目的地";
-      const distance = leg.distanceKm === null || leg.distanceKm === undefined ? "分段距離待確認" : `${leg.distanceKm} km`;
+      const distance = leg.distanceKm === null || leg.distanceKm === undefined ? "距離未提供" : `${leg.distanceKm} km`;
       const minutes = leg.minutes === null || leg.minutes === undefined
-        ? "時間待確認"
+        ? "時間未提供"
         : (typeof leg.minutes === "string" && leg.minutes.trim().startsWith("約") ? `${leg.minutes.trim()} 分鐘` : `約 ${leg.minutes} 分鐘`);
       const openLabel = leg.openLabel || (route.routeType === "mixed" || route.navigationMode === "taxi" ? "開啟 Google Maps 路線參考" : "開啟此段導航");
       const routeLink = subset.length >= 2 && leg.navigation !== false
@@ -359,15 +375,16 @@
           <span class="restaurant-rank${unavailable ? " is-warning" : ""}">${escapeHtml(option.rank || "備選")}</span>
           <span class="restaurant-summary-copy">
             <strong>${escapeHtml(option.name)}</strong>
-            <span>${escapeHtml(option.dietary || "飲食方向待確認")} · ${escapeHtml(option.rating || "—")}</span>
+            <span>${escapeHtml(option.dietary || "飲食方向未註記")} · ${escapeHtml(option.rating || "—")}</span>
+            ${option.phone ? `<span class="restaurant-summary-phone">☎ ${escapeHtml(option.phone)}</span>` : ""}
           </span>
           <svg class="restaurant-chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="m7 10 5 5 5-5" /></svg>
         </summary>
         <div class="restaurant-option-body">
           <div class="restaurant-facts">
-            <div><span>飲食方向</span><strong>${escapeHtml(option.dietary || "待確認")}</strong></div>
+            <div><span>飲食方向</span><strong>${escapeHtml(option.dietary || "未註記")}</strong></div>
             <div><span>營業／適配</span><strong>${escapeHtml(option.hours || "出發前再確認")}</strong></div>
-            <div><span>地址</span><strong>${escapeHtml(option.address || "地址出發前再確認")}</strong></div>
+            <div><span>地址</span><strong>${escapeHtml(option.address || "地址請見 Google Maps")}</strong></div>
           </div>
           <p class="restaurant-detail">${escapeHtml(option.detail || "")}</p>
           ${highlights}
@@ -487,7 +504,7 @@
           <span class="map-stop-copy">
             ${time ? `<span class="map-stop-time">${escapeHtml(time)}</span>` : ""}
             <strong>${escapeHtml(stop.label)}</strong>
-            <span class="map-stop-status">${located ? (approximate ? "OSM 區域錨點" : "已標在地圖") : "地圖座標待補"}</span>
+            <span class="map-stop-status">${located ? (approximate ? "OSM 區域錨點" : "已標在地圖") : "無地圖座標"}</span>
           </span>
           <a class="map-stop-link" href="${escapeHtml(googlePlaceUrl(stop))}" target="_blank" rel="noopener" aria-label="在 Google Maps 開啟 ${escapeHtml(stop.label)}"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5m0-5-8 8" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg></a>
         </li>
@@ -748,18 +765,27 @@
         ${extRows([{ label: "去程", value: f.go }, { label: "回程", value: f.back }])}
         ${f.note ? `<p class="ext-note">${escapeHtml(f.note)}</p>` : ""}
       </div>`).join("");
-    const lodgingRows = (qi.lodging || []).map((l) => ({
-      label: `${l.day} · ${l.name}`,
-      value: [l.address, l.note].filter(Boolean).join("｜")
-    }));
-    const rentalCards = (qi.rentalCars || []).map((item) => `
-      <div class="ext-card">
-        <h4>${escapeHtml(item.car)}</h4>
-        ${extRows([{ label: "預約號碼", value: item.bookingNo }, { label: "會員編號", value: item.memberNo }].filter((r) => r.value))}
-        ${item.note ? `<p class="ext-note">${escapeHtml(item.note)}</p>` : ""}
-      </div>`).join("");
-    const docItems = (qi.drivingDocs || []).map((d) =>
-      `<li${d.warn ? ' class="is-warn"' : ""}><strong>${escapeHtml(d.doc)}</strong>：${escapeHtml(d.note)}</li>`).join("");
+    const lodgingSummary = [
+      "Day0｜Y's Inn 那覇小祿駅前",
+      "Day1–2｜阿拉馬海納（朝食付）",
+      "Day3｜La'gent 北谷（現場支付 ¥43,596）",
+      "Day4–5｜HOTEL ANTEROOM 那霸"
+    ].map((line) => {
+      const [day, name] = line.split("｜");
+      return { label: day, value: name };
+    });
+    const rentalSummary = [
+      "OTS 臨空豐崎營業所（豐見城市豐崎3-37，098-856-8877）",
+      "取車 Day1 11:40｜還車 Day5 08:00–09:00",
+      "兩台車分別辦理（OTS1504557／OTS1501685），QR 碼截圖各自存好"
+    ];
+    const drivingSummary = [
+      "護照＋台灣駕照正本＋日文譯本，每位駕駛各一套",
+      "台灣國際駕照在日本不適用",
+      "譯本規費 NT$100，建議出發前 2 週辦理"
+    ];
+    const appendixLink = (tabId, label) =>
+      `<p class="ext-note"><a href="#appendix" data-goto-appendix="${tabId}">詳細請見附錄 → ${escapeHtml(label)}</a></p>`;
     const checklistRows = (qi.checklist || []).map((c) => ({
       label: `${c.when}｜${c.item}${c.warn ? " ⚠" : ""}`,
       value: c.note
@@ -772,9 +798,9 @@
       </div>`).join("");
     const cards = [
       { title: "航班", body: flightCards },
-      { title: "住宿", body: extRows(lodgingRows) },
-      { title: "租車", body: rentalCards },
-      { title: "駕駛文件", body: `${docItems ? `<ul class="ext-list">${docItems}</ul>` : ""}${qi.drivingDocsAlert ? `<p class="ext-note">${escapeHtml(qi.drivingDocsAlert)}</p>` : ""}` },
+      { title: "住宿", body: `${extRows(lodgingSummary)}${appendixLink("lodging", "行前查核")}` },
+      { title: "租車", body: `<ul class="ext-list">${rentalSummary.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>${appendixLink("rental", "租車")}` },
+      { title: "駕駛文件", body: `<ul class="ext-list">${drivingSummary.map((line) => `<li>${escapeHtml(line)}</li>`).join("")}</ul>${appendixLink("driving", "駕駛文件")}` },
       { title: "出發前行李／文件清單", body: extRows(checklistRows) },
       { title: "預算", body: `${budgetCards}${qi.budgetNote ? `<p class="ext-note">${escapeHtml(qi.budgetNote)}</p>` : ""}` }
     ].filter((card) => card.body);
@@ -786,34 +812,14 @@
     const root = $("#booking-content");
     if (!root) return;
     const booking = guideExtras.booking || {};
-    const phraseCards = (booking.orderPhrases || []).map((phrase, index) => `
-      <article class="dietary-rule-card">
-        <div class="dietary-rule-top">
-          <div><span class="dietary-rule-number">0${index + 1}</span><h3>點餐日文 ${index + 1}</h3></div>
-          <button class="copy-rule-button" type="button" data-copy-phrase="${index}" aria-label="複製點餐日文 ${index + 1}"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="12" rx="2" /><path d="M5 16V6a2 2 0 0 1 2-2h8" /></svg><span>複製</span></button>
-        </div>
-        <div class="dietary-rule-japanese"><p lang="ja">${escapeHtml(phrase)}</p></div>
-      </article>`).join("");
     const priorityRows = (booking.priority || []).map((text, index) => `
       <div class="ext-row"><dt><span class="priority-number">${index + 1}</span></dt><dd>${escapeHtml(text)}</dd></div>`).join("");
     root.innerHTML = `
       <article class="ext-panel">
-        <h3>素食餐廳調查說明</h3>
-        ${extParagraphs(booking.survey)}
-        ${booking.source ? `<p class="ext-note">資料來源：${escapeHtml(booking.source)}</p>` : ""}
-      </article>
-      <h3 class="ext-section-title">點餐日文（四組）</h3>
-      <div class="dietary-rules-grid">${phraseCards}</div>
-      <article class="ext-panel">
         <h3>訂位優先清單（出發前 1–2 週）</h3>
         <dl class="ext-table">${priorityRows}</dl>
+        <p class="ext-note">點餐四句日文請見「<a href="#food-safety">餐廳</a>」分頁。</p>
       </article>`;
-    root.querySelectorAll("[data-copy-phrase]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const phrase = (booking.orderPhrases || [])[Number(button.dataset.copyPhrase)];
-        if (phrase) copyText(phrase, "已複製點餐日文。", "無法複製，請長按選取文字。");
-      });
-    });
   }
 
   const APPENDIX_TABS = [
@@ -829,12 +835,14 @@
   function renderAppendixTabContent(tabId) {
     const appendix = guideExtras.appendix || {};
     if (tabId === "facilities") {
-      const rows = (appendix.facilities || []).map((f) => ({
+      const facilities = appendix.facilities || [];
+      const rows = facilities.map((f) => ({
         label: f.name,
         value: [f.info, f.link].filter(Boolean).join("｜")
       }));
-      return `<article class="ext-panel"><h3>設施</h3>${extRows(rows)}
-        ${appendix.facilitiesNote ? `<p class="ext-note">${escapeHtml(appendix.facilitiesNote)}</p>` : ""}</article>`;
+      return `<article class="ext-panel"><h3>設施</h3>
+        ${quickBrief(`景點、商場、停車場共 ${facilities.length} 處營業資訊；臨時休業請出發前再確認。`)}
+        ${extRows(rows)}</article>`;
     }
     if (tabId === "rental") {
       const cards = (appendix.rentalCars || []).map((item) => `
@@ -843,27 +851,43 @@
           ${extRows([{ label: "預約號碼", value: item.bookingNo }, { label: "會員編號", value: item.memberNo }].filter((r) => r.value))}
           ${item.note ? `<p class="ext-note">${escapeHtml(item.note)}</p>` : ""}
         </div>`).join("");
-      return `<article class="ext-panel"><h3>租車</h3>${cards}
-        ${appendix.rentalCarsNote ? `<p class="ext-note">${escapeHtml(appendix.rentalCarsNote)}</p>` : ""}</article>`;
+      return `<article class="ext-panel"><h3>租車</h3>
+        ${quickBrief("OTS 臨空豐崎營業所（豐見城市豐崎3-37，098-856-8877）；取車 Day1 11:40、還車 Day5 08:00–09:00；兩台車分別辦理，QR 碼截圖各自存好。")}
+        ${foldable("完整預約資訊", cards)}</article>`;
     }
     if (tabId === "driving") {
       const items = (appendix.drivingDocs || []).map((d) =>
         `<li${d.warn ? ' class="is-warn"' : ""}><strong>${escapeHtml(d.doc)}</strong>：${escapeHtml(d.note)}</li>`).join("");
-      return `<article class="ext-panel"><h3>駕駛文件</h3><ul class="ext-list">${items}</ul>
-        ${appendix.drivingDocsNote ? `<p class="ext-note">${escapeHtml(appendix.drivingDocsNote)}</p>` : ""}</article>`;
+      return `<article class="ext-panel"><h3>駕駛文件</h3>
+        ${quickBrief("護照＋台灣駕照正本＋日文譯本，每位駕駛各一套；台灣國際駕照在日本不適用；譯本規費 NT$100，建議出發前 2 週辦理。")}
+        <ul class="ext-list">${items}</ul></article>`;
     }
     if (tabId === "lodging") {
       const rows = (appendix.lodgingList || []).map((l) => ({
         label: `${l.day} · ${l.name}`,
         value: [l.address, l.status].filter(Boolean).join("｜")
       }));
-      return `<article class="ext-panel"><h3>住宿行前查核</h3>${extRows(rows)}</article>`;
+      return `<article class="ext-panel"><h3>住宿行前查核</h3>
+        ${quickBrief("4 間住宿已訂：Day0 小祿、Day1–2 本部、Day3 北谷、Day4–5 那霸。")}
+        ${extRows(rows)}</article>`;
     }
     const special = { rain: guideExtras.appendixRain, lingerie: guideExtras.appendixLingerie, plush: guideExtras.appendixPlush }[tabId];
     if (!special) return "";
+    const briefs = {
+      rain: "12 月那霸月雨量約 100mm，6 天行程遇到 1–2 天下雨很正常；折疊傘 8 人份先在台灣買好帶去。",
+      lingerie: "PEACH JOHN、aimerfeel、AMO'S STYLE 在浦添 PARCO CITY／那霸 Main Place 有門市；AMPHI、Salute 建議官網購買。",
+      plush: "全沖繩 10 處夾娃娃機／扭蛋點；國際通、美國村、RYCOM 最集中，詳見下方條列。"
+    };
+    let bodyHtml = "";
+    if (tabId === "rain") {
+      const alt = (special.sections || []).find((section) => section.heading.includes("替代"));
+      bodyHtml = alt ? foldable("各日雨天替代方案", bodyList(alt.body)) : "";
+    } else {
+      bodyHtml = (special.sections || []).map((section) => `
+        <h4 class="ext-subheading">${escapeHtml(section.heading)}</h4>${bodyList(section.body)}`).join("");
+    }
     return `<article class="ext-panel"><h3>${escapeHtml(special.title || "")}</h3>
-      ${(special.sections || []).map((section) => `
-        <h4 class="ext-subheading">${escapeHtml(section.heading)}</h4>${extParagraphs(section.body)}`).join("")}
+      ${quickBrief(briefs[tabId] || "")}${bodyHtml}
     </article>`;
   }
 
@@ -887,6 +911,13 @@
     });
     select(APPENDIX_TABS[0].id);
   }
+
+  document.addEventListener("click", (event) => {
+    const link = event.target.closest("[data-goto-appendix]");
+    if (!link) return;
+    const tabButton = document.querySelector(`#appendix-tabs [data-appendix-tab="${link.dataset.gotoAppendix}"]`);
+    if (tabButton) tabButton.click();
+  });
 
   /* ---- 記帳 ---- */
   const expenseState = { rate: null, items: [], resetArmed: false, resetTimer: null };
