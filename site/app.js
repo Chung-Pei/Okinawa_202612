@@ -12,11 +12,11 @@
 
   const MAP_STOP_TIMES = {
     day0: { airport: "20:50", "ys-inn": "抵達後" },
-    day1: { ots: "10:20", umikaji: "12:00", gyomu: "13:40", manzamo: "15:10", kyoda: "16:30", "starbucks-nago": "17:45", ala: "18:50" },
+    day1: { ots: "10:20", umikaji: "12:00", gyomu: "13:40", manzamo: "15:10", kyoda: "16:30", ala: "18:00" },
     day2: { ala: "07:30", churaumi: "08:30", kouri: "14:00", "ala-return": "16:30" },
-    day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "aeon-nago": "13:30", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
-    day4: { lagent: "07:30", "childrens-kingdom": "09:30", rycom: "12:00", minatogawa: "15:00", anteroom: "16:05", kokusai: "18:00" },
-    day5: { anteroom: "07:30", naminoue: "07:40", "ots-return": "08:20", iias: "09:30", airport: "17:00" }
+    day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "aeon-nago": "15:00", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
+    day4: { lagent: "07:30", "childrens-kingdom": "09:30", rycom: "12:00", minatogawa: "15:00", naminoue: "16:00", anteroom: "16:35", kokusai: "18:00" },
+    day5: { anteroom: "07:30", "ots-return": "08:20", iias: "09:30", airport: "14:50" }
   };
 
   const $ = (selector) => document.querySelector(selector);
@@ -374,6 +374,8 @@
           <p class="restaurant-caution"><strong>注意</strong>${escapeHtml(option.caution || "出發前再次確認營業與素食條件。")}</p>
           <div class="restaurant-actions">
             ${option.website ? `<a class="restaurant-link" href="${escapeHtml(option.website)}" target="_blank" rel="noopener"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14 5h5v5m0-5-8 8" /><path d="M18 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg>${escapeHtml(option.websiteLabel || "官方網站")}</a>` : ""}
+            ${option.phone ? `<a class="restaurant-link" href="tel:${escapeHtml(option.phone)}" aria-label="撥打 ${escapeHtml(option.name)} 電話"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.7 4.5 5.4 5.8a2 2 0 0 0-.9 2.4c1.7 5.3 5.9 9.5 11.2 11.2a2 2 0 0 0 2.4-.9l1.3-2.3-3.6-2.4-1.5 1.5a13.2 13.2 0 0 1-5.7-5.7l1.5-1.5-2.4-3.6Z" /></svg>電話</a>` : ""}
+            ${option.instagram ? `<a class="restaurant-link" href="${escapeHtml(option.instagram)}" target="_blank" rel="noopener"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="4" /><circle cx="12" cy="12" r="3.6" /><circle cx="16.6" cy="7.4" r="1.1" /></svg>IG</a>` : ""}
             <a class="restaurant-link restaurant-link-map" href="${escapeHtml(mapHref)}" target="_blank" rel="noopener"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></svg>Google Maps</a>
           </div>
         </div>
@@ -716,6 +718,411 @@
     });
   }
 
+  /* ================= v16 新增：行前資訊 / 訂位 / 附錄 / 記帳 / 筆記 ================= */
+
+  const guideExtras = window.GUIDE_EXTRAS || {};
+
+  function extRows(rows) {
+    if (!Array.isArray(rows) || !rows.length) return "";
+    return `<dl class="ext-table">${rows.map((row) => `
+      <div class="ext-row"><dt>${escapeHtml(row.label)}</dt><dd>${escapeHtml(row.value)}</dd></div>`).join("")}</dl>`;
+  }
+
+  function extList(items) {
+    if (!Array.isArray(items) || !items.length) return "";
+    return `<ul class="ext-list">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+  }
+
+  function extParagraphs(text) {
+    return String(text || "").split("\n").filter(Boolean)
+      .map((line) => `<p>${escapeHtml(line)}</p>`).join("");
+  }
+
+  function renderQuickinfo() {
+    const root = $("#quickinfo-content");
+    if (!root) return;
+    const qi = guideExtras.quickinfo || {};
+    const flightCards = (qi.flights || []).map((f) => `
+      <div class="ext-card">
+        <h4>${escapeHtml(f.team)}</h4>
+        ${extRows([{ label: "去程", value: f.go }, { label: "回程", value: f.back }])}
+        ${f.note ? `<p class="ext-note">${escapeHtml(f.note)}</p>` : ""}
+      </div>`).join("");
+    const lodgingRows = (qi.lodging || []).map((l) => ({
+      label: `${l.day} · ${l.name}`,
+      value: [l.address, l.note].filter(Boolean).join("｜")
+    }));
+    const rentalCards = (qi.rentalCars || []).map((item) => `
+      <div class="ext-card">
+        <h4>${escapeHtml(item.car)}</h4>
+        ${extRows([{ label: "預約號碼", value: item.bookingNo }, { label: "會員編號", value: item.memberNo }].filter((r) => r.value))}
+        ${item.note ? `<p class="ext-note">${escapeHtml(item.note)}</p>` : ""}
+      </div>`).join("");
+    const docItems = (qi.drivingDocs || []).map((d) =>
+      `<li${d.warn ? ' class="is-warn"' : ""}><strong>${escapeHtml(d.doc)}</strong>：${escapeHtml(d.note)}</li>`).join("");
+    const checklistRows = (qi.checklist || []).map((c) => ({
+      label: `${c.when}｜${c.item}${c.warn ? " ⚠" : ""}`,
+      value: c.note
+    }));
+    const budgetCards = (qi.budget || []).map((b) => `
+      <div class="ext-card">
+        <h4>${escapeHtml(b.item)}</h4>
+        ${extRows([{ label: "價格", value: b.price }])}
+        ${b.note ? `<p class="ext-note">${escapeHtml(b.note)}</p>` : ""}
+      </div>`).join("");
+    const cards = [
+      { title: "航班", body: flightCards },
+      { title: "住宿", body: extRows(lodgingRows) },
+      { title: "租車", body: rentalCards },
+      { title: "駕駛文件", body: `${docItems ? `<ul class="ext-list">${docItems}</ul>` : ""}${qi.drivingDocsAlert ? `<p class="ext-note">${escapeHtml(qi.drivingDocsAlert)}</p>` : ""}` },
+      { title: "出發前行李／文件清單", body: extRows(checklistRows) },
+      { title: "預算", body: `${budgetCards}${qi.budgetNote ? `<p class="ext-note">${escapeHtml(qi.budgetNote)}</p>` : ""}` }
+    ].filter((card) => card.body);
+    root.innerHTML = `<div class="ext-cards">${cards.map((card) => `
+      <article class="ext-panel"><h3>${escapeHtml(card.title)}</h3>${card.body}</article>`).join("")}</div>`;
+  }
+
+  function renderBooking() {
+    const root = $("#booking-content");
+    if (!root) return;
+    const booking = guideExtras.booking || {};
+    const phraseCards = (booking.orderPhrases || []).map((phrase, index) => `
+      <article class="dietary-rule-card">
+        <div class="dietary-rule-top">
+          <div><span class="dietary-rule-number">0${index + 1}</span><h3>點餐日文 ${index + 1}</h3></div>
+          <button class="copy-rule-button" type="button" data-copy-phrase="${index}" aria-label="複製點餐日文 ${index + 1}"><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="12" rx="2" /><path d="M5 16V6a2 2 0 0 1 2-2h8" /></svg><span>複製</span></button>
+        </div>
+        <div class="dietary-rule-japanese"><p lang="ja">${escapeHtml(phrase)}</p></div>
+      </article>`).join("");
+    const priorityRows = (booking.priority || []).map((text, index) => `
+      <div class="ext-row"><dt><span class="priority-number">${index + 1}</span></dt><dd>${escapeHtml(text)}</dd></div>`).join("");
+    root.innerHTML = `
+      <article class="ext-panel">
+        <h3>素食餐廳調查說明</h3>
+        ${extParagraphs(booking.survey)}
+        ${booking.source ? `<p class="ext-note">資料來源：${escapeHtml(booking.source)}</p>` : ""}
+      </article>
+      <h3 class="ext-section-title">點餐日文（四組）</h3>
+      <div class="dietary-rules-grid">${phraseCards}</div>
+      <article class="ext-panel">
+        <h3>訂位優先清單（出發前 1–2 週）</h3>
+        <dl class="ext-table">${priorityRows}</dl>
+      </article>`;
+    root.querySelectorAll("[data-copy-phrase]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const phrase = (booking.orderPhrases || [])[Number(button.dataset.copyPhrase)];
+        if (phrase) copyText(phrase, "已複製點餐日文。", "無法複製，請長按選取文字。");
+      });
+    });
+  }
+
+  const APPENDIX_TABS = [
+    { id: "facilities", label: "設施" },
+    { id: "rental", label: "租車" },
+    { id: "driving", label: "駕駛文件" },
+    { id: "lodging", label: "行前查核" },
+    { id: "rain", label: "雨天備案" },
+    { id: "lingerie", label: "內衣店" },
+    { id: "plush", label: "娃娃機" }
+  ];
+
+  function renderAppendixTabContent(tabId) {
+    const appendix = guideExtras.appendix || {};
+    if (tabId === "facilities") {
+      const rows = (appendix.facilities || []).map((f) => ({
+        label: f.name,
+        value: [f.info, f.link].filter(Boolean).join("｜")
+      }));
+      return `<article class="ext-panel"><h3>設施</h3>${extRows(rows)}
+        ${appendix.facilitiesNote ? `<p class="ext-note">${escapeHtml(appendix.facilitiesNote)}</p>` : ""}</article>`;
+    }
+    if (tabId === "rental") {
+      const cards = (appendix.rentalCars || []).map((item) => `
+        <div class="ext-card">
+          <h4>${escapeHtml(item.car)}</h4>
+          ${extRows([{ label: "預約號碼", value: item.bookingNo }, { label: "會員編號", value: item.memberNo }].filter((r) => r.value))}
+          ${item.note ? `<p class="ext-note">${escapeHtml(item.note)}</p>` : ""}
+        </div>`).join("");
+      return `<article class="ext-panel"><h3>租車</h3>${cards}
+        ${appendix.rentalCarsNote ? `<p class="ext-note">${escapeHtml(appendix.rentalCarsNote)}</p>` : ""}</article>`;
+    }
+    if (tabId === "driving") {
+      const items = (appendix.drivingDocs || []).map((d) =>
+        `<li${d.warn ? ' class="is-warn"' : ""}><strong>${escapeHtml(d.doc)}</strong>：${escapeHtml(d.note)}</li>`).join("");
+      return `<article class="ext-panel"><h3>駕駛文件</h3><ul class="ext-list">${items}</ul>
+        ${appendix.drivingDocsNote ? `<p class="ext-note">${escapeHtml(appendix.drivingDocsNote)}</p>` : ""}</article>`;
+    }
+    if (tabId === "lodging") {
+      const rows = (appendix.lodgingList || []).map((l) => ({
+        label: `${l.day} · ${l.name}`,
+        value: [l.address, l.status].filter(Boolean).join("｜")
+      }));
+      return `<article class="ext-panel"><h3>住宿行前查核</h3>${extRows(rows)}</article>`;
+    }
+    const special = { rain: guideExtras.appendixRain, lingerie: guideExtras.appendixLingerie, plush: guideExtras.appendixPlush }[tabId];
+    if (!special) return "";
+    return `<article class="ext-panel"><h3>${escapeHtml(special.title || "")}</h3>
+      ${(special.sections || []).map((section) => `
+        <h4 class="ext-subheading">${escapeHtml(section.heading)}</h4>${extParagraphs(section.body)}`).join("")}
+    </article>`;
+  }
+
+  function renderAppendix() {
+    const tabsRoot = $("#appendix-tabs");
+    const contentRoot = $("#appendix-content");
+    if (!tabsRoot || !contentRoot) return;
+    tabsRoot.innerHTML = APPENDIX_TABS.map((tab, index) => `
+      <button class="appendix-tab${index === 0 ? " is-active" : ""}" type="button" role="tab"
+        aria-selected="${index === 0}" data-appendix-tab="${tab.id}">${escapeHtml(tab.label)}</button>`).join("");
+    const select = (tabId) => {
+      tabsRoot.querySelectorAll("[data-appendix-tab]").forEach((button) => {
+        const active = button.dataset.appendixTab === tabId;
+        button.classList.toggle("is-active", active);
+        button.setAttribute("aria-selected", String(active));
+      });
+      contentRoot.innerHTML = renderAppendixTabContent(tabId);
+    };
+    tabsRoot.querySelectorAll("[data-appendix-tab]").forEach((button) => {
+      button.addEventListener("click", () => select(button.dataset.appendixTab));
+    });
+    select(APPENDIX_TABS[0].id);
+  }
+
+  /* ---- 記帳 ---- */
+  const expenseState = { rate: null, items: [], resetArmed: false, resetTimer: null };
+
+  function fmtNum(n) {
+    return Number(n).toLocaleString("zh-TW");
+  }
+
+  async function loadExpenseRate() {
+    try {
+      const value = await window.DB.getSetting("fxRate");
+      expenseState.rate = typeof value === "number" && value > 0 ? value : null;
+    } catch (error) {
+      expenseState.rate = null;
+    }
+  }
+
+  function expenseFxNote() {
+    if (expenseState.rate) return `1 日圓 ≒ NT$${expenseState.rate}`;
+    return "請先設定匯率";
+  }
+
+  function renderExpenseApp() {
+    const root = $("#expense-app");
+    if (!root) return;
+    const totals = expenseState.items.reduce((acc, item) => acc + (Number(item.jpy) || 0), 0);
+    const today = new Date().toISOString().slice(0, 10);
+    const rows = [...expenseState.items].reverse().map((item) => {
+      const twd = expenseState.rate ? Math.round(Number(item.jpy) * expenseState.rate) : null;
+      return `<li class="expense-row">
+        <div class="expense-main">
+          <strong>${escapeHtml(item.item || "（未命名）")}</strong>
+          <span class="expense-meta">${escapeHtml(item.date || "")}${item.payer ? ` · ${escapeHtml(item.payer)}` : ""}</span>
+          ${item.note ? `<span class="expense-note">${escapeHtml(item.note)}</span>` : ""}
+        </div>
+        <div class="expense-amount">¥${fmtNum(item.jpy)}${twd !== null ? `<small>≒ NT$${fmtNum(twd)}</small>` : ""}</div>
+        <button class="danger-link" type="button" data-delete-expense="${item.id}">刪除</button>
+      </li>`;
+    }).join("");
+    root.innerHTML = `
+      <div class="expense-rate panel">
+        <label for="fx-rate-input"><strong>匯率設定</strong><span>1 日圓 = ? 新台幣（例如 0.21）</span></label>
+        <div class="expense-rate-row">
+          <input id="fx-rate-input" type="number" step="0.0001" min="0" inputmode="decimal" placeholder="0.21"
+            value="${expenseState.rate ? escapeHtml(String(expenseState.rate)) : ""}" />
+          <button class="button button-secondary" id="fx-rate-save" type="button">儲存</button>
+        </div>
+        <p class="ext-note">${expenseFxNote()}</p>
+      </div>
+      <form class="expense-form panel" id="expense-form">
+        <div class="expense-grid">
+          <label>日期<input type="date" name="date" value="${today}" required /></label>
+          <label>項目<input type="text" name="item" placeholder="例如：晚餐" required /></label>
+          <label>金額（日圓）<input type="number" name="jpy" min="0" step="1" inputmode="numeric" placeholder="0" required /></label>
+          <label>付款人<input type="text" name="payer" placeholder="例如：爸爸" /></label>
+        </div>
+        <label class="expense-note-label">備註<input type="text" name="note" placeholder="選填" /></label>
+        <button class="button button-primary" type="submit">新增支出</button>
+      </form>
+      <div class="expense-totals panel">
+        <div><span>總計（日圓）</span><strong>¥${fmtNum(totals)}</strong></div>
+        <div><span>總計（台幣）</span><strong>${expenseState.rate ? `NT$${fmtNum(Math.round(totals * expenseState.rate))}` : "請先設定匯率"}</strong></div>
+      </div>
+      <ul class="expense-list">${rows || `<li class="ext-empty">尚無支出紀錄</li>`}</ul>
+      <button class="danger-button" id="expense-reset" type="button">${expenseState.resetArmed ? "再次點我確認清除所有記帳資料" : "清除所有記帳資料"}</button>`;
+    $("#fx-rate-save").addEventListener("click", async () => {
+      const value = Number($("#fx-rate-input").value);
+      if (!value || value <= 0) { showToast("請輸入大於 0 的匯率。", 2600); return; }
+      try {
+        await window.DB.setSetting("fxRate", value);
+        expenseState.rate = value;
+        renderExpenseApp();
+        showToast("匯率已儲存。", 2200);
+      } catch (error) { showToast("匯率儲存失敗。", 2600); }
+    });
+    $("#expense-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = event.target;
+      const entry = {
+        date: form.date.value,
+        item: form.item.value.trim(),
+        jpy: Number(form.jpy.value),
+        payer: form.payer.value.trim(),
+        note: form.note.value.trim(),
+        createdAt: new Date().toISOString()
+      };
+      try {
+        await window.DB.addExpense(entry);
+        await loadExpenses();
+        showToast("已新增支出。", 2200);
+      } catch (error) { showToast("新增失敗。", 2600); }
+    });
+    root.querySelectorAll("[data-delete-expense]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        try {
+          await window.DB.deleteExpense(Number(button.dataset.deleteExpense));
+          await loadExpenses();
+        } catch (error) { showToast("刪除失敗。", 2600); }
+      });
+    });
+    armTwoStageReset($("#expense-reset"), () => window.DB.clearExpenses().then(loadExpenses), "記帳資料已清除。");
+  }
+
+  async function loadExpenses() {
+    try {
+      expenseState.items = await window.DB.getExpenses();
+    } catch (error) {
+      expenseState.items = [];
+    }
+    renderExpenseApp();
+  }
+
+  /* 兩段式重設：第一次警告，8 秒內第二次才清除 */
+  function armTwoStageReset(button, clearFn, doneMessage) {
+    if (!button) return;
+    const disarm = () => {
+      expenseState.resetArmed = false;
+      memoState.resetArmed = false;
+      window.clearTimeout(button._resetTimer);
+      if (button.isConnected) {
+        button.textContent = button.dataset.label || "清除";
+        button.classList.remove("is-armed");
+      }
+    };
+    button.dataset.label = button.textContent;
+    button.addEventListener("click", () => {
+      const armed = button.classList.contains("is-armed");
+      if (!armed) {
+        button.classList.add("is-armed");
+        button.textContent = "確定清除？8 秒內再點一次才會刪除";
+        button._resetTimer = window.setTimeout(disarm, 8000);
+        showToast("再次點擊才會清除，此操作無法復原。", 3200);
+        return;
+      }
+      window.clearTimeout(button._resetTimer);
+      clearFn().then(() => {
+        disarm();
+        showToast(doneMessage, 2600);
+      }).catch(() => showToast("清除失敗。", 2600));
+    });
+  }
+
+  /* ---- 隨手筆記 ---- */
+  const memoState = { items: [], resetArmed: false, editingId: null };
+
+  function renderMemoApp() {
+    const root = $("#memo-app");
+    if (!root) return;
+    const cards = [...memoState.items].reverse().map((memo) => {
+      const editing = memoState.editingId === memo.id;
+      const updated = memo.updatedAt ? new Date(memo.updatedAt) : null;
+      return `<li class="memo-card">
+        ${editing ? `
+          <textarea id="memo-edit-${memo.id}" rows="4">${escapeHtml(memo.text)}</textarea>
+          <div class="memo-actions">
+            <button class="button button-primary" type="button" data-memo-save="${memo.id}">儲存</button>
+            <button class="button button-secondary" type="button" data-memo-cancel="${memo.id}">取消</button>
+          </div>` : `
+          <p class="memo-text">${escapeHtml(memo.text)}</p>
+          <span class="memo-meta">${updated ? `更新於 ${updated.toLocaleString("zh-TW", { timeZone: data.meta.timezone })}` : ""}</span>
+          <div class="memo-actions">
+            <button class="text-button" type="button" data-memo-edit="${memo.id}">修改</button>
+            <button class="danger-link" type="button" data-memo-delete="${memo.id}">刪除</button>
+          </div>`}
+      </li>`;
+    }).join("");
+    root.innerHTML = `
+      <form class="memo-form panel" id="memo-form">
+        <label for="memo-input"><strong>新增筆記</strong></label>
+        <textarea id="memo-input" rows="3" placeholder="例如：明天要先去藥局買暈車藥…"></textarea>
+        <button class="button button-primary" type="submit">新增</button>
+      </form>
+      <ul class="memo-list">${cards || `<li class="ext-empty">尚無筆記</li>`}</ul>
+      <button class="danger-button" id="memo-reset" type="button">清除所有筆記</button>`;
+    $("#memo-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const text = $("#memo-input").value.trim();
+      if (!text) { showToast("請先輸入筆記內容。", 2200); return; }
+      try {
+        await window.DB.addNote({ text, createdAt: new Date().toISOString(), updatedAt: new Date().toISOString() });
+        await loadMemos();
+        showToast("已新增筆記。", 2200);
+      } catch (error) { showToast("新增失敗。", 2600); }
+    });
+    root.querySelectorAll("[data-memo-edit]").forEach((button) => {
+      button.addEventListener("click", () => { memoState.editingId = Number(button.dataset.memoEdit); renderMemoApp(); });
+    });
+    root.querySelectorAll("[data-memo-cancel]").forEach((button) => {
+      button.addEventListener("click", () => { memoState.editingId = null; renderMemoApp(); });
+    });
+    root.querySelectorAll("[data-memo-save]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        const id = Number(button.dataset.memoSave);
+        const text = document.getElementById(`memo-edit-${id}`).value.trim();
+        if (!text) { showToast("筆記內容不可空白。", 2200); return; }
+        try {
+          await window.DB.updateNote(id, { text, updatedAt: new Date().toISOString() });
+          memoState.editingId = null;
+          await loadMemos();
+        } catch (error) { showToast("儲存失敗。", 2600); }
+      });
+    });
+    root.querySelectorAll("[data-memo-delete]").forEach((button) => {
+      button.addEventListener("click", async () => {
+        try {
+          await window.DB.deleteNote(Number(button.dataset.memoDelete));
+          await loadMemos();
+        } catch (error) { showToast("刪除失敗。", 2600); }
+      });
+    });
+    armTwoStageReset($("#memo-reset"), () => window.DB.clearNotes().then(loadMemos), "筆記已清除。");
+  }
+
+  async function loadMemos() {
+    try {
+      memoState.items = await window.DB.getNotes();
+    } catch (error) {
+      memoState.items = [];
+    }
+    renderMemoApp();
+  }
+
+  async function initV16Features() {
+    renderQuickinfo();
+    renderBooking();
+    renderAppendix();
+    try {
+      await window.DB.init();
+      await loadExpenseRate();
+      await loadExpenses();
+      await loadMemos();
+    } catch (error) {
+      showToast("本機資料庫無法使用，記帳與筆記將無法儲存。", 3600);
+    }
+  }
+
   function setupFloatingNav() {
     const links = $$(".nav-item");
     const sections = links
@@ -758,6 +1165,7 @@
     renderDay();
     renderDietaryRules();
     registerPwa();
+    initV16Features();
     $("#share-button").addEventListener("click", shareTrip);
     $("#install-button").addEventListener("click", installPwa);
     $("#install-footer-button").addEventListener("click", showInstallDialog);

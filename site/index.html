@@ -63,7 +63,7 @@
           <div class="notice-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M12 7v6m0 4h.01M10.1 3.8 2.7 17a2 2 0 0 0 1.75 3h15.1a2 2 0 0 0 1.75-3l-7.4-13.2a2.16 2.16 0 0 0-3.8 0Z"/></svg></div>
           <div>
             <strong id="fact-gate-title">行前核對提醒</strong>
-            <p>本網站以 v7 PDF 作為行程、營業時間與訂位狀態主體，並整合蔬食指南的餐廳特色與連結。航班、JUNGLIA 2026/12/20 時段、餐廳預約與各景點臨時公告，出發前仍需再確認。</p>
+            <p>本網站以 v16 PDF（26 頁）作為行程、營業時間與訂位狀態主體，並整合 Day1–5 素食餐廳調查報告。航班、JUNGLIA 2026/12/20 時段、餐廳預約與各景點臨時公告，出發前仍需再確認。</p>
           </div>
           <button class="text-button" id="show-sources-button" type="button">查看查核來源</button>
         </section>
@@ -96,7 +96,7 @@
             <div>
               <h2 id="day-heading">每日行程</h2>
             </div>
-            <p class="section-note" id="last-updated">網站資料層：2026-09-07 · Asia/Taipei</p>
+            <p class="section-note" id="last-updated">網站資料層：2026-09-28 · Asia/Taipei</p>
           </div>
           <nav class="day-tabs" id="day-tabs" aria-label="選擇行程日"></nav>
 
@@ -140,7 +140,7 @@
             <div class="section-heading subsection-heading">
               <div>
                 <h3 id="meal-title">今日餐廳建議</h3>
-                <p class="section-note">v7 PDF 主體 · 點開餐廳查看特色、營業適配與導航</p>
+                <p class="section-note">v16 PDF 主體 · 點開餐廳查看特色、營業適配與導航</p>
               </div>
               <span class="status-pill status-recheck">蔬食指南整合</span>
             </div>
@@ -157,6 +157,57 @@
             <button class="text-button" id="copy-dietary-rules" type="button">複製四句日文</button>
           </div>
           <div class="dietary-rules-grid" id="dietary-rules-grid"></div>
+        </section>
+
+        <section class="trip-section section-pad" id="quickinfo" aria-labelledby="quickinfo-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="quickinfo-title">行前資訊</h2>
+              <p class="section-note">v16 PDF 行前快速資訊：航班、住宿、租車、駕駛文件、行李清單、預算</p>
+            </div>
+          </div>
+          <div id="quickinfo-content"></div>
+        </section>
+
+        <section class="trip-section section-pad" id="booking" aria-labelledby="booking-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="booking-title">訂位優先清單</h2>
+              <p class="section-note">出發前 1–2 週先搞定這 8 項；點餐四句日文已收錄</p>
+            </div>
+          </div>
+          <div id="booking-content"></div>
+        </section>
+
+        <section class="trip-section section-pad" id="appendix" aria-labelledby="appendix-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="appendix-title">完整附錄</h2>
+              <p class="section-note">設施、租車、駕駛文件、行前查核、雨天備案、內衣店、娃娃機</p>
+            </div>
+          </div>
+          <nav class="appendix-tabs" id="appendix-tabs" aria-label="附錄分類"></nav>
+          <div id="appendix-content"></div>
+        </section>
+
+        <section class="trip-section section-pad" id="expenses" aria-labelledby="expenses-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="expenses-title">記帳</h2>
+              <p class="section-note">資料只存在本機 IndexedDB；匯率未設定前不換算</p>
+            </div>
+          </div>
+          <div id="expense-app"></div>
+        </section>
+
+        <section class="trip-section section-pad" id="memos" aria-labelledby="memos-title">
+          <div class="section-heading">
+            <div>
+              <h2 id="memos-title">隨手筆記</h2>
+              <p class="section-note">新增、修改、刪除；資料只存在本機 IndexedDB</p>
+            </div>
+          </div>
+          <div id="memo-app"></div>
         </section>
 
         <section class="map-section section-pad" id="map-section" aria-labelledby="map-title">
@@ -205,21 +256,19 @@
           <div class="sources-grid">
             <article class="source-card">
               <h3>來源行程</h3>
-              <p>使用者最新上傳之「沖繩家族旅遊_領隊版_v7.pdf」內容；已逐頁人工核對 16 頁，內文涵蓋 Day0–Day5。行程、營業時間與訂位狀態以此 PDF 為主。</p>
-              <code>SHA-256：639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D</code>
+              <p>使用者上傳之「沖繩家族旅遊_領隊版_v16.pdf」內容；已逐頁人工核對 26 頁，內文涵蓋 Day0–Day5。行程、營業時間與訂位狀態以此 PDF 為主。</p>
+              <code>SHA-256：7D98924C60DB129A6BA82B338C09FE21979486CD94F48160E9CFCA53D948D7CFD</code>
             </article>
             <article class="source-card">
-              <h3>蔬食餐廳指南</h3>
-              <p>以「每日蔬食餐廳完整推薦指南 v3.1」補充餐廳特色、地址、官方網站與 Google Maps；若與 v7 PDF 的時段或訂位狀態不同，以 PDF 為準。</p>
-              <code>SHA-256：14C3CA674C006973870C14C47F42C562E9138F95D3C8D7D31E1FB4BFF34C33D3</code>
+              <h3>素食餐廳調查</h3>
+              <p>以 Day1–5 素食餐廳調查報告補充餐廳特色、地址、電話、官方網站與 Google Maps；若與 v16 PDF 的時段或訂位狀態不同，以 PDF 為準。</p>
               <div class="source-links">
-                <a href="https://hateruma.jcc-okinawa.net/" target="_blank" rel="noopener">波照間官方網站</a>
-                <a href="https://maps.app.goo.gl/1e6UQL7usckTacay6" target="_blank" rel="noopener">波照間 Google Maps</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=%E6%B2%96%E7%B9%A9%E6%96%99%E7%90%86+%E7%8E%89%E6%89%8B%E7%AE%B1+Okinawa" target="_blank" rel="noopener">玉手箱 Google Maps</a>
               </div>
             </article>
             <article class="source-card">
               <h3>住宿 / 租車</h3>
-              <p>Day 0 為 Y's Inn；Day 1–2 為阿拉馬海納、Day 3 為 La'gent、Day 4–5 為 HOTEL ANTEROOM，均依 v7 PDF 對照；還車已移至 Day 5 08:20-09:00，OTS 營業與訂位資訊出發前仍須重查。</p>
+              <p>Day 0 為 Y's Inn；Day 1–2 為阿拉馬海納、Day 3 為 La'gent、Day 4–5 為 HOTEL ANTEROOM，均依 v16 PDF 對照；還車已移至 Day 5 08:00-09:00，OTS 營業與訂位資訊出發前仍須重查。</p>
               <div class="source-links">
                 <a href="https://www.ala-mahaina.com/en/" target="_blank" rel="noopener">Ala MAHAINA</a>
                 <a href="https://lagent.jp/chatan/contact" target="_blank" rel="noopener">La'gent Chatan</a>
@@ -252,9 +301,25 @@
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3v8m3-8v8m-3-4h3m-1.5 4v10M15 3v17m0-17c2.8 1.2 4.2 3.2 4.2 5.9 0 2.7-1.4 4.7-4.2 5.9" /></svg>
           <span>餐廳</span>
         </a>
-        <a class="nav-item" href="#map-section" data-nav-target="map-section">
-          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m4 6 6-3 6 3 4-2v14l-4 2-6-3-6 3V6Zm6-3v14m6-11v14" /></svg>
-          <span>地圖</span>
+        <a class="nav-item" href="#quickinfo" data-nav-target="quickinfo">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8v5m0 4h.01M10.3 3.9 2.6 17.3a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z" /></svg>
+          <span>行前</span>
+        </a>
+        <a class="nav-item" href="#booking" data-nav-target="booking">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3v4m8-4v4M4 8h16v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8Zm2 5h4" /></svg>
+          <span>訂位</span>
+        </a>
+        <a class="nav-item" href="#appendix" data-nav-target="appendix">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v11H8a3 3 0 0 1-3-3V4Zm0 0v11m4 0h8" /></svg>
+          <span>附錄</span>
+        </a>
+        <a class="nav-item" href="#expenses" data-nav-target="expenses">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h16M4 15h16M7 3v4m10-4v4M5 5h14a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" /></svg>
+          <span>記帳</span>
+        </a>
+        <a class="nav-item" href="#memos" data-nav-target="memos">
+          <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l10.5-10.5a1.5 1.5 0 0 0-2.1-2.1L6 18l-2 2Zm2-2 2-2" /></svg>
+          <span>筆記</span>
         </a>
         <a class="nav-item" href="#notes" data-nav-target="notes">
           <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 4.5A2.5 2.5 0 0 1 8.5 2H19v16H8.5A2.5 2.5 0 0 0 6 20.5v-16Zm0 0v16M9 6h7m-7 4h6m-6 4h4" /></svg>
@@ -300,6 +365,8 @@
     <script src="./config.js"></script>
     <script src="./data/trip-data.js"></script>
     <script src="./data/restaurant-guide.js"></script>
+    <script src="./data/guide-extras.js"></script>
+    <script src="./db.js"></script>
     <script src="./app.js" defer></script>
   </body>
 </html>

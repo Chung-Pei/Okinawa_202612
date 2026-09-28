@@ -1,13 +1,14 @@
-const CACHE_NAME = "okinawa-leader-pwa-v14";
+const CACHE_NAME = "okinawa-leader-pwa-v16";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./styles.css",
   "./app.js",
   "./config.js",
+  "./db.js",
   "./data/trip-data.js",
   "./data/restaurant-guide.js",
-  "./data/claim-ledger.json",
+  "./data/guide-extras.js",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-180.png",

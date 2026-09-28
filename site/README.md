@@ -14,7 +14,7 @@
 本版使用 Leaflet＋公開 OpenStreetMap 底圖，在 PWA 頁面內呈現類似參考截圖的互動介面：
 
 1. 日期分頁切換每日地圖。
-2. 地圖以編號圖釘標出當日景點，並依 v7 PDF 的停靠／分支順序畫出規劃線；步行／轉乘段以虛線表示。
+2. 地圖以編號圖釘標出當日景點，並依 v16 手冊的停靠／分支順序畫出規劃線；步行／轉乘段以虛線表示。
 3. 右側（手機版為下方）景點卡片可點選地圖標記；每一站都有 Google Maps 外部搜尋連結。
 4. 每日上方與各路段仍保留 Google Maps 導航交接，出發時由 Google Maps 處理即時交通與轉彎指示。
 
@@ -33,11 +33,11 @@
 
 ## 內容來源與維護
 
-最新行程來源為使用者提供、於 2026-09-07 核對的 16 頁 `沖繩家族旅遊_領隊版_v7.pdf`，SHA-256 為 `639AA148A50258B8A9CB98437FDE1AAA5BBD0BB3F1C39E5AA1B8CFDAB2E9A12D`。已逐頁核對 Day 0-Day 5，再同步到 `site/data/trip-data.js`；匯入對照、差異與座標記錄放在 `site/data/import-ledger.json`、`site/data/import-findings.json`、`site/data/travel.draft.json`、`site/data/claim-ledger.json`。餐廳卡片由 `site/data/restaurant-guide.js` 載入，v7 PDF 控制時段、營業適配與訂位狀態，MD v3.1 補充餐廳敘述與連結；若已知當時段未營業，直接從可用清單移除。
+最新行程來源為使用者提供、於 2026-09-28 核對的 26 頁 `沖繩家族旅遊_領隊版_v16.pdf`，SHA-256 為 `7d98924c60db129a6ba82b338c09fe21979486cd94f48160e9cfc53d948d7cfd`。已逐頁核對 Day 0-Day 5，再同步到 `site/data/trip-data.js`；v7 時代的匯入對照、差異與座標紀錄封存在 `site/data/_archive/`。餐廳卡片由 `site/data/restaurant-guide.js` 載入，v16 PDF 控制時段、營業適配與訂位狀態，Day1-5.md 素食調查報告（2026/9）補充餐廳排名、地址、電話、營業時間、官方網站／IG 與訂位提醒；若已知當時段未營業，直接從可用清單移除。
 
 行程資料集中在 `site/data/trip-data.js`，日後只需更新該檔案即可調整行程、住宿、路線與聯絡資訊。官方來源連結也列在網站底部，適合出發前重新確認航班、景點公告、住宿政策與租車資訊。
 
-本版保留未來日期與尚未公告資訊的條件式提示：JUNGLIA 開園／票務、航班、餐廳預約、景點營業時間與停車都應在出發前再確認。Day 4 的波照間是尚未訂位的建議候選；Day 0 改住 Y's Inn；Day 4-5 改住 HOTEL ANTEROOM；Day 5 先到 OTS 還車，再步行至相鄰 iias／DMM，iias→機場才依 A/B 航班選計程車或公共交通。
+本版保留未來日期與尚未公告資訊的條件式提示：JUNGLIA 開園／票務、航班、餐廳預約、景點營業時間與停車都應在出發前再確認。Day 4 晚餐首選 Tamatebako（8 人需提前訂位）；Day 0 改住 Y's Inn 那霸小祿駅前；Day 4-5 改住 HOTEL ANTEROOM NAHA；Day 5 先到 OTS 還車（兩台車分別辦理），再步行至相鄰 iias／DMM，iias→機場才依 A/B 航班選計程車或公共交通。
 
 ## 本機預覽
 
