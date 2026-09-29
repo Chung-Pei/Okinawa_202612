@@ -106,12 +106,12 @@ schedule: [
 { time: "09:00", title: "A 隊退房", detail: "09:15 自小祿駅搭單軌（2 站約 5 分／¥250）往那霸機場。", tag: "A 隊", type: "source"},
 { time: "09:15-10:20", title: "入境、全隊會合", detail: "國際線到達大廳會合；保留排隊緩衝。", tag: "集合", type: "source"},
 { time: "10:20-11:40", title: "接駁前往 OTS 豐崎租車", detail: "接駁約 15–20 分；兩台車分別辦手續（OTS1504557／OTS1501685），駕駛出示護照＋台灣駕照正本＋日文譯本；全程錄影車況。文件放同一文件袋，QR 碼截圖各自存好。", tag: "租車", type: "source"},
-{ time: "12:00-13:30", title: "瀨長島午餐", detail: "SEE THE SEA（免預約）＞ A Happy Pancake（需兩週前預約）＞ POSILLIPO。", tag: "午餐", type: "conditional"},
+{ time: "12:00-13:30", title: "瀨長島午餐", detail: "SEE THE SEA（免預約）＞ A Happy Pancake（不接受訂位，現場排隊）＞ POSILLIPO。", tag: "午餐", type: "conditional"},
 { time: "13:40-14:10", title: "業務超市小祿店（可跳過）", detail: "09:30–20:00；行程緊可直接跳過。若 13:30 離開瀨長島已 delay 30 分鐘以上，直接跳過，保證 18:30 前到飯店。", tag: "彈性停靠", type: "conditional"},
 { time: "15:10-15:50", title: "萬座毛（優先保留）", detail: "11–2 月 08:00–19:00；現場酌收 100 日圓。", tag: "主要景點", type: "source"},
 { time: "16:30-17:30", title: "許田休息站", detail: "08:30–19:00 全年無休；買土產、水果、美麗海水族館優惠票。", tag: "休息／採買", type: "source"},
 { time: "17:55-18:00", title: "抵達阿拉馬海納，check in", detail: "1421-1 Yamagawa, Motobu；許田直達約 25 分。", tag: "住宿", type: "source"},
-{ time: "19:30-21:00", title: "晚餐（若許田未用餐）", detail: "海邦丸（提前預約客製）為主；喜菜ハウス瀬底為備案（先確認營業時間）。", tag: "晚餐", type: "conditional"}
+{ time: "19:30-21:00", title: "晚餐（若許田未用餐）", detail: "海邦丸（晚餐不接受訂位，現場排隊請提早到；素食靠客製，點餐時說明需求）為主；喜菜ハウス瀬底為備案（先確認營業時間）。", tag: "晚餐", type: "conditional"}
 ],
 route: {
 source: "v16 路線：OTS 豐崎 → 瀨長島 → 業務超市 → 萬座毛 → 許田 → 阿拉馬海納",
@@ -250,7 +250,7 @@ schedule: [
 { time: "16:35", title: "抵達 HOTEL ANTEROOM NAHA，check in", detail: "已訂 3 間房，Check-in 15:00 起。停車 52 格、1,500 円／晚，先到先得；先處理行李再確認車位。", tag: "住宿／停車", type: "source"},
 { time: "16:35-18:00", title: "飯店休息、整理隔日行李", detail: "車留飯店；Day 5 早上到 OTS 還車。", tag: "休息", type: "source"},
 { time: "18:00", title: "步行前往國際通", detail: "前島步行至國際通約 15–20 分；今晚不開車。", tag: "步行", type: "source"},
-{ time: "18:40", title: "晚餐「Tamatebako」", detail: "純素、★4.7；小店一人經營，8 人務必提前預約。", tag: "晚餐", type: "conditional"},
+{ time: "18:40", title: "晚餐「Tamatebako」", detail: "純素、★4.7；小店一人經營，不接受訂位，建議開店 17:00 就到現場候位。", tag: "晚餐", type: "conditional"},
 { time: "20:00", title: "繼續逛國際通", detail: "依全家體力與回程交通調整。", tag: "逛街", type: "source"},
 { time: "21:00", title: "步行回 HOTEL ANTEROOM 休息", detail: "今天不還車；整理 Day 5 07:30 退房與還車文件。回程備案：美榮橋駅步行約 12 分（末班車 23:30），或叫計程車（約 ¥1,000、5 分）。", tag: "住宿", type: "source"}
 ],
