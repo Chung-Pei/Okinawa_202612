@@ -1,4 +1,4 @@
-const CACHE_NAME = "okinawa-leader-pwa-v16-4";
+const CACHE_NAME = "okinawa-leader-pwa-v16-5";
 const APP_SHELL = [
   "./",
   "./index.html",

@@ -72,7 +72,7 @@ window.RESTAURANT_GUIDE = {
           time: "12:00–13:30",
           location: "瀨長島 Umikaji Terrace",
           fit: "時段適配",
-          strategy: "SEE THE SEA ＞ A Happy Pancake ＞ POSILLIPO；A Happy Pancake 須兩週前預約。",
+          strategy: "SEE THE SEA ＞ A Happy Pancake ＞ POSILLIPO；A Happy Pancake 不接受訂位，現場排隊。",
           options: [
             {
               rank: "①首選",
@@ -98,7 +98,7 @@ window.RESTAURANT_GUIDE = {
               hours: "週五 11:00–21:00（鹹鬆餅僅供應至 14:30）",
               highlights: ["水果舒芙蕾厚鬆餅", "親子友善"],
               detail: "鬆餅為蛋奶素；親子友善、幼兒接受度高。",
-              caution: "需兩週前預約，未預約極可能撲空；8 人建議分桌或先電話確認。",
+              caution: "全店不接受訂位（含室內），只能現場排隊；熱門時段久候，建議早到；8 人建議分桌。",
               website: "http://magia.tokyo/",
               query: "A Happy Pancake 瀨長島"
             },
@@ -124,7 +124,7 @@ window.RESTAURANT_GUIDE = {
           time: "19:30–21:00",
           location: "本部町 Hanasaki Marche 周邊",
           fit: "PDF v16 時段適配",
-          strategy: "海邦丸提前預約客製為主線；喜菜ハウス瀬底為備案（先確認營業時間）。",
+          strategy: "海邦丸晚餐現場排隊提早到為主線；喜菜ハウス瀬底為備案（先確認營業時間）。",
           options: [
             {
               rank: "①首選",
@@ -136,8 +136,8 @@ window.RESTAURANT_GUIDE = {
               hours: "週五 11:30–15:00／17:30–21:00（週四店休）",
               highlights: ["本區評分最高", "住宿隔壁步行可達"],
               detail: "Hanasaki Marche 館內，住宿隔壁、步行可達，本區評分最高。",
-              caution: "海鮮餐廳，素食靠預約時客製；務必提前數天電話訂位並說明素食需求。",
-              instagram: "https://www.instagram.com/kaihoumaru2/",
+              caution: "晚餐不接受訂位，現場排隊請提早到；午餐部分時段可電話預約（0980-48-3343）。素食靠客製，點餐時說明需求。",
+              instagram: "https://www.instagram.com/kaihoumaru3343/",
               query: "海人料理 海邦丸 本部町"
             },
             {
@@ -149,7 +149,7 @@ window.RESTAURANT_GUIDE = {
               hours: "營業時間未確認",
               highlights: ["本部町少數純素餐廳"],
               detail: "本部町少數純素餐廳。",
-              caution: "營業時間未確認，出發前務必電話確認營業時間與 8 人座位。",
+              caution: "營業狀態未能查證；僅在行前電話確認有營業後才列入。",
               query: "喜菜ハウス瀬底 本部町"
             },
             {
@@ -190,7 +190,7 @@ window.RESTAURANT_GUIDE = {
               hours: "午餐 12:00–15:30（L.O. 14:30），週四定休；12/19（六）正常營業",
               highlights: ["有機蔬菜", "全席海景", "兒童椅"],
               detail: "古宇利地產有機蔬菜，廚師可配合調整；全席海景、有兒童椅。午餐約 ¥3,000–3,999／人。",
-              caution: "14:00 抵達距 L.O. 僅 30 分鐘，務必事先訂位並註明素食＋爭取提早入座。",
+              caution: "14:00 抵達距 L.O. 僅 30 分鐘，務必事先訂位（TableCheck 線上或電話 0980-51-5031）並註明素食＋爭取提早入座。",
               instagram: "https://www.instagram.com/onesuite_llota_kouri",
               query: "Restaurant L LOTA 古宇利島"
             },
@@ -240,7 +240,7 @@ window.RESTAURANT_GUIDE = {
               hours: "水–日 11:00–15:00、17:00–21:00（晚餐 L.O. 20:00），週二定休；12/19（六）正常營業",
               highlights: ["島豆腐專門店", "親子友善（兒童椅）", "半個室可接 8 人"],
               detail: "島豆腐專門店；42 席＋半個室可接 8 人，親子友善（兒童椅）。",
-              caution: "沖縄そば湯頭通常含鰹だし，點餐時確認湯頭，改點島豆腐定食或素食品項；僅收現金；建議訂位。",
+              caution: "沖縄そば湯頭通常含鰹だし，點餐時確認湯頭，改點島豆腐定食或素食品項；僅收現金；訂位政策未能查證，建議電話 050-1039-1527 確認。",
               instagram: "https://www.instagram.com/topu.okinawa/",
               query: "沖縄料理と島どうふ TO-PU 本部町"
             },
@@ -293,7 +293,7 @@ window.RESTAURANT_GUIDE = {
               hours: "週日 11:00–15:30 涵蓋午餐",
               highlights: ["名護市區素食定位明確", "溝通風險最低"],
               detail: "名護市區素食定位明確的餐廳，溝通風險最低。",
-              caution: "小店，8 人務必事前 IG DM 訂位；再確認 12/20 是否營業。",
+              caution: "訂位方式未能查證，建議 IG DM 直接詢問；再確認 12/20 是否營業。",
               instagram: "https://instagram.com/ital_syokudou",
               query: "アイタル食堂 名護市宇茂佐"
             },
@@ -306,7 +306,7 @@ window.RESTAURANT_GUIDE = {
               hours: "週日 8:00–15:00（週二・週四定休）",
               highlights: ["豆咖哩", "野菜咖哩純素選項"],
               detail: "豆咖哩、野菜咖哩純素選項固定供應；湯底多為蔬菜／豆類。",
-              caution: "廚房有魚類食材，點「野菜カレー／豆カレー」並出示素食溝通用語；8 人提前 IG 訂位。",
+              caution: "廚房有魚類食材，點「野菜カレー／豆カレー」並出示素食溝通用語；訂位方式未能查證，建議 IG DM 詢問。",
               instagram: "https://instagram.com/nakara_masala",
               query: "ナカラマサラ 名護"
             },
@@ -319,7 +319,7 @@ window.RESTAURANT_GUIDE = {
               hours: "週日 12:00–15:00（建議 13:00 前入座）",
               highlights: ["起司＋野菜版本可麗餅", "農家直營氣氛"],
               detail: "蕎麥粉可麗餅專門店，可做起司＋野菜版本。",
-              caution: "非素食專門店，確認醬料／湯品是否含魚高湯；8 人建議 IG DM 預約。",
+              caution: "非素食專門店，確認醬料／湯品是否含魚高湯；訂位方式未能查證，建議 IG DM 詢問。",
               instagram: "https://www.instagram.com/gakuya.galette/",
               query: "農家の台所 楽家 名護"
             }
@@ -393,7 +393,7 @@ window.RESTAURANT_GUIDE = {
               hours: "週日 08:00–22:00",
               highlights: ["海景第一排", "遊戲區、授乳室"],
               detail: "海景第一排；親子設施完善（遊戲區、授乳室）。健康輕食蛋奶素可應付。",
-              caution: "無明確素食菜單，點餐時出示日文溝通句確認食材；建議訂位。",
+              caution: "無明確素食菜單，點餐時出示日文溝通句確認食材；Tabelog 可訂位（098-926-1010），座位限時 90 分。",
               website: "http://thecalifkitchen.okinawa/",
               query: "The Calif Kitchen Okinawa"
             }
@@ -467,10 +467,10 @@ window.RESTAURANT_GUIDE = {
               dietary: "純素餐廳",
               address: "那覇市牧志3-10-7",
               phone: "098-943-2567",
-              hours: "週一 18:00–22:00（另有資料 17:00–23:00，無論如何皆涵蓋 18:40）",
+              hours: "週一 17:00–23:00（週三・四定休）",
               highlights: ["laksa", "花生豆腐", "海葡萄"],
               detail: "國際通周邊評分最高的純素餐廳；台灣五辛素安心。",
-              caution: "店面小、一人經營，8 人務必提前預約；有幼兒可坐但空間較擠。",
+              caution: "不接受訂位，現場候位；店面小一人經營，建議開店 17:00 就到；有幼兒可坐但空間較擠。",
               website: "https://www.tamatebako-okinawa.com/",
               query: "Tamatebako 那覇市牧志"
             },
