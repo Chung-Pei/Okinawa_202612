@@ -26,6 +26,7 @@ phone: "+81-980-51-7800",
 map: { query: "Ala MAHAINA CONDO HOTEL, Okinawa Motobu Yamagawa 1421-1"},
 website: "https://www.ala-mahaina.com/en/",
 source: "v16 手冊",
+parking: "約 300 台・屋外・1 泊 1 台 1,000 円（上限 2,000 円）・不可預約",
 note: "Day 1-2 住宿基地。"
 },
 lagent: {
@@ -48,7 +49,8 @@ email: "info@ys-inn.jp",
 map: { query: "ワイズイン那覇小禄駅前, 沖縄県那覇市金城5丁目9番地1"},
 website: "https://ys-inn.jp/",
 source: "v16 手冊",
-note: "Day 0 A 隊住宿；Check-in 16:00–02:00、Check-out 10:00。停車 14 格機械式、1,000 円／晚，先到先得；晚到前先電話確認。"
+parking: "僅 14 格・機械式・先到先得・1,000 円／晚；若預計晚到，請先電話確認車位。",
+note: "Day 0 A 隊住宿；Check-in 16:00–02:00、Check-out 10:00。"
 },
 anteroom: {
 name: "HOTEL ANTEROOM NAHA",
@@ -59,7 +61,15 @@ email: "info@anteroom-naha.com",
 map: { query: "HOTEL ANTEROOM NAHA, 沖縄県那覇市前島3丁目27番地11"},
 website: "https://www.uds-hotels.com/anteroom/naha/",
 source: "v16 手冊",
-note: "Day 4-5 住宿；已訂 3 間房；Check-in 15:00、Check-out 11:00。停車 52 格、1,500 円／晚，先到先得。"
+parking: "52 格・1,500 円／晚・先到先得。",
+note: "Day 4 住宿；已訂 3 間房；Check-in 15:00、Check-out 11:00。"
+},
+home: {
+name: "溫暖的家",
+english: "Home Sweet Home",
+address: "台灣・自家",
+note: "Day5 還車返台，今晚睡自己家。",
+source: "行程安排"
 }
 },
 days: [
@@ -288,7 +298,7 @@ title: "還車、iias／DMM、機場",
 intro: "退房後直達 OTS 豐崎還車（波上宮已在 Day4 參拜過，不繞路）；還車後步行至 iias／DMM，下午依航班分流。",
 mode: "mixed",
 transportLabel: "上午自駕至還車；還車後步行／計程車",
-lodgingKey: "anteroom",
+lodgingKey: "home",
 weather: { label: "那霸市區／前島／機場", lat: 26.2255762, lng: 127.6792215},
 schedule: [
 { time: "07:00", title: "早餐自理", detail: "整理行李與退房文件。", tag: "集合", type: "source"},

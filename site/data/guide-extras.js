@@ -19,7 +19,8 @@ window.GUIDE_EXTRAS = {
       { day: "Day0", name: "Y's Inn 那覇小祿駅前", address: "那覇市金城5-9-1", note: "停車僅 14 格・機械式・先到先得" },
       { day: "Day1–2", name: "阿拉馬海納（Ala MAHAINA）", address: "1421-1 Yamagawa, Motobu", note: "已訂 3 間房・朝食付" },
       { day: "Day3", name: "La'gent Hotel Okinawa Chatan", address: "北谷町美浜25-3", note: "已訂 3 間房・8 位・現場支付 ¥43,596" },
-      { day: "Day4–5", name: "HOTEL ANTEROOM NAHA", address: "那覇市前島3-27-11", note: "已訂 3 間房・停車 52 格・1,500円／晚" }
+      { day: "Day4", name: "HOTEL ANTEROOM NAHA", address: "那覇市前島3-27-11", note: "已訂 3 間房・停車 52 格・1,500円／晚" },
+      { day: "Day5", name: "溫暖的家", address: "台灣", note: "返台，今晚睡自己家" }
     ],
     rentalCars: [
       { car: "車輛①", bookingNo: "OTS1504557", memberNo: "OTSP0725062", note: "取車時出示 QR 碼（截圖或列印皆可）" },
@@ -108,7 +109,8 @@ window.GUIDE_EXTRAS = {
       { day: "Day0", name: "Y's Inn 那覇小祿駅前", address: "那覇市金城5-9-1", status: "已預訂；需寄放行李請先詢問櫃台" },
       { day: "Day1–2", name: "阿拉馬海納", address: "1421-1 Yamagawa, Motobu", status: "已訂 3 間房，朝食付" },
       { day: "Day3", name: "La'gent Hotel Okinawa Chatan", address: "北谷町美浜25-3", status: "已訂 3 間房・8 位，現場支付，共 ¥43,596" },
-      { day: "Day4–5", name: "HOTEL ANTEROOM NAHA", address: "那覇市前島3-27-11", status: "已訂 3 間房" }
+      { day: "Day4", name: "HOTEL ANTEROOM NAHA", address: "那覇市前島3-27-11", status: "已訂 3 間房" },
+      { day: "Day5", name: "溫暖的家", address: "台灣", status: "返台，今晚睡自己家" }
     ]
   },
   appendixRain: {

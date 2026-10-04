@@ -189,8 +189,9 @@
         <p class="lodging-en">${escapeHtml(lodging.english)}</p>
         <p class="lodging-address">${escapeHtml(lodging.address)}</p>
         <div class="lodging-actions">
-          <a class="contact-chip" href="tel:${escapeHtml(lodging.phone)}" aria-label="撥打 ${escapeHtml(lodging.name)} 電話"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.7 4.5 5.4 5.8a2 2 0 0 0-.9 2.4c1.7 5.3 5.9 9.5 11.2 11.2a2 2 0 0 0 2.4-.9l1.3-2.3-3.6-2.4-1.5 1.5a13.2 13.2 0 0 1-5.7-5.7l1.5-1.5-2.4-3.6Z" /></svg><span>電話 ${escapeHtml(lodging.phone)}</span></a>
-          <a class="contact-chip" href="${escapeHtml(googlePlaceUrl(lodging.map))}" target="_blank" rel="noopener"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></svg><span>地圖</span></a>
+          ${lodging.phone ? `<a class="contact-chip" href="tel:${escapeHtml(lodging.phone)}" aria-label="撥打 ${escapeHtml(lodging.name)} 電話"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M7.7 4.5 5.4 5.8a2 2 0 0 0-.9 2.4c1.7 5.3 5.9 9.5 11.2 11.2a2 2 0 0 0 2.4-.9l1.3-2.3-3.6-2.4-1.5 1.5a13.2 13.2 0 0 1-5.7-5.7l1.5-1.5-2.4-3.6Z" /></svg><span>電話 ${escapeHtml(lodging.phone)}</span></a>` : ""}
+          ${lodging.map ? `<a class="contact-chip" href="${escapeHtml(googlePlaceUrl(lodging.map))}" target="_blank" rel="noopener"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" /><circle cx="12" cy="10" r="2" /></svg><span>地圖</span></a>` : ""}
+          ${lodging.parking ? `<details class="parking-details"><summary class="contact-chip"><span aria-hidden="true">🅿️</span><span>停車資訊</span></summary><p class="parking-body">${escapeHtml(lodging.parking)}</p></details>` : ""}
         </div>
         ${lodging.email ? `<a class="contact-chip" href="mailto:${escapeHtml(lodging.email)}"><svg class="ui-icon contact-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg><span>Email ${escapeHtml(lodging.email)}</span></a>` : ""}
         <p class="lodging-note">${escapeHtml(lodging.note)} · ${escapeHtml(lodging.source)}</p>
@@ -859,7 +860,8 @@
       "Day0｜Y's Inn 那覇小祿駅前",
       "Day1–2｜阿拉馬海納（朝食付）",
       "Day3｜La'gent 北谷（現場支付 ¥43,596）",
-      "Day4–5｜HOTEL ANTEROOM 那霸"
+      "Day4｜HOTEL ANTEROOM 那霸",
+      "Day5｜溫暖的家（返台）"
     ].map((line) => {
       const [day, name] = line.split("｜");
       return { label: day, value: name };
@@ -968,7 +970,7 @@
         value: [l.address, l.status].filter(Boolean).join("｜")
       }));
       return `<article class="ext-panel"><h3>住宿行前查核</h3>
-        ${quickBrief("4 間住宿已訂：Day0 小祿、Day1–2 本部、Day3 北谷、Day4–5 那霸。")}
+        ${quickBrief("4 間旅館已訂：Day0 小祿、Day1–2 本部、Day3 北谷、Day4 那霸；Day5 返台住自家。")}
         ${extRows(rows)}</article>`;
     }
     const special = { rain: guideExtras.appendixRain, lingerie: guideExtras.appendixLingerie, plush: guideExtras.appendixPlush }[tabId];

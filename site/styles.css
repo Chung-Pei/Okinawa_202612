@@ -338,6 +338,12 @@ h1 em { color: var(--teal); font-style: normal; }
 .contact-chip { display: inline-flex; align-items: center; gap: 0.45rem; min-height: 44px; padding: 0.45rem 0.7rem; color: var(--navy); background: var(--teal-soft); border: 1px solid transparent; border-radius: var(--radius-button); font-size: 0.92rem; font-weight: 700; text-decoration: none; }
 .contact-chip:hover { color: var(--teal-deep); background: #d4eeed; border-color: rgba(31, 110, 140, 0.2); }
 .contact-icon { width: 17px; height: 17px; color: var(--teal-deep); }
+.parking-details { display: inline-flex; }
+.parking-details[open] { display: block; flex-basis: 100%; }
+.parking-details > summary { list-style: none; cursor: pointer; }
+.parking-details > summary::-webkit-details-marker { display: none; }
+.parking-details > summary::marker { content: ""; }
+.parking-body { margin: 0.4rem 0 0; padding: 0.6rem 0.75rem; color: var(--navy); background: var(--panel-subtle); border: 1px solid var(--line-subtle); border-radius: var(--radius-sm); font-size: 0.9rem; line-height: 1.5; }
 .lodging-note, .weather-note { margin: 0; color: var(--muted); font-size: 0.88rem; }
 .status-pill { color: var(--teal-deep); background: var(--teal-soft); }
 .status-pill.status-missing { color: #8a4c0c; background: var(--orange-soft); }
