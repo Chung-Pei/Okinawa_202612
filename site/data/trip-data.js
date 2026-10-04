@@ -38,7 +38,8 @@ email: "okinawa-chatan@lagent.jp",
 map: { query: "La'gent Hotel Okinawa Chatan, Okinawa Chatan Mihama 25-3"},
 website: "https://lagent.jp/chatan/contact",
 source: "v16 手冊",
-note: "Day 3 住宿；已訂 3 間房、8 位，現場支付 ¥43,596。"
+note: "Day 3 住宿；已訂 3 間房、8 位，現場支付 ¥43,596。",
+parking: "72 格・500 円／晚・先到先得。（官網 access 頁）",
 },
 ysInn: {
 name: "Y's Inn 那覇小祿駅前",
