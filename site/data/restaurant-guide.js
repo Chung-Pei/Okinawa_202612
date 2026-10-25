@@ -33,10 +33,10 @@ window.RESTAURANT_GUIDE = {
         {
           id: "day0-dinner",
           label: "晚餐",
-          time: "21:20–",
-          location: "那霸機場／小祿",
+          time: "21:40–",
+          location: "那霸機場／旭橋・那覇西",
           fit: "抵達日晚餐",
-          strategy: "A 隊約 21:20 才到小祿，附近餐廳多已打烊；在那霸機場 2F 先買便當／飯糰，或到小祿駅前超商解決。",
+          strategy: "A 隊約 21:40 才到那覇西，附近餐廳多已打烊；在那霸機場 2F 先買便當／飯糰，或到飯店旁 Lawson 解決。",
           options: [
             {
               rank: "①首選",
@@ -45,20 +45,20 @@ window.RESTAURANT_GUIDE = {
               address: "那霸機場國內線航廈 2F",
               hours: "依各店鋪，約至 20:30–21:00",
               highlights: ["出境前先買齊", "選擇多"],
-              detail: "抵達後先在機場 2F 解決或外帶，再搭車往小祿。",
+              detail: "抵達後先在機場 2F 解決或外帶，再前往飯店。",
               caution: "各店打烊時間不一，先買再出關。",
               query: "那霸機場 國內線 2F 餐廳"
             },
             {
               rank: "②備選",
-              name: "小祿駅前超商",
+              name: "飯店旁 Lawson／旭橋周邊超商",
               dietary: "葷素皆有",
-              address: "Yui Rail 小祿站周邊",
+              address: "那覇市西（飯店旁約 1 分）",
               hours: "24 小時",
               highlights: ["飯糰／便當", "最近"],
               detail: "飯店步行可達範圍的超商，宵夜與隔日早餐可一併採買。",
               caution: "素食可買飯糰、豆乳、沙拉，注意高湯成分。",
-              query: "コンビニ 小禄駅 沖縄"
+              query: "ローソン 那覇市西 沖縄"
             }
           ]
         }

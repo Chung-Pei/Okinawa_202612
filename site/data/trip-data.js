@@ -41,17 +41,16 @@ source: "v16 手冊",
 note: "Day 3 住宿；已訂 3 間房、8 位，現場支付 ¥43,596。",
 parking: "72 格・500 円／晚・先到先得。（官網 access 頁）",
 },
-ysInn: {
-name: "Y's Inn 那覇小祿駅前",
-english: "Y's INN NAHA OROKU EKIMAE",
-address: "〒901-0155 沖繩縣那霸市金城 5-9-1",
-phone: "+81-98-859-7029",
-email: "info@ys-inn.jp",
-map: { query: "ワイズイン那覇小禄駅前, 沖縄県那覇市金城5丁目9番地1"},
-website: "https://ys-inn.jp/",
-source: "v16 手冊",
-parking: "僅 14 格・機械式・先到先得・1,000 円／晚；若預計晚到，請先電話確認車位。",
-note: "Day 0 A 隊住宿；Check-in 16:00–02:00、Check-out 10:00。"
+nestNishi: {
+name: "Nest Hotel 那覇西（那霸西 Nest 飯店）",
+english: "Nest Hotel Naha Nishi",
+address: "〒900-0036 沖繩縣那霸市西 1-20-19",
+phone: "+81-98-988-9696",
+map: { query: "ネストホテル那覇西, 沖縄県那覇市西1丁目20-19"},
+website: "https://www.nesthotel.co.jp/",
+source: "使用者訂房截圖＋JAL/ANA 飯店資料",
+parking: "40 台・機械式立體・1,500 円／晚・先到先得（不可預約）；車高上限 1.5m。",
+note: "Day 0 A 隊住宿；好萊塢雙床房 1 間（2 大人＋1 兒童 9 歲・不含餐）；Check-in 15:00、Check-out 11:00；旭橋站步行約 5 分。"
 },
 anteroom: {
 name: "HOTEL ANTEROOM NAHA",
@@ -80,25 +79,25 @@ label: "Day 0",
 date: "2026-12-17",
 dateLabel: "12/17 Thu",
 title: "前鋒隊抵達那霸",
-intro: "A 隊搭乘樂桃 MM930，18:20 自桃園起飛、20:50 抵達那霸；完成入境與領行李後，入住小祿的 Y's Inn 那覇小祿駅前。",
+intro: "A 隊搭乘樂桃 MM930，18:20 自桃園起飛、20:50 抵達那霸；完成入境與領行李後，入住那覇西的 Nest Hotel 那覇西（旭橋站步行約 5 分）。",
 mode: "arrival",
-lodgingKey: "ysInn",
-weather: { label: "那霸市區／小祿", lat: 26.1977684, lng: 127.6657587},
+lodgingKey: "nestNishi",
+weather: { label: "那霸市區／旭橋", lat: 26.212445, lng: 127.6713381},
 schedule: [
 { time: "18:20", title: "A 隊：樂桃 MM930 桃園起飛", detail: "12/17 樂桃 MM930，桃園 18:20 起飛。", tag: "A 隊／航班", type: "source"},
 { time: "20:50", title: "MM930 抵達那霸", detail: "A 隊抵達後完成入境、領行李；今晚不取租車。B 隊 BR112 於 12/18 06:55–09:15 抵達。", tag: "A 隊／抵達", type: "source"},
-{ time: "抵達後", title: "入住 Y's Inn 那覇小祿駅前", detail: "那霸市金城 5-9-1；Yui Rail 小祿站步行約 3 分，或計程車約 5–10 分。地址另存日文／英文兩版備用。", tag: "A 隊／住宿", type: "source"}
+{ time: "抵達後", title: "入住 Nest Hotel 那覇西", detail: "那霸市西 1-20-19；Yui Rail 旭橋站步行約 5 分（機場搭單軌 5 站約 11 分／¥290），或計程車約 10–13 分。", tag: "A 隊／住宿", type: "source"}
 ],
 route: {
-source: "v16 路線：那霸機場 → 小祿住宿（計程車約 5–10 分，或 Yui Rail 2 站）",
+source: "v16 路線：那霸機場 → 那覇西住宿（Yui Rail 至旭橋約 11 分＋步行約 5 分，或計程車約 10–13 分）",
 routeType: "mixed",
 navigationMode: "driving",
 stops: [
 { id: "airport", label: "那霸機場國內線航廈", query: "那覇空港 国内線旅客ターミナル", lat: 26.2062776, lng: 127.6508031},
-{ id: "ys-inn", label: "Y's Inn 那覇小祿駅前", query: "Y's INN Naha Oroku Ekimae, 沖縄県那覇市金城5-9-1", lat: 26.1977684, lng: 127.6657587}
+{ id: "nest-nishi", label: "Nest Hotel 那覇西", query: "Nest Hotel Naha Nishi, 沖縄県那覇市西1-20-19", lat: 26.212445, lng: 127.6713381}
 ],
 legs: [
-{ id: "L1", name: "那霸機場 → Y's Inn", from: "那霸機場", to: "Y's Inn 那覇小祿駅前", stopIds: ["airport", "ys-inn"], distanceKm: null, minutes: "5-10", roads: "計程車／Yui Rail＋步行", openLabel: "開啟 Google Maps 路線參考", note: "PDF 提供交通方式；今晚尚未取租車，地圖線為方向示意。"}
+{ id: "L1", name: "那霸機場 → Nest Hotel 那覇西", from: "那霸機場", to: "Nest Hotel 那覇西", stopIds: ["airport", "nest-nishi"], distanceKm: null, minutes: "15-20", roads: "Yui Rail＋步行／計程車", openLabel: "開啟 Google Maps 路線參考", note: "今晚尚未取租車；單軌至旭橋站後步行前往飯店，地圖線為方向示意。"}
 ]
 },
 },
@@ -114,7 +113,7 @@ lodgingKey: "alaMahaina",
 weather: { label: "本部町（住宿基地）", lat: 26.6826085, lng: 127.8834902},
 schedule: [
 { time: "06:55-09:15", title: "B 隊：BR112 抵達那霸", detail: "長榮 BR112：桃園 T2 起飛 → 那霸 T1 抵達。", tag: "航班", type: "source"},
-{ time: "09:00", title: "A 隊退房", detail: "09:15 自小祿駅搭單軌（2 站約 5 分／¥250）往那霸機場。", tag: "A 隊", type: "source"},
+{ time: "09:00", title: "A 隊退房", detail: "09:15 自旭橋駅搭單軌（5 站約 11 分／¥290）往那霸機場。", tag: "A 隊", type: "source"},
 { time: "09:15-10:20", title: "入境、全隊會合", detail: "國際線到達大廳會合；保留排隊緩衝。", tag: "集合", type: "source"},
 { time: "10:20-11:40", title: "接駁前往 OTS 豐崎租車", detail: "接駁約 15–20 分；兩台車分別辦手續（OTS1504557／OTS1501685），駕駛出示護照＋台灣駕照正本＋日文譯本；全程錄影車況。文件放同一文件袋，QR 碼截圖各自存好。", tag: "租車", type: "source"},
 { time: "12:00-13:30", title: "瀨長島午餐", detail: "SEE THE SEA（免預約）＞ A Happy Pancake（不接受訂位，現場排隊）＞ POSILLIPO。", tag: "午餐", type: "conditional"},

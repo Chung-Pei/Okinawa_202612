@@ -16,7 +16,7 @@ window.GUIDE_EXTRAS = {
       }
     ],
     lodging: [
-      { day: "Day0", name: "Y's Inn 那覇小祿駅前", address: "那覇市金城5-9-1", note: "停車僅 14 格・機械式・先到先得" },
+      { day: "Day0", name: "Nest Hotel 那覇西（那霸西）", address: "那覇市西1-20-19", note: "停車 40 台・機械式・1,500円／晚・先到先得" },
       { day: "Day1–2", name: "阿拉馬海納（Ala MAHAINA）", address: "1421-1 Yamagawa, Motobu", note: "已訂 3 間房・朝食付" },
       { day: "Day3", name: "La'gent Hotel Okinawa Chatan", address: "北谷町美浜25-3", note: "已訂 3 間房・8 位・現場支付 ¥43,596" },
       { day: "Day4", name: "HOTEL ANTEROOM NAHA", address: "那覇市前島3-27-11", note: "已訂 3 間房・停車 52 格・1,500円／晚" },
@@ -90,7 +90,7 @@ window.GUIDE_EXTRAS = {
       { name: "iias 沖繩豐崎", info: "店舖 10:00–21:00；與 OTS 臨空豐崎營業所相鄰", link: "toyosaki.iias.jp" },
       { name: "DMM Kariyushi Aquarium", info: "9:00–19:00，位於 iias 內；大人 ¥2,800／中人 ¥2,200／小人 ¥1,700，官網前一天購票約 9 折", link: "kariyushi-aquarium.com" },
       { name: "波上宮", info: "境內 24hr 免費；授與所約 09:00–16:30；免費停車約 20 格；本次 Day4 下午 16:00 前往", link: "naminouegu.jp" },
-      { name: "Y's Inn 那覇小祿駅前", info: "Check-in 16:00–翌 02:00／Check-out 10:00；停車 14 格機械式", link: "ys-inn.jp" },
+      { name: "Nest Hotel 那覇西", info: "Check-in 15:00／Check-out 11:00；旭橋站步行約 5 分；停車 40 台機械式", link: "nesthotel.co.jp" },
       { name: "HOTEL ANTEROOM NAHA", info: "Check-in 15:00／Check-out 11:00；停車 52 格、1,500円／晚", link: "uds-hotels.com/anteroom/naha" }
     ],
     rentalCars: [
@@ -106,7 +106,7 @@ window.GUIDE_EXTRAS = {
       { doc: "信用卡", note: "租車擔保／付款用。" }
     ],
     lodgingList: [
-      { day: "Day0", name: "Y's Inn 那覇小祿駅前", address: "那覇市金城5-9-1", status: "已預訂；需寄放行李請先詢問櫃台" },
+      { day: "Day0", name: "Nest Hotel 那覇西", address: "那覇市西1-20-19", status: "已預訂；好萊塢雙床房 1 間（2 大人＋1 兒童・不含餐）" },
       { day: "Day1–2", name: "阿拉馬海納", address: "1421-1 Yamagawa, Motobu", status: "已訂 3 間房，朝食付" },
       { day: "Day3", name: "La'gent Hotel Okinawa Chatan", address: "北谷町美浜25-3", status: "已訂 3 間房・8 位，現場支付，共 ¥43,596" },
       { day: "Day4", name: "HOTEL ANTEROOM NAHA", address: "那覇市前島3-27-11", status: "已訂 3 間房" },

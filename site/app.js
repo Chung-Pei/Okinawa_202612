@@ -11,7 +11,7 @@
   };
 
   const MAP_STOP_TIMES = {
-    day0: { airport: "20:50", "ys-inn": "抵達後" },
+    day0: { airport: "20:50", "nest-nishi": "抵達後" },
     day1: { ots: "10:20", umikaji: "12:00", gyomu: "13:40", manzamo: "15:10", kyoda: "16:30", ala: "18:00" },
     day2: { ala: "07:30", churaumi: "08:30", kouri: "14:00", "ala-return": "16:30" },
     day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "aeon-nago": "15:00", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
@@ -857,7 +857,7 @@
         ${f.note ? `<p class="ext-note">${escapeHtml(f.note)}</p>` : ""}
       </div>`).join("");
     const lodgingSummary = [
-      "Day0｜Y's Inn 那覇小祿駅前",
+      "Day0｜Nest Hotel 那覇西",
       "Day1–2｜阿拉馬海納（朝食付）",
       "Day3｜La'gent 北谷（現場支付 ¥43,596）",
       "Day4｜HOTEL ANTEROOM 那霸",
@@ -970,7 +970,7 @@
         value: [l.address, l.status].filter(Boolean).join("｜")
       }));
       return `<article class="ext-panel"><h3>住宿行前查核</h3>
-        ${quickBrief("4 間旅館已訂：Day0 小祿、Day1–2 本部、Day3 北谷、Day4 那霸；Day5 返台住自家。")}
+        ${quickBrief("4 間旅館已訂：Day0 那覇西、Day1–2 本部、Day3 北谷、Day4 那霸；Day5 返台住自家。")}
         ${extRows(rows)}</article>`;
     }
     const special = { rain: guideExtras.appendixRain, lingerie: guideExtras.appendixLingerie, plush: guideExtras.appendixPlush }[tabId];
