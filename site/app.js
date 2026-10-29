@@ -14,7 +14,7 @@
     day0: { airport: "20:50", "nest-nishi": "抵達後" },
     day1: { ots: "10:20", umikaji: "12:00", gyomu: "13:40", manzamo: "15:10", kyoda: "16:30", ala: "18:00" },
     day2: { ala: "07:30", churaumi: "08:30", kouri: "14:00", "ala-return": "16:30" },
-    day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "aeon-nago": "15:00", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
+    day3: { ala: "08:40", neopark: "09:30", junglia: "10:00", "pineapple-park": "13:40", "aeon-nago": "15:00", "nago-snack": "15:15", "american-village": "17:00", lagent: "20:30" },
     day4: { lagent: "07:30", "childrens-kingdom": "09:30", rycom: "12:00", minatogawa: "15:00", naminoue: "16:00", anteroom: "16:35", kokusai: "18:00" },
     day5: { anteroom: "07:30", "ots-return": "08:20", iias: "09:30", airport: "14:50" }
   };
